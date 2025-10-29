@@ -1,0 +1,22 @@
+{
+  "@@locale": "en",
+  "appTitle": "Design App",
+  "clickHere": "Click Here",
+  "addStory": "Add Story",
+  "search": "Search for service...",
+  "live": "Live",
+  "restContent": "Rest of content will come here",
+  "ahmadAlShehri": "Ahmad Al-Shehri",
+  "aminaAlHajri": "Amina Al-Hajri",
+  "mohammedAli": "Mohammed Ali",
+  "sarahAhmed": "Sarah Ahmed",
+  "startDesignProject": "Start Design Project Now",
+  "createAIImages": "Create Images with AI",
+  "architecturalDesign": "Architectural Design",
+  "socialMedia": "Social Media",
+  "interiorDecor": "Interior Decor",
+  "fashionDesign": "Fashion Design",
+  "hobbies": "Hobbies",
+  "projectsGallery": "Projects Gallery",
+  "viewAll": "View All"
+}

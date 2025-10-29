@@ -1,0 +1,192 @@
+import '../models/story.dart';
+import '../models/category.dart';
+import '../models/project.dart';
+import '../models/announcement.dart';
+
+class MockData {
+  // Stories Data
+  static List<Story> getStories() {
+    return [
+      Story(
+        id: '1',
+        userName: 'أمينة الهاجري',
+        userImage: 'https://via.placeholder.com/150',
+        isLive: true,
+        hasStory: true,
+      ),
+      Story(
+        id: '2',
+        userName: 'أحمد الشهري',
+        userImage: 'https://via.placeholder.com/150',
+        hasStory: true,
+      ),
+      Story(
+        id: '3',
+        userName: 'أضف ستوري',
+        userImage: 'https://via.placeholder.com/150',
+        isAddStory: true,
+        hasStory: false,
+      ),
+      Story(
+        id: '4',
+        userName: 'فاطمة العتيبي',
+        userImage: 'https://via.placeholder.com/150',
+        hasStory: true,
+      ),
+      Story(
+        id: '5',
+        userName: 'محمد الدوسري',
+        userImage: 'https://via.placeholder.com/150',
+        hasStory: true,
+      ),
+    ];
+  }
+
+  // Categories Data
+  static List<Category> getCategories() {
+    return [
+      Category(
+        id: '1',
+        name: 'تصميم معماري',
+        iconPath: 'assets/images/icons/architecture.svg',
+      ),
+      Category(
+        id: '2',
+        name: 'سوشال ميديا',
+        iconPath: 'assets/images/icons/social-media.svg',
+      ),
+      Category(
+        id: '3',
+        name: 'ديكور داخلي',
+        iconPath: 'assets/images/icons/interior.svg',
+      ),
+      Category(
+        id: '4',
+        name: 'تصميم أزياء',
+        iconPath: 'assets/images/icons/fashion.svg',
+      ),
+      Category(
+        id: '5',
+        name: 'هويات',
+        iconPath: 'assets/images/icons/branding.svg',
+      ),
+      Category(
+        id: '6',
+        name: 'موشن جرافيك',
+        iconPath: 'assets/images/icons/motion.svg',
+      ),
+      Category(
+        id: '7',
+        name: 'تصوير فوتوغرافي',
+        iconPath: 'assets/images/icons/photography.svg',
+      ),
+      Category(
+        id: '8',
+        name: 'رسم توضيحي',
+        iconPath: 'assets/images/icons/illustration.svg',
+      ),
+    ];
+  }
+
+  // Projects Data
+  static List<Project> getProjects() {
+    return [
+      Project(
+        id: '1',
+        title: 'مبنى معماري حديث',
+        imageUrl: 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400',
+        category: 'تصميم معماري',
+        author: 'أحمد الشهري',
+      ),
+      Project(
+        id: '2',
+        title: 'تصميم هوية بصرية',
+        imageUrl: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400',
+        category: 'هويات',
+        author: 'فاطمة العتيبي',
+      ),
+      Project(
+        id: '3',
+        title: 'تصميم داخلي فاخر',
+        imageUrl: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=400',
+        category: 'ديكور داخلي',
+        author: 'سارة المالكي',
+      ),
+      Project(
+        id: '4',
+        title: 'حملة سوشال ميديا',
+        imageUrl: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=400',
+        category: 'سوشال ميديا',
+        author: 'محمد الدوسري',
+      ),
+      Project(
+        id: '5',
+        title: 'تصميم أزياء عصري',
+        imageUrl: 'https://images.unsplash.com/photo-1558769132-cb1aea2f46aa?w=400',
+        category: 'تصميم أزياء',
+        author: 'نورة القحطاني',
+      ),
+      Project(
+        id: '6',
+        title: 'موشن جرافيك إبداعي',
+        imageUrl: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400',
+        category: 'موشن جرافيك',
+        author: 'خالد العنزي',
+      ),
+      Project(
+        id: '7',
+        title: 'جلسة تصوير احترافية',
+        imageUrl: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=400',
+        category: 'تصوير فوتوغرافي',
+        author: 'ريم الزهراني',
+      ),
+      Project(
+        id: '8',
+        title: 'رسم توضيحي رقمي',
+        imageUrl: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400',
+        category: 'رسم توضيحي',
+        author: 'عبدالله الغامدي',
+      ),
+      Project(
+        id: '9',
+        title: 'فيلا معمارية فخمة',
+        imageUrl: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400',
+        category: 'تصميم معماري',
+        author: 'أمينة الهاجري',
+      ),
+      Project(
+        id: '10',
+        title: 'تصميم واجهة تطبيق',
+        imageUrl: 'https://images.unsplash.com/photo-1561070791-36c11767b26a?w=400',
+        category: 'هويات',
+        author: 'يوسف الحربي',
+      ),
+    ];
+  }
+
+  // Announcements Data
+  static List<Announcement> getAnnouncements() {
+    return [
+      Announcement(
+        id: '1',
+        title: 'لدينا مشروع تصميم الآن!',
+        icon: '🎨',
+      ),
+      Announcement(
+        id: '2',
+        title: 'احتاج مصور عبر الذكاء الاصطناعي',
+        icon: '🤖',
+      ),
+    ];
+  }
+
+  // AI Banner Data
+  static Map<String, String> getAIBanner() {
+    return {
+      'title': 'الذكاء الاصطناعي',
+      'subtitle': 'اعرف ما يبدو التصميم متوافقة معضلة',
+      'buttonText': 'اضغط هنا',
+      'imageUrl': 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400',
+    };
+  }
+}
