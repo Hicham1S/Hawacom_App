@@ -3,6 +3,7 @@ import '../models/story.dart';
 import '../models/story_segment.dart';
 import '../constants/colors.dart';
 import '../l10n/app_localizations.dart';
+import '../widgets/stories/story_video_player.dart';
 
 /// Full-screen story viewer that displays story segments similar to Instagram/WhatsApp
 class StoryViewScreen extends StatefulWidget {
@@ -72,12 +73,21 @@ class _StoryViewScreenState extends State<StoryViewScreen>
 
     final segment = story.segments[_currentSegmentIndex];
 
-    // Reset and configure the animation controller
+    // Configure the animation controller
     _progressController.duration = segment.duration;
-    _progressController.forward(from: 0.0);
 
-    // Listen for when the animation completes
-    _progressController.addStatusListener(_onProgressComplete);
+    // For video segments, let the video player control progress manually
+    // For image segments, use automatic animation
+    if (segment.mediaType == StoryMediaType.video) {
+      // Reset to 0 and let video player control it
+      _progressController.reset();
+    } else {
+      // For images, start automatic animation
+      _progressController.forward(from: 0.0);
+
+      // Listen for when the animation completes
+      _progressController.addStatusListener(_onProgressComplete);
+    }
   }
 
   /// Called when a segment's progress completes
@@ -384,13 +394,36 @@ class _StoryViewScreenState extends State<StoryViewScreen>
                 return _buildImageError(context);
               },
             );
+    } else if (segment.mediaType == StoryMediaType.video) {
+      // Video player for video segments
+      return StoryVideoPlayer(
+        videoUrl: segment.mediaUrl,
+        progressController: _progressController,
+        onVideoCompleted: () {
+          if (mounted) {
+            _nextSegment();
+          }
+        },
+        onVideoError: () {
+          debugPrint('Video error: ${segment.mediaUrl}');
+          if (mounted) {
+            // Show error briefly then move to next segment
+            Future.delayed(const Duration(seconds: 1), () {
+              if (mounted) {
+                _nextSegment();
+              }
+            });
+          }
+        },
+      );
     } else {
-      // TODO: Implement video player in the future
-      final l10n = AppLocalizations.of(context)!;
+      // Unknown media type
       return Center(
         child: Text(
-          l10n.videoNotImplemented,
-          style: const TextStyle(color: Colors.white),
+          'Unsupported media type',
+          style: TextStyle(
+            color: Colors.white.withValues(alpha: 0.7),
+          ),
         ),
       );
     }

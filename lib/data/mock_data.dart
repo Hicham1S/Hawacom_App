@@ -6,6 +6,10 @@ import '../models/announcement.dart';
 
 class MockData {
   // Stories Data
+  // Stories can contain mixed media: images and videos
+  // For videos, use StoryMediaType.video and provide a video URL
+  // Supported formats: MP4 (H.264), network URLs or local assets
+  // Example video URLs are provided below using Google's test videos
   static List<Story> getStories() {
     return [
       // Add Story button (always first)
@@ -69,23 +73,38 @@ class MockData {
         ],
       ),
 
-      // Mohammed's story - Multiple segments
+      // Mohammed's story - Mixed media with video!
       Story(
         id: '3',
         userName: 'محمد علي',
         userImage: 'assets/images/Me.png',
         hasStory: true,
         segments: [
+          // Image segment
           StorySegment(
             id: '3-1',
             mediaUrl: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800',
             mediaType: StoryMediaType.image,
             duration: const Duration(seconds: 5),
           ),
+          // Video segment - Short sample video (10 seconds)
+          StorySegment(
+            id: '3-2',
+            mediaUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+            mediaType: StoryMediaType.video,
+            duration: const Duration(seconds: 15), // Will be auto-detected, max 60s
+          ),
+          // Another image
+          StorySegment(
+            id: '3-3',
+            mediaUrl: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800',
+            mediaType: StoryMediaType.image,
+            duration: const Duration(seconds: 5),
+          ),
         ],
       ),
 
-      // Sarah's story - Already viewed
+      // Sarah's story - Already viewed with video
       Story(
         id: '4',
         userName: 'سارة أحمد',
@@ -93,14 +112,23 @@ class MockData {
         hasStory: true,
         isViewed: true,
         segments: [
+          // Image
           StorySegment(
             id: '4-1',
             mediaUrl: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800',
             mediaType: StoryMediaType.image,
             duration: const Duration(seconds: 5),
           ),
+          // Video segment - Another short video (15 seconds)
           StorySegment(
             id: '4-2',
+            mediaUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
+            mediaType: StoryMediaType.video,
+            duration: const Duration(seconds: 15), // Will be auto-detected, max 60s
+          ),
+          // Another image
+          StorySegment(
+            id: '4-3',
             mediaUrl: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800',
             mediaType: StoryMediaType.image,
             duration: const Duration(seconds: 5),
