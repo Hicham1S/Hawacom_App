@@ -64,4 +64,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get viewAll => 'View All';
+
+  @override
+  String get addStoryComingSoon => 'Add Story Coming Soon';
+
+  @override
+  String get storyHasNoContent => 'This story has no content';
+
+  @override
+  String get failedToLoadImage => 'Failed to load image';
+
+  @override
+  String get videoNotImplemented => 'Video playback not yet implemented';
 }

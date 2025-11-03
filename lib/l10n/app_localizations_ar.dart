@@ -64,4 +64,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get viewAll => 'شاهد الكل';
+
+  @override
+  String get addStoryComingSoon => 'إضافة ستوري قريباً';
+
+  @override
+  String get storyHasNoContent => 'هذه القصة لا تحتوي على محتوى';
+
+  @override
+  String get failedToLoadImage => 'فشل تحميل الصورة';
+
+  @override
+  String get videoNotImplemented => 'تشغيل الفيديو غير متاح حالياً';
 }

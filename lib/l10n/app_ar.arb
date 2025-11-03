@@ -18,5 +18,9 @@
   "fashionDesign": "تصميم أزياء",
   "hobbies": "هوايات",
   "projectsGallery": "معرض المشاريع",
-  "viewAll": "شاهد الكل"
+  "viewAll": "شاهد الكل",
+  "addStoryComingSoon": "إضافة ستوري قريباً",
+  "storyHasNoContent": "هذه القصة لا تحتوي على محتوى",
+  "failedToLoadImage": "فشل تحميل الصورة",
+  "videoNotImplemented": "تشغيل الفيديو غير متاح حالياً"
 }

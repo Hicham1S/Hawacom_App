@@ -18,5 +18,9 @@
   "fashionDesign": "Fashion Design",
   "hobbies": "Hobbies",
   "projectsGallery": "Projects Gallery",
-  "viewAll": "View All"
+  "viewAll": "View All",
+  "addStoryComingSoon": "Add Story Coming Soon",
+  "storyHasNoContent": "This story has no content",
+  "failedToLoadImage": "Failed to load image",
+  "videoNotImplemented": "Video playback not yet implemented"
 }

@@ -211,6 +211,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View All'**
   String get viewAll;
+
+  /// No description provided for @addStoryComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Story Coming Soon'**
+  String get addStoryComingSoon;
+
+  /// No description provided for @storyHasNoContent.
+  ///
+  /// In en, this message translates to:
+  /// **'This story has no content'**
+  String get storyHasNoContent;
+
+  /// No description provided for @failedToLoadImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load image'**
+  String get failedToLoadImage;
+
+  /// No description provided for @videoNotImplemented.
+  ///
+  /// In en, this message translates to:
+  /// **'Video playback not yet implemented'**
+  String get videoNotImplemented;
 }
 
 class _AppLocalizationsDelegate
