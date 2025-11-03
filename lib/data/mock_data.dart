@@ -1,4 +1,5 @@
 import '../models/story.dart';
+import '../models/story_segment.dart';
 import '../models/category.dart';
 import '../models/project.dart';
 import '../models/announcement.dart';
@@ -7,37 +8,104 @@ class MockData {
   // Stories Data
   static List<Story> getStories() {
     return [
+      // Add Story button (always first)
+      Story(
+        id: 'add',
+        userName: 'أضف ستوري',
+        userImage: 'assets/images/Me.png',
+        isAddStory: true,
+        hasStory: false,
+        segments: [],
+      ),
+
+      // Amina's story - Multiple segments with live badge
       Story(
         id: '1',
         userName: 'أمينة الهاجري',
-        userImage: 'https://via.placeholder.com/150',
+        userImage: 'assets/images/Amina.png',
         isLive: true,
         hasStory: true,
+        segments: [
+          StorySegment(
+            id: '1-1',
+            mediaUrl: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800',
+            mediaType: StoryMediaType.image,
+            duration: const Duration(seconds: 5),
+          ),
+          StorySegment(
+            id: '1-2',
+            mediaUrl: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800',
+            mediaType: StoryMediaType.image,
+            duration: const Duration(seconds: 5),
+          ),
+          StorySegment(
+            id: '1-3',
+            mediaUrl: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800',
+            mediaType: StoryMediaType.image,
+            duration: const Duration(seconds: 5),
+          ),
+        ],
       ),
+
+      // Ahmad's story - Single segment
       Story(
         id: '2',
         userName: 'أحمد الشهري',
-        userImage: 'https://via.placeholder.com/150',
+        userImage: 'assets/images/Ahmad.png',
         hasStory: true,
+        segments: [
+          StorySegment(
+            id: '2-1',
+            mediaUrl: 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=800',
+            mediaType: StoryMediaType.image,
+            duration: const Duration(seconds: 5),
+          ),
+          StorySegment(
+            id: '2-2',
+            mediaUrl: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800',
+            mediaType: StoryMediaType.image,
+            duration: const Duration(seconds: 5),
+          ),
+        ],
       ),
+
+      // Mohammed's story - Multiple segments
       Story(
         id: '3',
-        userName: 'أضف ستوري',
-        userImage: 'https://via.placeholder.com/150',
-        isAddStory: true,
-        hasStory: false,
+        userName: 'محمد علي',
+        userImage: 'assets/images/Me.png',
+        hasStory: true,
+        segments: [
+          StorySegment(
+            id: '3-1',
+            mediaUrl: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800',
+            mediaType: StoryMediaType.image,
+            duration: const Duration(seconds: 5),
+          ),
+        ],
       ),
+
+      // Sarah's story - Already viewed
       Story(
         id: '4',
-        userName: 'فاطمة العتيبي',
-        userImage: 'https://via.placeholder.com/150',
+        userName: 'سارة أحمد',
+        userImage: 'assets/images/Amina.png',
         hasStory: true,
-      ),
-      Story(
-        id: '5',
-        userName: 'محمد الدوسري',
-        userImage: 'https://via.placeholder.com/150',
-        hasStory: true,
+        isViewed: true,
+        segments: [
+          StorySegment(
+            id: '4-1',
+            mediaUrl: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800',
+            mediaType: StoryMediaType.image,
+            duration: const Duration(seconds: 5),
+          ),
+          StorySegment(
+            id: '4-2',
+            mediaUrl: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800',
+            mediaType: StoryMediaType.image,
+            duration: const Duration(seconds: 5),
+          ),
+        ],
       ),
     ];
   }
