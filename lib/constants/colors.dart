@@ -19,9 +19,16 @@ class AppColors {
     Color(0xFFDC143C),
     Color(0xFF8B00FF),
   ];
-  
+
   static const List<Color> bannerGradient = [
     Color(0xFFDC143C),
     Color(0xFF8B00FF),
+  ];
+
+  // Instagram-style story border gradient (for unviewed stories)
+  static const List<Color> instagramStoryGradient = [
+    Color(0xFFE1306C), // Instagram pink
+    Color(0xFFFD1D1D), // Red
+    Color(0xFFF77737), // Orange
   ];
 }
