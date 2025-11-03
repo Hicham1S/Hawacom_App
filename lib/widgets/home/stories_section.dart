@@ -1,104 +1,155 @@
 import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 import '../../constants/colors.dart';
+import '../../data/mock_data.dart';
+import '../../models/story.dart';
+import '../../screens/story_view_screen.dart';
 
 class StoriesSection extends StatelessWidget {
   const StoriesSection({super.key});
 
-  // Available images
-  static const List<String> _availableImages = [
-    'assets/images/Ahmad.png',
-    'assets/images/Amina.png',
-    'assets/images/Me.png',
-  ];
+  void _openStoryViewer(BuildContext context, int index) {
+    final stories = MockData.getStories();
+    final story = stories[index];
 
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    // Check if this is the "Add Story" button
+    if (story.isAddStory) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('إضافة ستوري قريباً'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return;
+    }
 
-    return SizedBox(
-      height: 180,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        children: [
-          _buildStoryCard(context, l10n.addStory, null, isAdd: true),
-          _buildStoryCard(
-            context,
-            l10n.ahmadAlShehri,
-            _availableImages[0],
-            isLive: true,
-          ),
-          _buildStoryCard(
-            context,
-            l10n.aminaAlHajri,
-            _availableImages[1],
-            isLive: false,
-          ),
-          _buildStoryCard(
-            context,
-            l10n.mohammedAli,
-            _availableImages[2],
-            isLive: false,
-          ),
-          _buildStoryCard(
-            context,
-            l10n.sarahAhmed,
-            _availableImages[1],
-            isLive: false,
-          ),
-        ],
+    // Check if story has no segments
+    if (story.segments.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('هذه القصة لا تحتوي على محتوى'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return;
+    }
+
+    // Filter out "Add Story" button and stories without segments for the viewer
+    final viewableStories = stories
+        .where((s) => !s.isAddStory && s.segments.isNotEmpty)
+        .toList();
+
+    // Find the actual index in the filtered list
+    final viewableIndex = viewableStories.indexOf(story);
+
+    if (viewableIndex == -1) {
+      // This shouldn't happen, but handle it gracefully
+      return;
+    }
+
+    // Navigate to story viewer
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => StoryViewScreen(
+          stories: viewableStories,
+          initialStoryIndex: viewableIndex,
+        ),
       ),
     );
   }
 
-  Widget _buildStoryCard(
-    BuildContext context,
-    String name,
-    String? imagePath, {
-    bool isAdd = false,
-    bool isLive = false,
-  }) {
+  @override
+  Widget build(BuildContext context) {
+    final allStories = MockData.getStories();
+
+    // Filter: Keep "Add Story" button OR stories with segments
+    // This hides broken/empty stories from the UI
+    final displayStories = allStories.where((story) {
+      return story.isAddStory || story.segments.isNotEmpty;
+    }).toList();
+
+    return SizedBox(
+      height: 180,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        itemCount: displayStories.length,
+        itemBuilder: (context, index) {
+          final story = displayStories[index];
+          return GestureDetector(
+            onTap: () => _openStoryViewer(context, allStories.indexOf(story)),
+            child: _buildStoryCard(
+              context,
+              story,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildStoryCard(BuildContext context, Story story) {
     final l10n = AppLocalizations.of(context)!;
+    final isAdd = story.isAddStory;
+    final isLive = story.isLive;
+    final isViewed = story.isViewed;
+
     return Container(
       width: 120,
       margin: const EdgeInsets.symmetric(horizontal: 6),
       child: Stack(
         children: [
-          // Rectangle card without gradient border
+          // Rectangle card with gradient border for unviewed stories
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              color: Colors.transparent,
+              // Add gradient border for unviewed stories
+              gradient: !isAdd && !isViewed
+                  ? const LinearGradient(
+                      colors: [
+                        Color(0xFFE1306C), // Instagram pink
+                        Color(0xFFFD1D1D), // Red
+                        Color(0xFFF77737), // Orange
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    )
+                  : null,
+              color: isViewed ? Colors.grey.shade300 : Colors.transparent,
             ),
             child: Container(
+              margin: const EdgeInsets.all(2), // Space for gradient border
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(10),
                 color: Colors.transparent,
               ),
               child: Stack(
                 children: [
-                  // Background image (including for Add Story)
-                  if (isAdd)
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.asset(
-                        'assets/images/Me.png',
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
-                      ),
-                    )
-                  else if (imagePath != null)
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.asset(
-                        imagePath,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
-                      ),
-                    ),
+                  // Background image
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: story.userImage.startsWith('http')
+                        ? Image.network(
+                            story.userImage,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Image.asset(
+                                'assets/images/Me.png',
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: double.infinity,
+                              );
+                            },
+                          )
+                        : Image.asset(
+                            story.userImage,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
+                          ),
+                  ),
 
                   // Circular + icon for Add Story (centered)
                   if (isAdd)
@@ -150,7 +201,7 @@ class StoriesSection extends StatelessWidget {
                     right: 8,
                     child: Row(
                       children: [
-                        // Circular profile picture with red border
+                        // Circular profile picture with border
                         if (!isAdd)
                           Container(
                             width: 24,
@@ -158,15 +209,22 @@ class StoriesSection extends StatelessWidget {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: AppColors.liveIndicator,
+                                color: isViewed
+                                    ? Colors.grey
+                                    : AppColors.liveIndicator,
                                 width: 2,
                               ),
                             ),
                             child: ClipOval(
-                              child: Image.asset(
-                                imagePath ?? 'assets/images/Me.png',
-                                fit: BoxFit.cover,
-                              ),
+                              child: story.userImage.startsWith('http')
+                                  ? Image.network(
+                                      story.userImage,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.asset(
+                                      story.userImage,
+                                      fit: BoxFit.cover,
+                                    ),
                             ),
                           ),
 
@@ -175,7 +233,7 @@ class StoriesSection extends StatelessWidget {
                         // User name
                         Expanded(
                           child: Text(
-                            name,
+                            story.userName,
                             style: const TextStyle(
                               fontSize: 12,
                               color: Colors.white,
