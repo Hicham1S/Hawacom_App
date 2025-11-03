@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/story.dart';
 import '../models/story_segment.dart';
 import '../constants/colors.dart';
+import '../l10n/app_localizations.dart';
 
 /// Full-screen story viewer that displays story segments similar to Instagram/WhatsApp
 class StoryViewScreen extends StatefulWidget {
@@ -304,6 +305,42 @@ class _StoryViewScreenState extends State<StoryViewScreen>
     );
   }
 
+  /// Build error widget for failed image loading
+  Widget _buildImageError(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
+    // Stop the current progress controller
+    _progressController.stop();
+
+    // Schedule moving to next segment after showing error briefly
+    Future.delayed(const Duration(seconds: 1), () {
+      if (mounted) {
+        _nextSegment();
+      }
+    });
+
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.error_outline,
+            color: Colors.white.withValues(alpha: 0.7),
+            size: 64,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            l10n.failedToLoadImage,
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.7),
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   /// Build the story content (image or video)
   Widget _buildStoryContent(Story story) {
     // Safety check: ensure we have segments
@@ -336,37 +373,7 @@ class _StoryViewScreenState extends State<StoryViewScreen>
                 // Image failed to load, show error and skip to next segment
                 debugPrint('Failed to load image: ${segment.mediaUrl}');
                 debugPrint('Error: $error');
-
-                // Stop the current progress controller
-                _progressController.stop();
-
-                // Schedule moving to next segment after showing error briefly
-                Future.delayed(const Duration(seconds: 1), () {
-                  if (mounted) {
-                    _nextSegment();
-                  }
-                });
-
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.error_outline,
-                        color: Colors.white.withValues(alpha: 0.7),
-                        size: 64,
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        'فشل تحميل الصورة',
-                        style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.7),
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
+                return _buildImageError(context);
               },
             )
           : Image.asset(
@@ -374,45 +381,16 @@ class _StoryViewScreenState extends State<StoryViewScreen>
               fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) {
                 debugPrint('Failed to load asset: ${segment.mediaUrl}');
-
-                // Stop the current progress controller
-                _progressController.stop();
-
-                // Schedule moving to next segment
-                Future.delayed(const Duration(seconds: 1), () {
-                  if (mounted) {
-                    _nextSegment();
-                  }
-                });
-
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.error_outline,
-                        color: Colors.white.withValues(alpha: 0.7),
-                        size: 64,
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        'فشل تحميل الصورة',
-                        style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.7),
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
+                return _buildImageError(context);
               },
             );
     } else {
       // TODO: Implement video player in the future
-      return const Center(
+      final l10n = AppLocalizations.of(context)!;
+      return Center(
         child: Text(
-          'Video playback not yet implemented',
-          style: TextStyle(color: Colors.white),
+          l10n.videoNotImplemented,
+          style: const TextStyle(color: Colors.white),
         ),
       );
     }
@@ -513,9 +491,9 @@ class _StoryViewScreenState extends State<StoryViewScreen>
               color: AppColors.liveIndicator,
               borderRadius: BorderRadius.circular(4),
             ),
-            child: const Text(
-              'مباشر',
-              style: TextStyle(
+            child: Text(
+              AppLocalizations.of(context)!.live,
+              style: const TextStyle(
                 fontSize: 10,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,

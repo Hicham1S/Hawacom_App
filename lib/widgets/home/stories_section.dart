@@ -14,10 +14,11 @@ class StoriesSection extends StatelessWidget {
 
     // Check if this is the "Add Story" button
     if (story.isAddStory) {
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('إضافة ستوري قريباً'),
-          duration: Duration(seconds: 2),
+        SnackBar(
+          content: Text(l10n.addStoryComingSoon),
+          duration: const Duration(seconds: 2),
         ),
       );
       return;
@@ -25,10 +26,11 @@ class StoriesSection extends StatelessWidget {
 
     // Check if story has no segments
     if (story.segments.isEmpty) {
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('هذه القصة لا تحتوي على محتوى'),
-          duration: Duration(seconds: 2),
+        SnackBar(
+          content: Text(l10n.storyHasNoContent),
+          duration: const Duration(seconds: 2),
         ),
       );
       return;
@@ -106,11 +108,7 @@ class StoriesSection extends StatelessWidget {
               // Add gradient border for unviewed stories
               gradient: !isAdd && !isViewed
                   ? const LinearGradient(
-                      colors: [
-                        Color(0xFFE1306C), // Instagram pink
-                        Color(0xFFFD1D1D), // Red
-                        Color(0xFFF77737), // Orange
-                      ],
+                      colors: AppColors.instagramStoryGradient,
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     )
