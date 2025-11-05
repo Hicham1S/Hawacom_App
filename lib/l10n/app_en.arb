@@ -71,5 +71,18 @@
       }
     }
   },
-  "videoSelected": "Video selected"
+  "videoSelected": "Video selected",
+  "menuHome": "Home",
+  "menuProfile": "Profile",
+  "menuFavorites": "Favorites",
+  "menuSaved": "Saved",
+  "menuProjects": "Projects",
+  "menuSettings": "Settings",
+  "menuHelp": "Help",
+  "menuAbout": "About",
+  "menuLogout": "Logout",
+  "menuWelcome": "Welcome",
+  "menuUserName": "User",
+  "menuLogoutConfirm": "Are you sure you want to logout?",
+  "cancel": "Cancel"
 }

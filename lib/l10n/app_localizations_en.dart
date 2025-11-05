@@ -166,4 +166,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get videoSelected => 'Video selected';
+
+  @override
+  String get menuHome => 'Home';
+
+  @override
+  String get menuProfile => 'Profile';
+
+  @override
+  String get menuFavorites => 'Favorites';
+
+  @override
+  String get menuSaved => 'Saved';
+
+  @override
+  String get menuProjects => 'Projects';
+
+  @override
+  String get menuSettings => 'Settings';
+
+  @override
+  String get menuHelp => 'Help';
+
+  @override
+  String get menuAbout => 'About';
+
+  @override
+  String get menuLogout => 'Logout';
+
+  @override
+  String get menuWelcome => 'Welcome';
+
+  @override
+  String get menuUserName => 'User';
+
+  @override
+  String get menuLogoutConfirm => 'Are you sure you want to logout?';
+
+  @override
+  String get cancel => 'Cancel';
 }

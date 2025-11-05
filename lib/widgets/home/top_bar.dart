@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../l10n/app_localizations.dart';
 import '../../constants/colors.dart';
+import '../top_bar/grid_menu_button.dart';
 
 class TopBar extends StatelessWidget {
-  const TopBar({super.key});
+  final VoidCallback onMenuTap;
+
+  const TopBar({
+    super.key,
+    required this.onMenuTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,37 +18,8 @@ class TopBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
         children: [
-          // Grid Menu Icon (left side in RTL) - 4 dots
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: AppColors.cardBackground,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: SizedBox(
-              width: 20,
-              height: 20,
-              child: GridView.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: 4,
-                crossAxisSpacing: 4,
-                physics: const NeverScrollableScrollPhysics(),
-                padding: EdgeInsets.zero,
-                children: List.generate(4, (index) {
-                  return Center(
-                    child: Container(
-                      width: 6,
-                      height: 6,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  );
-                }),
-              ),
-            ),
-          ),
+          // Grid Menu Button
+          GridMenuButton(onTap: onMenuTap),
 
           const SizedBox(width: 16),
 

@@ -403,6 +403,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Video selected'**
   String get videoSelected;
+
+  /// No description provided for @menuHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get menuHome;
+
+  /// No description provided for @menuProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get menuProfile;
+
+  /// No description provided for @menuFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites'**
+  String get menuFavorites;
+
+  /// No description provided for @menuSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get menuSaved;
+
+  /// No description provided for @menuProjects.
+  ///
+  /// In en, this message translates to:
+  /// **'Projects'**
+  String get menuProjects;
+
+  /// No description provided for @menuSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get menuSettings;
+
+  /// No description provided for @menuHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get menuHelp;
+
+  /// No description provided for @menuAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get menuAbout;
+
+  /// No description provided for @menuLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get menuLogout;
+
+  /// No description provided for @menuWelcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome'**
+  String get menuWelcome;
+
+  /// No description provided for @menuUserName.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get menuUserName;
+
+  /// No description provided for @menuLogoutConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to logout?'**
+  String get menuLogoutConfirm;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
 }
 
 class _AppLocalizationsDelegate

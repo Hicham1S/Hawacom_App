@@ -167,4 +167,43 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get videoSelected => 'فيديو محدد';
+
+  @override
+  String get menuHome => 'الرئيسية';
+
+  @override
+  String get menuProfile => 'الملف الشخصي';
+
+  @override
+  String get menuFavorites => 'المفضلة';
+
+  @override
+  String get menuSaved => 'المحفوظات';
+
+  @override
+  String get menuProjects => 'المشاريع';
+
+  @override
+  String get menuSettings => 'الإعدادات';
+
+  @override
+  String get menuHelp => 'المساعدة';
+
+  @override
+  String get menuAbout => 'حول';
+
+  @override
+  String get menuLogout => 'تسجيل الخروج';
+
+  @override
+  String get menuWelcome => 'مرحباً';
+
+  @override
+  String get menuUserName => 'المستخدم';
+
+  @override
+  String get menuLogoutConfirm => 'هل أنت متأكد من تسجيل الخروج؟';
+
+  @override
+  String get cancel => 'إلغاء';
 }

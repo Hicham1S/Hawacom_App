@@ -7,6 +7,7 @@ import '../widgets/home/quick_actions.dart';
 import '../widgets/home/categories_section.dart';
 import '../widgets/home/projects_gallery.dart';
 import '../widgets/home/bottom_navigation.dart';
+import '../widgets/top_bar/grid_menu_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,6 +18,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _onItemTapped(int index) {
     setState(() {
@@ -26,12 +28,18 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: Navigate to different screens based on index
   }
 
+  void _openGridMenu() {
+    _scaffoldKey.currentState?.openDrawer();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+        key: _scaffoldKey,
         backgroundColor: AppColors.background,
+        drawer: const GridMenuDrawer(),
         body: SafeArea(
           child: Stack(
             children: [
@@ -39,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Column(
                 children: [
                   // Top Bar - Now from separate widget file
-                  const TopBar(),
+                  TopBar(onMenuTap: _openGridMenu),
 
                   // Scrollable Content
                   Expanded(
