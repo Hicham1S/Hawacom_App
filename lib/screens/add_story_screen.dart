@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import '../constants/colors.dart';
 import '../l10n/app_localizations.dart';
+import '../services/video_service.dart';
 import '../utils/video_validator.dart';
 
 /// Screen for adding a new story (image or video)
@@ -20,7 +20,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
   bool _isValidating = false;
   VideoValidationResult? _validationResult;
 
-  final ImagePicker _picker = ImagePicker();
+  final VideoService _videoService = VideoService();
 
   /// Get localized error message from validation result
   String _getLocalizedError(BuildContext context, VideoValidationResult result) {
@@ -49,112 +49,133 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
     }
   }
 
+  /// Get localized error message from error key
+  String _getErrorMessage(AppLocalizations l10n, String errorKey) {
+    switch (errorKey) {
+      case 'videoPickFailed':
+        return l10n.videoPickFailed;
+      case 'videoRecordFailed':
+        return l10n.videoRecordFailed;
+      case 'imagePickFailed':
+        return l10n.imagePickFailed;
+      default:
+        return errorKey;
+    }
+  }
+
   /// Pick video from gallery
   Future<void> _pickVideo() async {
-    try {
-      final XFile? video = await _picker.pickVideo(
-        source: ImageSource.gallery,
-        maxDuration: VideoValidator.maxDuration, // Limit picker to 60 seconds
-      );
+    final l10n = AppLocalizations.of(context)!;
 
-      if (video == null) return;
+    setState(() {
+      _isValidating = true;
+      _validationResult = null;
+    });
 
-      // Show loading indicator
-      setState(() {
-        _isValidating = true;
-        _validationResult = null;
-      });
+    final result = await _videoService.pickVideoFromGallery();
 
-      final videoFile = File(video.path);
+    setState(() {
+      _isValidating = false;
+    });
 
-      // Validate video
-      final result = await VideoValidator.validateVideo(videoFile);
+    // User cancelled
+    if (result.isCancelled) return;
 
-      setState(() {
-        _isValidating = false;
-        _validationResult = result;
-
-        if (result.isValid) {
-          _selectedFile = videoFile;
-          _isVideo = true;
-        } else {
-          _selectedFile = null;
-          // Show error message
-          _showErrorDialog(_getLocalizedError(context, result));
-        }
-      });
-    } catch (e) {
-      setState(() {
-        _isValidating = false;
-      });
-
-      final l10n = AppLocalizations.of(context)!;
-      _showErrorDialog(l10n.videoPickFailed);
+    // Handle errors
+    if (result.hasError) {
+      final errorMessage = result.errorKey != null
+          ? _getErrorMessage(l10n, result.errorKey!)
+          : (result.validation != null
+              ? _getLocalizedError(context, result.validation!)
+              : l10n.videoPickFailed);
+      _showErrorDialog(errorMessage);
+      return;
     }
+
+    // Update state with valid video
+    setState(() {
+      _validationResult = result.validation;
+      if (result.isValid) {
+        _selectedFile = result.file;
+        _isVideo = true;
+      } else {
+        _selectedFile = null;
+        if (result.validation != null) {
+          _showErrorDialog(_getLocalizedError(context, result.validation!));
+        }
+      }
+    });
   }
 
   /// Pick image from gallery
   Future<void> _pickImage() async {
-    try {
-      final XFile? image = await _picker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 85, // Compress image
-      );
+    final l10n = AppLocalizations.of(context)!;
+    final result = await _videoService.pickImageFromGallery();
 
-      if (image == null) return;
+    // User cancelled
+    if (result.isCancelled) return;
 
+    // Handle errors
+    if (result.hasError) {
+      final errorMessage = result.errorKey != null
+          ? _getErrorMessage(l10n, result.errorKey!)
+          : l10n.imagePickFailed;
+      _showErrorDialog(errorMessage);
+      return;
+    }
+
+    // Update state with image
+    if (result.hasFile) {
       setState(() {
-        _selectedFile = File(image.path);
+        _selectedFile = result.file;
         _isVideo = false;
         _validationResult = null;
       });
-    } catch (e) {
-      final l10n = AppLocalizations.of(context)!;
-      _showErrorDialog(l10n.imagePickFailed);
     }
   }
 
   /// Record video with camera
   Future<void> _recordVideo() async {
-    try {
-      final XFile? video = await _picker.pickVideo(
-        source: ImageSource.camera,
-        maxDuration: VideoValidator.maxDuration, // Limit recording to 60 seconds
-      );
+    final l10n = AppLocalizations.of(context)!;
 
-      if (video == null) return;
+    setState(() {
+      _isValidating = true;
+      _validationResult = null;
+    });
 
-      // Show loading indicator
-      setState(() {
-        _isValidating = true;
-        _validationResult = null;
-      });
+    final result = await _videoService.recordVideo();
 
-      final videoFile = File(video.path);
+    setState(() {
+      _isValidating = false;
+    });
 
-      // Validate video
-      final result = await VideoValidator.validateVideo(videoFile);
+    // User cancelled
+    if (result.isCancelled) return;
 
-      setState(() {
-        _isValidating = false;
-        _validationResult = result;
-
-        if (result.isValid) {
-          _selectedFile = videoFile;
-          _isVideo = true;
-        } else {
-          _selectedFile = null;
-          _showErrorDialog(_getLocalizedError(context, result));
-        }
-      });
-    } catch (e) {
-      setState(() {
-        _isValidating = false;
-      });
-
-      final l10n = AppLocalizations.of(context)!;
-      _showErrorDialog(l10n.videoRecordFailed);
+    // Handle errors
+    if (result.hasError) {
+      final errorMessage = result.errorKey != null
+          ? _getErrorMessage(l10n, result.errorKey!)
+          : (result.validation != null
+              ? _getLocalizedError(context, result.validation!)
+              : l10n.videoRecordFailed);
+      _showErrorDialog(errorMessage);
+      return;
     }
+
+    // Update state with valid video
+    setState(() {
+      _validationResult = result.validation;
+      if (result.isValid) {
+        _selectedFile = result.file;
+        _isVideo = true;
+      } else {
+        _selectedFile = null;
+        if (result.validation != null) {
+          _showErrorDialog(_getLocalizedError(context, result.validation!));
+        }
+      }
+    });
   }
 
   /// Show error dialog

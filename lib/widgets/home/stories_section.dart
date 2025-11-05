@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 import '../../constants/colors.dart';
-import '../../data/mock_data.dart';
 import '../../models/story.dart';
 import '../../screens/story_view_screen.dart';
+import '../../services/story_service.dart';
 
 class StoriesSection extends StatelessWidget {
   const StoriesSection({super.key});
 
-  void _openStoryViewer(BuildContext context, int index) {
-    final stories = MockData.getStories();
-    final story = stories[index];
+  void _openStoryViewer(BuildContext context, Story story) {
+    final l10n = AppLocalizations.of(context)!;
 
     // Check if this is the "Add Story" button
     if (story.isAddStory) {
-      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(l10n.addStoryComingSoon),
@@ -24,9 +22,8 @@ class StoriesSection extends StatelessWidget {
       return;
     }
 
-    // Check if story has no segments
-    if (story.segments.isEmpty) {
-      final l10n = AppLocalizations.of(context)!;
+    // Check if story can be viewed
+    if (!StoryService.canViewStory(story)) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(l10n.storyHasNoContent),
@@ -36,13 +33,9 @@ class StoriesSection extends StatelessWidget {
       return;
     }
 
-    // Filter out "Add Story" button and stories without segments for the viewer
-    final viewableStories = stories
-        .where((s) => !s.isAddStory && s.segments.isNotEmpty)
-        .toList();
-
-    // Find the actual index in the filtered list
-    final viewableIndex = viewableStories.indexOf(story);
+    // Get viewable stories and find the index
+    final viewableStories = StoryService.getViewableStories();
+    final viewableIndex = StoryService.getViewableIndex(story);
 
     if (viewableIndex == -1) {
       // This shouldn't happen, but handle it gracefully
@@ -62,13 +55,8 @@ class StoriesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final allStories = MockData.getStories();
-
-    // Filter: Keep "Add Story" button OR stories with segments
-    // This hides broken/empty stories from the UI
-    final displayStories = allStories.where((story) {
-      return story.isAddStory || story.segments.isNotEmpty;
-    }).toList();
+    // Get displayable stories from service
+    final displayStories = StoryService.getDisplayableStories();
 
     return SizedBox(
       height: 180,
@@ -79,11 +67,8 @@ class StoriesSection extends StatelessWidget {
         itemBuilder: (context, index) {
           final story = displayStories[index];
           return GestureDetector(
-            onTap: () => _openStoryViewer(context, allStories.indexOf(story)),
-            child: _buildStoryCard(
-              context,
-              story,
-            ),
+            onTap: () => _openStoryViewer(context, story),
+            child: _buildStoryCard(context, story),
           );
         },
       ),
