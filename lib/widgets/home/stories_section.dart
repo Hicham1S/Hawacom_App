@@ -68,6 +68,7 @@ class StoriesSection extends StatelessWidget {
           final story = displayStories[index];
           return GestureDetector(
             onTap: () => _openStoryViewer(context, story),
+            behavior: HitTestBehavior.opaque,
             child: _buildStoryCard(context, story),
           );
         },

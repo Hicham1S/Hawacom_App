@@ -40,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
         key: _scaffoldKey,
         backgroundColor: AppColors.background,
         drawer: const GridMenuDrawer(),
+        drawerEnableOpenDragGesture: false, // Disable swipe to prevent gesture conflicts
         body: SafeArea(
           child: Stack(
             children: [

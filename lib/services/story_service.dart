@@ -33,7 +33,8 @@ class StoryService {
   /// Returns -1 if story is not viewable
   static int getViewableIndex(Story story) {
     final viewableStories = getViewableStories();
-    return viewableStories.indexOf(story);
+    // Compare by userName instead of object reference
+    return viewableStories.indexWhere((s) => s.userName == story.userName);
   }
 
   /// Mark a story as viewed (for future implementation)
