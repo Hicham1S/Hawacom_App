@@ -19,8 +19,7 @@ class VideoValidator {
       if (!await videoFile.exists()) {
         return VideoValidationResult(
           isValid: false,
-          error: 'ملف الفيديو غير موجود',
-          errorEn: 'Video file does not exist',
+          errorKey: 'videoFileNotExist',
         );
       }
 
@@ -30,8 +29,8 @@ class VideoValidator {
         final fileSizeMB = (fileSize / (1024 * 1024)).toStringAsFixed(1);
         return VideoValidationResult(
           isValid: false,
-          error: 'حجم الفيديو كبير جداً ($fileSizeMB ميجابايت). الحد الأقصى 10 ميجابايت',
-          errorEn: 'Video file too large ($fileSizeMB MB). Maximum is 10 MB',
+          errorKey: 'videoFileTooLarge',
+          errorParams: {'size': fileSizeMB},
         );
       }
 
@@ -49,8 +48,7 @@ class VideoValidator {
         if (duration < minDuration) {
           return VideoValidationResult(
             isValid: false,
-            error: 'الفيديو قصير جداً. الحد الأدنى ثانية واحدة',
-            errorEn: 'Video too short. Minimum is 1 second',
+            errorKey: 'videoTooShort',
             videoDuration: duration,
           );
         }
@@ -59,10 +57,8 @@ class VideoValidator {
         if (duration > maxDuration) {
           return VideoValidationResult(
             isValid: false,
-            error:
-                'الفيديو طويل جداً (${duration.inSeconds} ثانية). الحد الأقصى 60 ثانية',
-            errorEn:
-                'Video too long (${duration.inSeconds} seconds). Maximum is 60 seconds',
+            errorKey: 'videoTooLong',
+            errorParams: {'duration': duration.inSeconds},
             videoDuration: duration,
           );
         }
@@ -78,15 +74,13 @@ class VideoValidator {
         await controller.dispose();
         return VideoValidationResult(
           isValid: false,
-          error: 'فشل في قراءة ملف الفيديو. تأكد من صيغة الفيديو',
-          errorEn: 'Failed to read video file. Check video format',
+          errorKey: 'videoReadError',
         );
       }
     } catch (e) {
       return VideoValidationResult(
         isValid: false,
-        error: 'حدث خطأ أثناء التحقق من الفيديو',
-        errorEn: 'Error validating video: ${e.toString()}',
+        errorKey: 'videoValidationError',
       );
     }
   }
@@ -103,42 +97,32 @@ class VideoValidator {
     return '$minutes:${seconds.toString().padLeft(2, '0')}';
   }
 
-  /// Get recommended video specifications as a user-friendly string
-  static String getVideoRequirements({bool isArabic = true}) {
-    if (isArabic) {
-      return '''
-متطلبات الفيديو:
-• المدة: من 1 إلى 60 ثانية
-• الحجم: أقل من 10 ميجابايت
-• الصيغة: MP4 (موصى به)
-• الدقة: 720p أو 1080p
-• الاتجاه: عمودي (9:16)
-''';
-    } else {
-      return '''
-Video Requirements:
-• Duration: 1 to 60 seconds
-• Size: Under 10 MB
-• Format: MP4 (recommended)
-• Resolution: 720p or 1080p
-• Orientation: Vertical (9:16)
-''';
-    }
+  /// Get video requirement localization keys
+  /// Use these keys with AppLocalizations to display localized requirements
+  static List<String> getVideoRequirementKeys() {
+    return [
+      'videoRequirementsTitle',
+      'videoRequirementDuration',
+      'videoRequirementSize',
+      'videoRequirementFormat',
+      'videoRequirementResolution',
+      'videoRequirementOrientation',
+    ];
   }
 }
 
 /// Result of video validation
 class VideoValidationResult {
   final bool isValid;
-  final String? error; // Arabic error message
-  final String? errorEn; // English error message
+  final String? errorKey; // Localization key for error message
+  final Map<String, dynamic>? errorParams; // Parameters for localized message
   final Duration? videoDuration;
   final int? fileSizeBytes;
 
   VideoValidationResult({
     required this.isValid,
-    this.error,
-    this.errorEn,
+    this.errorKey,
+    this.errorParams,
     this.videoDuration,
     this.fileSizeBytes,
   });

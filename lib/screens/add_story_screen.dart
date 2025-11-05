@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../constants/colors.dart';
+import '../l10n/app_localizations.dart';
 import '../utils/video_validator.dart';
 
 /// Screen for adding a new story (image or video)
@@ -20,6 +21,33 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
   VideoValidationResult? _validationResult;
 
   final ImagePicker _picker = ImagePicker();
+
+  /// Get localized error message from validation result
+  String _getLocalizedError(BuildContext context, VideoValidationResult result) {
+    final l10n = AppLocalizations.of(context)!;
+    final errorKey = result.errorKey;
+
+    if (errorKey == null) return 'Unknown error';
+
+    switch (errorKey) {
+      case 'videoFileNotExist':
+        return l10n.videoFileNotExist;
+      case 'videoFileTooLarge':
+        final size = result.errorParams?['size'] ?? '?';
+        return l10n.videoFileTooLarge(size);
+      case 'videoTooShort':
+        return l10n.videoTooShort;
+      case 'videoTooLong':
+        final duration = result.errorParams?['duration'] ?? 0;
+        return l10n.videoTooLong(duration);
+      case 'videoReadError':
+        return l10n.videoReadError;
+      case 'videoValidationError':
+        return l10n.videoValidationError;
+      default:
+        return errorKey;
+    }
+  }
 
   /// Pick video from gallery
   Future<void> _pickVideo() async {
@@ -52,7 +80,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
         } else {
           _selectedFile = null;
           // Show error message
-          _showErrorDialog(result.error ?? result.errorEn ?? 'Invalid video');
+          _showErrorDialog(_getLocalizedError(context, result));
         }
       });
     } catch (e) {
@@ -60,7 +88,8 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
         _isValidating = false;
       });
 
-      _showErrorDialog('فشل في اختيار الفيديو');
+      final l10n = AppLocalizations.of(context)!;
+      _showErrorDialog(l10n.videoPickFailed);
     }
   }
 
@@ -80,7 +109,8 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
         _validationResult = null;
       });
     } catch (e) {
-      _showErrorDialog('فشل في اختيار الصورة');
+      final l10n = AppLocalizations.of(context)!;
+      _showErrorDialog(l10n.imagePickFailed);
     }
   }
 
@@ -114,7 +144,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
           _isVideo = true;
         } else {
           _selectedFile = null;
-          _showErrorDialog(result.error ?? result.errorEn ?? 'Invalid video');
+          _showErrorDialog(_getLocalizedError(context, result));
         }
       });
     } catch (e) {
@@ -122,23 +152,25 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
         _isValidating = false;
       });
 
-      _showErrorDialog('فشل في تسجيل الفيديو');
+      final l10n = AppLocalizations.of(context)!;
+      _showErrorDialog(l10n.videoRecordFailed);
     }
   }
 
   /// Show error dialog
   void _showErrorDialog(String message) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => Directionality(
         textDirection: TextDirection.rtl,
         child: AlertDialog(
-          title: const Text('خطأ'),
+          title: Text(l10n.error),
           content: Text(message),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('حسناً'),
+              child: Text(l10n.ok),
             ),
           ],
         ),
@@ -158,10 +190,11 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
 
     // For now, just show success message
     if (mounted) {
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('سيتم إضافة ستوري قريباً'),
-          duration: Duration(seconds: 2),
+        SnackBar(
+          content: Text(l10n.storyUploadingSoon),
+          duration: const Duration(seconds: 2),
         ),
       );
 
@@ -172,15 +205,16 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(
           backgroundColor: AppColors.background,
-          title: const Text(
-            'إضافة ستوري',
-            style: TextStyle(color: AppColors.textPrimary),
+          title: Text(
+            l10n.addStoryTitle,
+            style: const TextStyle(color: AppColors.textPrimary),
           ),
           leading: IconButton(
             icon: const Icon(Icons.close, color: AppColors.textPrimary),
@@ -190,9 +224,9 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
             if (_selectedFile != null)
               TextButton(
                 onPressed: _uploadStory,
-                child: const Text(
-                  'نشر',
-                  style: TextStyle(
+                child: Text(
+                  l10n.publish,
+                  style: const TextStyle(
                     color: AppColors.primary,
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -237,8 +271,8 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
-                            'الفيديو: من 1 إلى 60 ثانية، أقل من 10 ميجابايت',
-                            style: TextStyle(
+                            l10n.videoRequirementsSummary,
+                            style: const TextStyle(
                               color: AppColors.textSecondary,
                               fontSize: 12,
                             ),
@@ -256,7 +290,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                       Expanded(
                         child: _buildMediaButton(
                           icon: Icons.videocam,
-                          label: 'تسجيل فيديو',
+                          label: l10n.recordVideo,
                           onTap: _recordVideo,
                         ),
                       ),
@@ -264,7 +298,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                       Expanded(
                         child: _buildMediaButton(
                           icon: Icons.video_library,
-                          label: 'اختيار فيديو',
+                          label: l10n.selectVideo,
                           onTap: _pickVideo,
                         ),
                       ),
@@ -272,7 +306,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                       Expanded(
                         child: _buildMediaButton(
                           icon: Icons.photo_library,
-                          label: 'اختيار صورة',
+                          label: l10n.selectImage,
                           onTap: _pickImage,
                         ),
                       ),
@@ -299,7 +333,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              'الفيديو مناسب (${_validationResult!.formattedDuration})',
+                              l10n.videoSuitable(_validationResult!.formattedDuration ?? ''),
                               style: const TextStyle(
                                 color: Colors.green,
                                 fontWeight: FontWeight.w600,
@@ -319,16 +353,17 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
   }
 
   Widget _buildPreview() {
+    final l10n = AppLocalizations.of(context)!;
     if (_isValidating) {
-      return const Center(
+      return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircularProgressIndicator(color: AppColors.primary),
-            SizedBox(height: 16),
+            const CircularProgressIndicator(color: AppColors.primary),
+            const SizedBox(height: 16),
             Text(
-              'جاري التحقق من الفيديو...',
-              style: TextStyle(color: AppColors.textSecondary),
+              l10n.videoValidating,
+              style: const TextStyle(color: AppColors.textSecondary),
             ),
           ],
         ),
@@ -347,8 +382,8 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
             ),
             const SizedBox(height: 16),
             Text(
-              'اختر صورة أو فيديو',
-              style: TextStyle(
+              l10n.selectImageOrVideo,
+              style: const TextStyle(
                 color: AppColors.textSecondary,
                 fontSize: 16,
               ),
@@ -364,15 +399,15 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.video_library,
               size: 80,
               color: AppColors.primary,
             ),
             const SizedBox(height: 16),
             Text(
-              'فيديو محدد',
-              style: TextStyle(
+              l10n.videoSelected,
+              style: const TextStyle(
                 color: AppColors.textPrimary,
                 fontSize: 16,
               ),

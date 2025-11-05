@@ -76,4 +76,95 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get videoNotImplemented => 'تشغيل الفيديو غير متاح حالياً';
+
+  @override
+  String get videoFileNotExist => 'ملف الفيديو غير موجود';
+
+  @override
+  String videoFileTooLarge(String size) {
+    return 'حجم الفيديو كبير جداً ($size ميجابايت). الحد الأقصى 10 ميجابايت';
+  }
+
+  @override
+  String get videoTooShort => 'الفيديو قصير جداً. الحد الأدنى ثانية واحدة';
+
+  @override
+  String videoTooLong(int duration) {
+    return 'الفيديو طويل جداً ($duration ثانية). الحد الأقصى 60 ثانية';
+  }
+
+  @override
+  String get videoReadError => 'فشل في قراءة ملف الفيديو. تأكد من صيغة الفيديو';
+
+  @override
+  String get videoValidationError => 'حدث خطأ أثناء التحقق من الفيديو';
+
+  @override
+  String get videoRequirementsTitle => 'متطلبات الفيديو:';
+
+  @override
+  String get videoRequirementDuration => 'المدة: من 1 إلى 60 ثانية';
+
+  @override
+  String get videoRequirementSize => 'الحجم: أقل من 10 ميجابايت';
+
+  @override
+  String get videoRequirementFormat => 'الصيغة: MP4 (موصى به)';
+
+  @override
+  String get videoRequirementResolution => 'الدقة: 720p أو 1080p';
+
+  @override
+  String get videoRequirementOrientation => 'الاتجاه: عمودي (9:16)';
+
+  @override
+  String get addStoryTitle => 'إضافة ستوري';
+
+  @override
+  String get publish => 'نشر';
+
+  @override
+  String get error => 'خطأ';
+
+  @override
+  String get ok => 'حسناً';
+
+  @override
+  String get videoPickFailed => 'فشل في اختيار الفيديو';
+
+  @override
+  String get imagePickFailed => 'فشل في اختيار الصورة';
+
+  @override
+  String get videoRecordFailed => 'فشل في تسجيل الفيديو';
+
+  @override
+  String get storyUploadingSoon => 'سيتم إضافة ستوري قريباً';
+
+  @override
+  String get recordVideo => 'تسجيل فيديو';
+
+  @override
+  String get selectVideo => 'اختيار فيديو';
+
+  @override
+  String get selectImage => 'اختيار صورة';
+
+  @override
+  String get selectImageOrVideo => 'اختر صورة أو فيديو';
+
+  @override
+  String get videoRequirementsSummary =>
+      'الفيديو: من 1 إلى 60 ثانية، أقل من 10 ميجابايت';
+
+  @override
+  String get videoValidating => 'جاري التحقق من الفيديو...';
+
+  @override
+  String videoSuitable(String duration) {
+    return 'الفيديو مناسب ($duration)';
+  }
+
+  @override
+  String get videoSelected => 'فيديو محدد';
 }

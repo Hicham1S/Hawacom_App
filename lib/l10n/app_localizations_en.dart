@@ -76,4 +76,94 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get videoNotImplemented => 'Video playback not yet implemented';
+
+  @override
+  String get videoFileNotExist => 'Video file does not exist';
+
+  @override
+  String videoFileTooLarge(String size) {
+    return 'Video file too large ($size MB). Maximum is 10 MB';
+  }
+
+  @override
+  String get videoTooShort => 'Video too short. Minimum is 1 second';
+
+  @override
+  String videoTooLong(int duration) {
+    return 'Video too long ($duration seconds). Maximum is 60 seconds';
+  }
+
+  @override
+  String get videoReadError => 'Failed to read video file. Check video format';
+
+  @override
+  String get videoValidationError => 'Error validating video';
+
+  @override
+  String get videoRequirementsTitle => 'Video Requirements:';
+
+  @override
+  String get videoRequirementDuration => 'Duration: 1 to 60 seconds';
+
+  @override
+  String get videoRequirementSize => 'Size: Under 10 MB';
+
+  @override
+  String get videoRequirementFormat => 'Format: MP4 (recommended)';
+
+  @override
+  String get videoRequirementResolution => 'Resolution: 720p or 1080p';
+
+  @override
+  String get videoRequirementOrientation => 'Orientation: Vertical (9:16)';
+
+  @override
+  String get addStoryTitle => 'Add Story';
+
+  @override
+  String get publish => 'Publish';
+
+  @override
+  String get error => 'Error';
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get videoPickFailed => 'Failed to select video';
+
+  @override
+  String get imagePickFailed => 'Failed to select image';
+
+  @override
+  String get videoRecordFailed => 'Failed to record video';
+
+  @override
+  String get storyUploadingSoon => 'Story will be added soon';
+
+  @override
+  String get recordVideo => 'Record Video';
+
+  @override
+  String get selectVideo => 'Select Video';
+
+  @override
+  String get selectImage => 'Select Image';
+
+  @override
+  String get selectImageOrVideo => 'Select image or video';
+
+  @override
+  String get videoRequirementsSummary => 'Video: 1 to 60 seconds, under 10 MB';
+
+  @override
+  String get videoValidating => 'Validating video...';
+
+  @override
+  String videoSuitable(String duration) {
+    return 'Video is suitable ($duration)';
+  }
+
+  @override
+  String get videoSelected => 'Video selected';
 }

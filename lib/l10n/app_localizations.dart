@@ -235,6 +235,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Video playback not yet implemented'**
   String get videoNotImplemented;
+
+  /// No description provided for @videoFileNotExist.
+  ///
+  /// In en, this message translates to:
+  /// **'Video file does not exist'**
+  String get videoFileNotExist;
+
+  /// No description provided for @videoFileTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'Video file too large ({size} MB). Maximum is 10 MB'**
+  String videoFileTooLarge(String size);
+
+  /// No description provided for @videoTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Video too short. Minimum is 1 second'**
+  String get videoTooShort;
+
+  /// No description provided for @videoTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'Video too long ({duration} seconds). Maximum is 60 seconds'**
+  String videoTooLong(int duration);
+
+  /// No description provided for @videoReadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to read video file. Check video format'**
+  String get videoReadError;
+
+  /// No description provided for @videoValidationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error validating video'**
+  String get videoValidationError;
+
+  /// No description provided for @videoRequirementsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Video Requirements:'**
+  String get videoRequirementsTitle;
+
+  /// No description provided for @videoRequirementDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration: 1 to 60 seconds'**
+  String get videoRequirementDuration;
+
+  /// No description provided for @videoRequirementSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Size: Under 10 MB'**
+  String get videoRequirementSize;
+
+  /// No description provided for @videoRequirementFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Format: MP4 (recommended)'**
+  String get videoRequirementFormat;
+
+  /// No description provided for @videoRequirementResolution.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolution: 720p or 1080p'**
+  String get videoRequirementResolution;
+
+  /// No description provided for @videoRequirementOrientation.
+  ///
+  /// In en, this message translates to:
+  /// **'Orientation: Vertical (9:16)'**
+  String get videoRequirementOrientation;
+
+  /// No description provided for @addStoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Story'**
+  String get addStoryTitle;
+
+  /// No description provided for @publish.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish'**
+  String get publish;
+
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
+
+  /// No description provided for @ok.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get ok;
+
+  /// No description provided for @videoPickFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to select video'**
+  String get videoPickFailed;
+
+  /// No description provided for @imagePickFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to select image'**
+  String get imagePickFailed;
+
+  /// No description provided for @videoRecordFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to record video'**
+  String get videoRecordFailed;
+
+  /// No description provided for @storyUploadingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Story will be added soon'**
+  String get storyUploadingSoon;
+
+  /// No description provided for @recordVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Record Video'**
+  String get recordVideo;
+
+  /// No description provided for @selectVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Video'**
+  String get selectVideo;
+
+  /// No description provided for @selectImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Image'**
+  String get selectImage;
+
+  /// No description provided for @selectImageOrVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Select image or video'**
+  String get selectImageOrVideo;
+
+  /// No description provided for @videoRequirementsSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Video: 1 to 60 seconds, under 10 MB'**
+  String get videoRequirementsSummary;
+
+  /// No description provided for @videoValidating.
+  ///
+  /// In en, this message translates to:
+  /// **'Validating video...'**
+  String get videoValidating;
+
+  /// No description provided for @videoSuitable.
+  ///
+  /// In en, this message translates to:
+  /// **'Video is suitable ({duration})'**
+  String videoSuitable(String duration);
+
+  /// No description provided for @videoSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Video selected'**
+  String get videoSelected;
 }
 
 class _AppLocalizationsDelegate

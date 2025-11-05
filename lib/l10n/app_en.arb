@@ -22,5 +22,54 @@
   "addStoryComingSoon": "Add Story Coming Soon",
   "storyHasNoContent": "This story has no content",
   "failedToLoadImage": "Failed to load image",
-  "videoNotImplemented": "Video playback not yet implemented"
+  "videoNotImplemented": "Video playback not yet implemented",
+  "videoFileNotExist": "Video file does not exist",
+  "videoFileTooLarge": "Video file too large ({size} MB). Maximum is 10 MB",
+  "@videoFileTooLarge": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "videoTooShort": "Video too short. Minimum is 1 second",
+  "videoTooLong": "Video too long ({duration} seconds). Maximum is 60 seconds",
+  "@videoTooLong": {
+    "placeholders": {
+      "duration": {
+        "type": "int"
+      }
+    }
+  },
+  "videoReadError": "Failed to read video file. Check video format",
+  "videoValidationError": "Error validating video",
+  "videoRequirementsTitle": "Video Requirements:",
+  "videoRequirementDuration": "Duration: 1 to 60 seconds",
+  "videoRequirementSize": "Size: Under 10 MB",
+  "videoRequirementFormat": "Format: MP4 (recommended)",
+  "videoRequirementResolution": "Resolution: 720p or 1080p",
+  "videoRequirementOrientation": "Orientation: Vertical (9:16)",
+  "addStoryTitle": "Add Story",
+  "publish": "Publish",
+  "error": "Error",
+  "ok": "OK",
+  "videoPickFailed": "Failed to select video",
+  "imagePickFailed": "Failed to select image",
+  "videoRecordFailed": "Failed to record video",
+  "storyUploadingSoon": "Story will be added soon",
+  "recordVideo": "Record Video",
+  "selectVideo": "Select Video",
+  "selectImage": "Select Image",
+  "selectImageOrVideo": "Select image or video",
+  "videoRequirementsSummary": "Video: 1 to 60 seconds, under 10 MB",
+  "videoValidating": "Validating video...",
+  "videoSuitable": "Video is suitable ({duration})",
+  "@videoSuitable": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "videoSelected": "Video selected"
 }
