@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'story_segment.dart';
 
-class Story {
+class Story extends Equatable {
   final String id;
   final String userName;
   final String userImage;
@@ -38,4 +39,10 @@ class Story {
       (total, segment) => total + segment.duration,
     );
   }
+
+  /// Equatable: Define which properties determine equality
+  /// Two stories are equal if they have the same id
+  /// This allows indexOf(), contains(), and Set operations to work correctly
+  @override
+  List<Object?> get props => [id];
 }

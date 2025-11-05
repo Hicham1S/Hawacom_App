@@ -1,5 +1,7 @@
+import 'package:equatable/equatable.dart';
+
 /// Represents a single segment (image or video) within a user's story
-class StorySegment {
+class StorySegment extends Equatable {
   final String id;
   final String mediaUrl;
   final StoryMediaType mediaType;
@@ -13,6 +15,11 @@ class StorySegment {
     this.duration = const Duration(seconds: 5),
     DateTime? createdAt,
   }) : createdAt = createdAt ?? DateTime.now();
+
+  /// Equatable: Define which properties determine equality
+  /// Two segments are equal if they have the same id
+  @override
+  List<Object?> get props => [id];
 }
 
 /// Types of media that can be in a story segment
