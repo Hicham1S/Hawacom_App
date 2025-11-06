@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../constants/colors.dart';
 import '../../l10n/app_localizations.dart';
+import '../../screens/profile_screen.dart';
 
 /// Right-side drawer menu that slides in when grid button is tapped
 class GridMenuDrawer extends StatelessWidget {
@@ -40,7 +41,12 @@ class GridMenuDrawer extends StatelessWidget {
                     title: l10n.menuProfile,
                     onTap: () {
                       Navigator.pop(context);
-                      // Navigate to profile
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const ProfileScreen(),
+                        ),
+                      );
                     },
                   ),
                   _buildMenuItem(

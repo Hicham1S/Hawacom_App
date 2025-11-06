@@ -8,6 +8,7 @@ import '../widgets/home/categories_section.dart';
 import '../widgets/home/projects_gallery.dart';
 import '../widgets/home/bottom_navigation.dart';
 import '../widgets/top_bar/grid_menu_drawer.dart';
+import 'profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,7 +26,28 @@ class _HomeScreenState extends State<HomeScreen> {
       _selectedIndex = index;
     });
     debugPrint('Bottom nav item tapped: $index');
-    // TODO: Navigate to different screens based on index
+
+    // Handle navigation based on index
+    switch (index) {
+      case 0:
+        // Already on home screen
+        break;
+      case 1:
+        // TODO: Navigate to messages screen
+        debugPrint('Messages screen coming soon');
+        break;
+      case 4:
+        // Navigate to profile
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const ProfileScreen(),
+          ),
+        );
+        break;
+      default:
+        debugPrint('Tab $index not implemented yet');
+    }
   }
 
   void _openGridMenu() {

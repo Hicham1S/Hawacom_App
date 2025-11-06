@@ -481,6 +481,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profileTitle;
+
+  /// No description provided for @profileProjects.
+  ///
+  /// In en, this message translates to:
+  /// **'Projects'**
+  String get profileProjects;
+
+  /// No description provided for @profileFollowers.
+  ///
+  /// In en, this message translates to:
+  /// **'Followers'**
+  String get profileFollowers;
+
+  /// No description provided for @profileFollowing.
+  ///
+  /// In en, this message translates to:
+  /// **'Following'**
+  String get profileFollowing;
+
+  /// No description provided for @profileInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Information'**
+  String get profileInformation;
+
+  /// No description provided for @profileEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get profileEmail;
+
+  /// No description provided for @profilePhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get profilePhone;
+
+  /// No description provided for @profileMemberSince.
+  ///
+  /// In en, this message translates to:
+  /// **'Member Since'**
+  String get profileMemberSince;
+
+  /// No description provided for @profileActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions'**
+  String get profileActions;
+
+  /// No description provided for @profileEditProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get profileEditProfile;
+
+  /// No description provided for @profileEditProfileDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Update your information'**
+  String get profileEditProfileDesc;
+
+  /// No description provided for @profileChangePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get profileChangePassword;
+
+  /// No description provided for @profileChangePasswordDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Update your security'**
+  String get profileChangePasswordDesc;
+
+  /// No description provided for @profileLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load profile'**
+  String get profileLoadError;
+
+  /// No description provided for @profileRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get profileRetry;
+
+  /// No description provided for @profileSettingsComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings coming soon'**
+  String get profileSettingsComingSoon;
+
+  /// No description provided for @profileEditComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit profile coming soon'**
+  String get profileEditComingSoon;
+
+  /// No description provided for @profilePasswordComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Change password coming soon'**
+  String get profilePasswordComingSoon;
 }
 
 class _AppLocalizationsDelegate

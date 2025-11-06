@@ -205,4 +205,58 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cancel => 'Cancel';
+
+  @override
+  String get profileTitle => 'Profile';
+
+  @override
+  String get profileProjects => 'Projects';
+
+  @override
+  String get profileFollowers => 'Followers';
+
+  @override
+  String get profileFollowing => 'Following';
+
+  @override
+  String get profileInformation => 'Information';
+
+  @override
+  String get profileEmail => 'Email';
+
+  @override
+  String get profilePhone => 'Phone';
+
+  @override
+  String get profileMemberSince => 'Member Since';
+
+  @override
+  String get profileActions => 'Actions';
+
+  @override
+  String get profileEditProfile => 'Edit Profile';
+
+  @override
+  String get profileEditProfileDesc => 'Update your information';
+
+  @override
+  String get profileChangePassword => 'Change Password';
+
+  @override
+  String get profileChangePasswordDesc => 'Update your security';
+
+  @override
+  String get profileLoadError => 'Failed to load profile';
+
+  @override
+  String get profileRetry => 'Retry';
+
+  @override
+  String get profileSettingsComingSoon => 'Settings coming soon';
+
+  @override
+  String get profileEditComingSoon => 'Edit profile coming soon';
+
+  @override
+  String get profilePasswordComingSoon => 'Change password coming soon';
 }

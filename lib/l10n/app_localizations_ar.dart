@@ -206,4 +206,58 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get cancel => 'إلغاء';
+
+  @override
+  String get profileTitle => 'الملف الشخصي';
+
+  @override
+  String get profileProjects => 'المشاريع';
+
+  @override
+  String get profileFollowers => 'المتابعون';
+
+  @override
+  String get profileFollowing => 'المتابَعون';
+
+  @override
+  String get profileInformation => 'المعلومات الشخصية';
+
+  @override
+  String get profileEmail => 'البريد الإلكتروني';
+
+  @override
+  String get profilePhone => 'رقم الهاتف';
+
+  @override
+  String get profileMemberSince => 'عضو منذ';
+
+  @override
+  String get profileActions => 'الإجراءات';
+
+  @override
+  String get profileEditProfile => 'تعديل الملف الشخصي';
+
+  @override
+  String get profileEditProfileDesc => 'تحديث معلوماتك';
+
+  @override
+  String get profileChangePassword => 'تغيير كلمة المرور';
+
+  @override
+  String get profileChangePasswordDesc => 'تحديث الأمان الخاص بك';
+
+  @override
+  String get profileLoadError => 'فشل تحميل الملف الشخصي';
+
+  @override
+  String get profileRetry => 'إعادة المحاولة';
+
+  @override
+  String get profileSettingsComingSoon => 'الإعدادات قريباً';
+
+  @override
+  String get profileEditComingSoon => 'تعديل الملف الشخصي قريباً';
+
+  @override
+  String get profilePasswordComingSoon => 'تغيير كلمة المرور قريباً';
 }
