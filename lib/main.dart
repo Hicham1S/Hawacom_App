@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'l10n/app_localizations.dart';
-import 'screens/home_screen.dart';
-import 'constants/colors.dart';
+import 'core/localization/app_localizations.dart';
+import 'features/home/screens/home_screen.dart';
+import 'core/constants/colors.dart';
 
 void main() {
   runApp(const MyApp());
