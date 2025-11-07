@@ -31,24 +31,24 @@ class BottomNavigation extends StatelessWidget {
         children: [
           _buildNavItem(
             context,
-            iconPath: 'assets/images/icons/clock.png',
-            index: 3,
-          ),
-          _buildNavItem(
-            context,
             iconPath: 'assets/images/icons/profile.png',
             index: 4,
+          ),
+                    _buildNavItem(
+            context,
+            iconPath: 'assets/images/icons/clock.png',
+            index: 3,
           ),
           _buildAddButton(context),
           _buildNavItem(
             context,
-            iconPath: 'assets/images/icons/home-2.png',
-            index: 0,
+            iconPath: 'assets/images/icons/message.png',
+            index: 1,
           ),
           _buildNavItem(
             context,
-            iconPath: 'assets/images/icons/message.png',
-            index: 1,
+            iconPath: 'assets/images/icons/home-2.png',
+            index: 0,
           ),
         ],
       ),
