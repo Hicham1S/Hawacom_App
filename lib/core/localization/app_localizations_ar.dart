@@ -260,4 +260,76 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get profilePasswordComingSoon => 'تغيير كلمة المرور قريباً';
+
+  @override
+  String get messages => 'الرسائل';
+
+  @override
+  String get messagesEmpty => 'لا توجد محادثات';
+
+  @override
+  String get messagesEmptyDesc => 'ابدأ محادثة جديدة';
+
+  @override
+  String get messagesNoResults => 'لا توجد نتائج';
+
+  @override
+  String get messagesSending => 'جاري الإرسال...';
+
+  @override
+  String get messagesTyping => 'يكتب...';
+
+  @override
+  String get messagesOnline => 'متصل الآن';
+
+  @override
+  String get messagesOffline => 'غير متصل';
+
+  @override
+  String get messagesLastSeen => 'آخر ظهور';
+
+  @override
+  String get messagesNow => 'الآن';
+
+  @override
+  String get messagesMinutes => 'دقيقة';
+
+  @override
+  String get messagesHours => 'ساعة';
+
+  @override
+  String get messagesDays => 'يوم';
+
+  @override
+  String get messagesYesterday => 'أمس';
+
+  @override
+  String get messagesTypeMessage => 'اكتب رسالة...';
+
+  @override
+  String get messagesAttach => 'إرفاق';
+
+  @override
+  String get messagesSend => 'إرسال';
+
+  @override
+  String get messagesDelete => 'حذف المحادثة';
+
+  @override
+  String get messagesMute => 'كتم الإشعارات';
+
+  @override
+  String get messagesBlock => 'حظر المستخدم';
+
+  @override
+  String get messagesNewChat => 'محادثة جديدة';
+
+  @override
+  String get messagesNoMessages => 'لا توجد رسائل';
+
+  @override
+  String get messagesStartChat => 'ابدأ المحادثة بإرسال رسالة';
+
+  @override
+  String get messagesAttachmentSoon => 'إرفاق الملفات قريباً';
 }

@@ -589,6 +589,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Change password coming soon'**
   String get profilePasswordComingSoon;
+
+  /// No description provided for @messages.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get messages;
+
+  /// No description provided for @messagesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No conversations'**
+  String get messagesEmpty;
+
+  /// No description provided for @messagesEmptyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a new conversation'**
+  String get messagesEmptyDesc;
+
+  /// No description provided for @messagesNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get messagesNoResults;
+
+  /// No description provided for @messagesSending.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending...'**
+  String get messagesSending;
+
+  /// No description provided for @messagesTyping.
+  ///
+  /// In en, this message translates to:
+  /// **'Typing...'**
+  String get messagesTyping;
+
+  /// No description provided for @messagesOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'Online now'**
+  String get messagesOnline;
+
+  /// No description provided for @messagesOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline'**
+  String get messagesOffline;
+
+  /// No description provided for @messagesLastSeen.
+  ///
+  /// In en, this message translates to:
+  /// **'Last seen'**
+  String get messagesLastSeen;
+
+  /// No description provided for @messagesNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Now'**
+  String get messagesNow;
+
+  /// No description provided for @messagesMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'minutes'**
+  String get messagesMinutes;
+
+  /// No description provided for @messagesHours.
+  ///
+  /// In en, this message translates to:
+  /// **'hours'**
+  String get messagesHours;
+
+  /// No description provided for @messagesDays.
+  ///
+  /// In en, this message translates to:
+  /// **'days'**
+  String get messagesDays;
+
+  /// No description provided for @messagesYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get messagesYesterday;
+
+  /// No description provided for @messagesTypeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a message...'**
+  String get messagesTypeMessage;
+
+  /// No description provided for @messagesAttach.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach'**
+  String get messagesAttach;
+
+  /// No description provided for @messagesSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get messagesSend;
+
+  /// No description provided for @messagesDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete conversation'**
+  String get messagesDelete;
+
+  /// No description provided for @messagesMute.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute notifications'**
+  String get messagesMute;
+
+  /// No description provided for @messagesBlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Block user'**
+  String get messagesBlock;
+
+  /// No description provided for @messagesNewChat.
+  ///
+  /// In en, this message translates to:
+  /// **'New chat'**
+  String get messagesNewChat;
+
+  /// No description provided for @messagesNoMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages'**
+  String get messagesNoMessages;
+
+  /// No description provided for @messagesStartChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Start the conversation by sending a message'**
+  String get messagesStartChat;
+
+  /// No description provided for @messagesAttachmentSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachments coming soon'**
+  String get messagesAttachmentSoon;
 }
 
 class _AppLocalizationsDelegate

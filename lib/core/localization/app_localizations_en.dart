@@ -259,4 +259,76 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profilePasswordComingSoon => 'Change password coming soon';
+
+  @override
+  String get messages => 'Messages';
+
+  @override
+  String get messagesEmpty => 'No conversations';
+
+  @override
+  String get messagesEmptyDesc => 'Start a new conversation';
+
+  @override
+  String get messagesNoResults => 'No results found';
+
+  @override
+  String get messagesSending => 'Sending...';
+
+  @override
+  String get messagesTyping => 'Typing...';
+
+  @override
+  String get messagesOnline => 'Online now';
+
+  @override
+  String get messagesOffline => 'Offline';
+
+  @override
+  String get messagesLastSeen => 'Last seen';
+
+  @override
+  String get messagesNow => 'Now';
+
+  @override
+  String get messagesMinutes => 'minutes';
+
+  @override
+  String get messagesHours => 'hours';
+
+  @override
+  String get messagesDays => 'days';
+
+  @override
+  String get messagesYesterday => 'Yesterday';
+
+  @override
+  String get messagesTypeMessage => 'Type a message...';
+
+  @override
+  String get messagesAttach => 'Attach';
+
+  @override
+  String get messagesSend => 'Send';
+
+  @override
+  String get messagesDelete => 'Delete conversation';
+
+  @override
+  String get messagesMute => 'Mute notifications';
+
+  @override
+  String get messagesBlock => 'Block user';
+
+  @override
+  String get messagesNewChat => 'New chat';
+
+  @override
+  String get messagesNoMessages => 'No messages';
+
+  @override
+  String get messagesStartChat => 'Start the conversation by sending a message';
+
+  @override
+  String get messagesAttachmentSoon => 'Attachments coming soon';
 }

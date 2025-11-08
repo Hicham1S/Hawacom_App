@@ -9,6 +9,7 @@ import '../widgets/projects_gallery.dart';
 import '../widgets/bottom_navigation.dart';
 import '../widgets/grid_menu_drawer.dart';
 import '../../profile/screens/profile_screen.dart';
+import '../../messages/screens/messages_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -33,8 +34,13 @@ class _HomeScreenState extends State<HomeScreen> {
         // Already on home screen
         break;
       case 1:
-        // TODO: Navigate to messages screen
-        debugPrint('Messages screen coming soon');
+        // Navigate to messages
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const MessagesScreen(),
+          ),
+        );
         break;
       case 4:
         // Navigate to profile
