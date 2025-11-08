@@ -119,7 +119,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                 ),
                 child: TextField(
                   controller: _searchController,
-                  textDirection: TextDirection.rtl,
+                  textAlign: TextAlign.right, // Align text to right, but let Flutter auto-detect direction
                   style: TextStyle(
                     color: AppColors.textPrimary,
                     fontSize: 15,

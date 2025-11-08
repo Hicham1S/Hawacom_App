@@ -85,7 +85,7 @@ class _ChatInputState extends State<ChatInput> {
                 ),
                 child: TextField(
                   controller: _controller,
-                  textDirection: TextDirection.rtl,
+                  textAlign: TextAlign.right, // Align text to right, but let Flutter auto-detect direction
                   style: TextStyle(
                     color: AppColors.textPrimary,
                     fontSize: 15,
