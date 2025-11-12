@@ -19,6 +19,21 @@ dependencies:
   video_player: ^2.9.2
   equatable: ^2.0.5
 
+  # Firebase Core (Required)
+  firebase_core: ^2.24.2
+
+  # Firebase Cloud Messaging (Push Notifications)
+  firebase_messaging: ^14.7.9
+
+  # Firebase Database (Chat real-time)
+  firebase_database: ^10.4.0
+
+  # Firebase Storage (File uploads)
+  firebase_storage: ^11.5.6
+
+  # Local Notifications
+  flutter_local_notifications: ^19.5.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -31,6 +46,7 @@ flutter:
   assets:
     - assets/images/icons/
     - assets/images/
+    - assets/videos/
 
   fonts:
     - family: Cairo

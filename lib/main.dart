@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'core/localization/app_localizations.dart';
-import 'features/home/screens/home_screen.dart';
 import 'core/constants/colors.dart';
+import 'core/services/firebase_service.dart';
+import 'core/routing/app_routes.dart';
+import 'core/routing/route_generator.dart';
 
-void main() {
+void main() async {
+  // Ensure Flutter binding is initialized
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Firebase (will be done when first accessed)
+  // Firebase will auto-initialize on Android via google-services.json
+  // and on iOS via GoogleService-Info.plist
+
   runApp(const MyApp());
 }
 
@@ -45,7 +54,9 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
 
-      home: const HomeScreen(),
+      // Routing
+      initialRoute: AppRoutes.splash,
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }

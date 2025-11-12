@@ -1,0 +1,81 @@
+{
+  "project_info": {
+    "project_number": "874249504925",
+    "firebase_url": "https://hawacom-3676c-default-rtdb.firebaseio.com",
+    "project_id": "hawacom-3676c",
+    "storage_bucket": "hawacom-3676c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:874249504925:android:079cc3740d41850bdeec74",
+        "android_client_info": {
+          "package_name": "com.hawacom.dmpteams"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "874249504925-13n0p66ne3n28r233138mjfi6augm1e3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hawacom.dmpteams",
+            "certificate_hash": "a599538e42c9d2f47e05fd0bbc5bb1c5842e773a"
+          }
+        },
+        {
+          "client_id": "874249504925-6ddjsqqg1eqsvfa5uiohlhoj2p8jphpi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hawacom.dmpteams",
+            "certificate_hash": "09c85f4bbfd91a96324cc6dc6deec9e53df7b316"
+          }
+        },
+        {
+          "client_id": "874249504925-ame7pjhct9a35brok2tl3i6pg1u6q1pf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hawacom.dmpteams",
+            "certificate_hash": "24021c475c864accfef426f6b8ffe14851956989"
+          }
+        },
+        {
+          "client_id": "874249504925-i311j9kf90r8h8c5lerbmhivpk6ged7t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hawacom.dmpteams",
+            "certificate_hash": "212ed08623cd4a6e6c83c98de7b51400ddaa8aa6"
+          }
+        },
+        {
+          "client_id": "874249504925-lt1mb6q4ii5g3peatbet272ra9bi3j6c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2B0DPlp7Dw6W9xLeyG0Y3WW6eqcHWpwI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "874249504925-lt1mb6q4ii5g3peatbet272ra9bi3j6c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "874249504925-dtmiu2b1sak1814r32hp5u17sv5e3c4c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hawacom.dmpteams",
+                "app_store_id": "1640156224"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+  
+}

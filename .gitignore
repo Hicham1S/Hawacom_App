@@ -43,3 +43,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Old project version (backup)
+old/
+
+INFRASTRUCTURE_MIGRATION.md
+MIGRATION_GUIDE.md

@@ -1,4 +1,4 @@
-package com.example.test
+package com.hawacom.dmpteams
 
 import io.flutter.embedding.android.FlutterActivity
 
