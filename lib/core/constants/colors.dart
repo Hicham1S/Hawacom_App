@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class AppColors {
   // Primary colors from your design
   static const Color primary = Color(0xFFDC143C); // Crimson red
+  static const Color secondary = Color(0xFFFFF5F5); // Light pink/cream for auth screens
   static const Color background = Color(0xFF2A1A1F); // Dark burgundy background
   static const Color cardBackground = Color(0xFF3D2A30); // Lighter card background
   
