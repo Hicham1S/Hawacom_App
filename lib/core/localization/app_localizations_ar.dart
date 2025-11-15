@@ -332,4 +332,150 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get messagesAttachmentSoon => 'إرفاق الملفات قريباً';
+
+  @override
+  String get authLogin => 'تسجيل الدخول';
+
+  @override
+  String get authRegister => 'إنشاء حساب';
+
+  @override
+  String get authEmail => 'البريد الإلكتروني';
+
+  @override
+  String get authPassword => 'كلمة المرور';
+
+  @override
+  String get authConfirmPassword => 'تأكيد كلمة المرور';
+
+  @override
+  String get authFullName => 'الاسم الكامل';
+
+  @override
+  String get authPhoneNumber => 'رقم الهاتف';
+
+  @override
+  String get authForgotPassword => 'نسيت كلمة المرور؟';
+
+  @override
+  String get authRememberMe => 'تذكرني';
+
+  @override
+  String get authDontHaveAccount => 'ليس لديك حساب؟';
+
+  @override
+  String get authAlreadyHaveAccount => 'لديك حساب بالفعل؟';
+
+  @override
+  String get authRegisterNow => 'سجل الآن';
+
+  @override
+  String get authLoginNow => 'سجل دخول';
+
+  @override
+  String get authSigningIn => 'جاري تسجيل الدخول...';
+
+  @override
+  String get authCreatingAccount => 'جاري إنشاء الحساب...';
+
+  @override
+  String get authWelcomeBack => 'مرحباً بعودتك!';
+
+  @override
+  String get authCreateYourAccount => 'أنشئ حسابك';
+
+  @override
+  String get authEmailHint => 'example@email.com';
+
+  @override
+  String get authPasswordHint => 'أدخل كلمة المرور';
+
+  @override
+  String get authFullNameHint => 'الاسم الكامل';
+
+  @override
+  String get authPhoneHint => '+966 123456789';
+
+  @override
+  String get authResetPassword => 'إعادة تعيين كلمة المرور';
+
+  @override
+  String get authSendResetLink => 'إرسال رابط إعادة التعيين';
+
+  @override
+  String get authResetEmailSent =>
+      'تم إرسال رابط إعادة التعيين إلى بريدك الإلكتروني';
+
+  @override
+  String get authBackToLogin => 'العودة لتسجيل الدخول';
+
+  @override
+  String get authVerifyOTP => 'تحقق من رمز OTP';
+
+  @override
+  String get authEnterOTP => 'أدخل رمز التحقق المرسل إلى';
+
+  @override
+  String get authVerify => 'تحقق';
+
+  @override
+  String get authResendOTP => 'إعادة إرسال الرمز';
+
+  @override
+  String get authOTPSent => 'تم إرسال رمز التحقق';
+
+  @override
+  String get authInvalidOTP => 'رمز التحقق غير صحيح';
+
+  @override
+  String get authOTPExpired => 'انتهت صلاحية رمز التحقق';
+
+  @override
+  String get authAgreeTerms => 'أوافق على الشروط والأحكام';
+
+  @override
+  String get authMustAgreeTerms => 'يجب الموافقة على الشروط والأحكام';
+
+  @override
+  String get authEmailRequired => 'البريد الإلكتروني مطلوب';
+
+  @override
+  String get authPasswordRequired => 'كلمة المرور مطلوبة';
+
+  @override
+  String get authFullNameRequired => 'الاسم الكامل مطلوب';
+
+  @override
+  String get authPhoneRequired => 'رقم الهاتف مطلوب';
+
+  @override
+  String get authInvalidEmail => 'البريد الإلكتروني غير صحيح';
+
+  @override
+  String get authWeakPassword => 'كلمة المرور ضعيفة جداً';
+
+  @override
+  String get authPasswordsNotMatch => 'كلمات المرور غير متطابقة';
+
+  @override
+  String get authPasswordMinLength =>
+      'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
+
+  @override
+  String get authLoginSuccess => 'تم تسجيل الدخول بنجاح';
+
+  @override
+  String get authRegisterSuccess => 'تم إنشاء الحساب بنجاح';
+
+  @override
+  String get authLogout => 'تسجيل الخروج';
+
+  @override
+  String get authLogoutConfirm => 'هل أنت متأكد من تسجيل الخروج؟';
+
+  @override
+  String get authCancel => 'إلغاء';
+
+  @override
+  String get authConfirm => 'تأكيد';
 }

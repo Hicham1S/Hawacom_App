@@ -733,6 +733,294 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Attachments coming soon'**
   String get messagesAttachmentSoon;
+
+  /// No description provided for @authLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get authLogin;
+
+  /// No description provided for @authRegister.
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get authRegister;
+
+  /// No description provided for @authEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get authEmail;
+
+  /// No description provided for @authPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get authPassword;
+
+  /// No description provided for @authConfirmPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get authConfirmPassword;
+
+  /// No description provided for @authFullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get authFullName;
+
+  /// No description provided for @authPhoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get authPhoneNumber;
+
+  /// No description provided for @authForgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password?'**
+  String get authForgotPassword;
+
+  /// No description provided for @authRememberMe.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember Me'**
+  String get authRememberMe;
+
+  /// No description provided for @authDontHaveAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account?'**
+  String get authDontHaveAccount;
+
+  /// No description provided for @authAlreadyHaveAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account?'**
+  String get authAlreadyHaveAccount;
+
+  /// No description provided for @authRegisterNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Register Now'**
+  String get authRegisterNow;
+
+  /// No description provided for @authLoginNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get authLoginNow;
+
+  /// No description provided for @authSigningIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Signing in...'**
+  String get authSigningIn;
+
+  /// No description provided for @authCreatingAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Creating account...'**
+  String get authCreatingAccount;
+
+  /// No description provided for @authWelcomeBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome Back!'**
+  String get authWelcomeBack;
+
+  /// No description provided for @authCreateYourAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Your Account'**
+  String get authCreateYourAccount;
+
+  /// No description provided for @authEmailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'example@email.com'**
+  String get authEmailHint;
+
+  /// No description provided for @authPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter password'**
+  String get authPasswordHint;
+
+  /// No description provided for @authFullNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get authFullNameHint;
+
+  /// No description provided for @authPhoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'+966 123456789'**
+  String get authPhoneHint;
+
+  /// No description provided for @authResetPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Password'**
+  String get authResetPassword;
+
+  /// No description provided for @authSendResetLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Reset Link'**
+  String get authSendResetLink;
+
+  /// No description provided for @authResetEmailSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset link has been sent to your email'**
+  String get authResetEmailSent;
+
+  /// No description provided for @authBackToLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Login'**
+  String get authBackToLogin;
+
+  /// No description provided for @authVerifyOTP.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify OTP'**
+  String get authVerifyOTP;
+
+  /// No description provided for @authEnterOTP.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter verification code sent to'**
+  String get authEnterOTP;
+
+  /// No description provided for @authVerify.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify'**
+  String get authVerify;
+
+  /// No description provided for @authResendOTP.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend Code'**
+  String get authResendOTP;
+
+  /// No description provided for @authOTPSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code sent'**
+  String get authOTPSent;
+
+  /// No description provided for @authInvalidOTP.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid verification code'**
+  String get authInvalidOTP;
+
+  /// No description provided for @authOTPExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code expired'**
+  String get authOTPExpired;
+
+  /// No description provided for @authAgreeTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'I agree to Terms & Conditions'**
+  String get authAgreeTerms;
+
+  /// No description provided for @authMustAgreeTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'You must agree to Terms & Conditions'**
+  String get authMustAgreeTerms;
+
+  /// No description provided for @authEmailRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Email is required'**
+  String get authEmailRequired;
+
+  /// No description provided for @authPasswordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Password is required'**
+  String get authPasswordRequired;
+
+  /// No description provided for @authFullNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name is required'**
+  String get authFullNameRequired;
+
+  /// No description provided for @authPhoneRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number is required'**
+  String get authPhoneRequired;
+
+  /// No description provided for @authInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email address'**
+  String get authInvalidEmail;
+
+  /// No description provided for @authWeakPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password is too weak'**
+  String get authWeakPassword;
+
+  /// No description provided for @authPasswordsNotMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get authPasswordsNotMatch;
+
+  /// No description provided for @authPasswordMinLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters'**
+  String get authPasswordMinLength;
+
+  /// No description provided for @authLoginSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Login successful'**
+  String get authLoginSuccess;
+
+  /// No description provided for @authRegisterSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Account created successfully'**
+  String get authRegisterSuccess;
+
+  /// No description provided for @authLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get authLogout;
+
+  /// No description provided for @authLogoutConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to logout?'**
+  String get authLogoutConfirm;
+
+  /// No description provided for @authCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get authCancel;
+
+  /// No description provided for @authConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get authConfirm;
 }
 
 class _AppLocalizationsDelegate

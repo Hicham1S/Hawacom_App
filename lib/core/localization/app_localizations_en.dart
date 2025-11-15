@@ -331,4 +331,148 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get messagesAttachmentSoon => 'Attachments coming soon';
+
+  @override
+  String get authLogin => 'Login';
+
+  @override
+  String get authRegister => 'Register';
+
+  @override
+  String get authEmail => 'Email';
+
+  @override
+  String get authPassword => 'Password';
+
+  @override
+  String get authConfirmPassword => 'Confirm Password';
+
+  @override
+  String get authFullName => 'Full Name';
+
+  @override
+  String get authPhoneNumber => 'Phone Number';
+
+  @override
+  String get authForgotPassword => 'Forgot Password?';
+
+  @override
+  String get authRememberMe => 'Remember Me';
+
+  @override
+  String get authDontHaveAccount => 'Don\'t have an account?';
+
+  @override
+  String get authAlreadyHaveAccount => 'Already have an account?';
+
+  @override
+  String get authRegisterNow => 'Register Now';
+
+  @override
+  String get authLoginNow => 'Login';
+
+  @override
+  String get authSigningIn => 'Signing in...';
+
+  @override
+  String get authCreatingAccount => 'Creating account...';
+
+  @override
+  String get authWelcomeBack => 'Welcome Back!';
+
+  @override
+  String get authCreateYourAccount => 'Create Your Account';
+
+  @override
+  String get authEmailHint => 'example@email.com';
+
+  @override
+  String get authPasswordHint => 'Enter password';
+
+  @override
+  String get authFullNameHint => 'Full Name';
+
+  @override
+  String get authPhoneHint => '+966 123456789';
+
+  @override
+  String get authResetPassword => 'Reset Password';
+
+  @override
+  String get authSendResetLink => 'Send Reset Link';
+
+  @override
+  String get authResetEmailSent => 'Reset link has been sent to your email';
+
+  @override
+  String get authBackToLogin => 'Back to Login';
+
+  @override
+  String get authVerifyOTP => 'Verify OTP';
+
+  @override
+  String get authEnterOTP => 'Enter verification code sent to';
+
+  @override
+  String get authVerify => 'Verify';
+
+  @override
+  String get authResendOTP => 'Resend Code';
+
+  @override
+  String get authOTPSent => 'Verification code sent';
+
+  @override
+  String get authInvalidOTP => 'Invalid verification code';
+
+  @override
+  String get authOTPExpired => 'Verification code expired';
+
+  @override
+  String get authAgreeTerms => 'I agree to Terms & Conditions';
+
+  @override
+  String get authMustAgreeTerms => 'You must agree to Terms & Conditions';
+
+  @override
+  String get authEmailRequired => 'Email is required';
+
+  @override
+  String get authPasswordRequired => 'Password is required';
+
+  @override
+  String get authFullNameRequired => 'Full name is required';
+
+  @override
+  String get authPhoneRequired => 'Phone number is required';
+
+  @override
+  String get authInvalidEmail => 'Invalid email address';
+
+  @override
+  String get authWeakPassword => 'Password is too weak';
+
+  @override
+  String get authPasswordsNotMatch => 'Passwords do not match';
+
+  @override
+  String get authPasswordMinLength => 'Password must be at least 6 characters';
+
+  @override
+  String get authLoginSuccess => 'Login successful';
+
+  @override
+  String get authRegisterSuccess => 'Account created successfully';
+
+  @override
+  String get authLogout => 'Logout';
+
+  @override
+  String get authLogoutConfirm => 'Are you sure you want to logout?';
+
+  @override
+  String get authCancel => 'Cancel';
+
+  @override
+  String get authConfirm => 'Confirm';
 }
