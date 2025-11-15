@@ -22,17 +22,26 @@ dependencies:
   # Firebase Core (Required)
   firebase_core: ^2.24.2
 
+  # Firebase Authentication
+  firebase_auth: ^4.17.8
+
   # Firebase Cloud Messaging (Push Notifications)
-  firebase_messaging: ^14.7.9
+  firebase_messaging: ^14.7.19
 
   # Firebase Database (Chat real-time)
-  firebase_database: ^10.4.0
+  firebase_database: ^10.5.6
 
   # Firebase Storage (File uploads)
-  firebase_storage: ^11.5.6
+  firebase_storage: ^11.6.9
 
   # Local Notifications
   flutter_local_notifications: ^19.5.0
+
+  # SharedPreferences for session storage
+  shared_preferences: ^2.2.2
+
+  # HTTP client for API calls
+  http: ^1.2.0
 
 dev_dependencies:
   flutter_test:
