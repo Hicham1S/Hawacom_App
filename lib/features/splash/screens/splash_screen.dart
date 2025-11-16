@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import '../../../core/routing/app_routes.dart';
 import '../../../core/constants/colors.dart';
+import '../../auth/services/auth_service.dart';
 
 /// Splash screen with video animation shown at app startup
 /// Performs initialization checks and navigates to appropriate screen
@@ -90,13 +91,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   /// Check authentication status and navigate to appropriate screen
   Future<void> _checkAuthAndNavigate() async {
-    // TODO: Check authentication status
-    // For now, always navigate to home
-    // In the future, check:
-    // 1. If user is logged in -> Home
-    // 2. If user is not logged in -> Login
-    // 3. If first time -> Onboarding
-
     final isLoggedIn = await _checkAuthStatus();
 
     if (!mounted) return;
@@ -105,23 +99,23 @@ class _SplashScreenState extends State<SplashScreen> {
       // User is logged in, go to home
       Navigator.pushReplacementNamed(context, AppRoutes.home);
     } else {
-      // User is not logged in, go to login (once implemented)
-      // For now, go to home
-      Navigator.pushReplacementNamed(context, AppRoutes.home);
+      // User is not logged in, go to login
+      Navigator.pushReplacementNamed(context, AppRoutes.login);
     }
   }
 
   /// Check user authentication status
   /// Returns true if user is authenticated, false otherwise
   Future<bool> _checkAuthStatus() async {
-    // TODO: Implement actual authentication check
-    // Example:
-    // - Check if token exists in SharedPreferences
-    // - Validate token with backend
-    // - Check Firebase auth state
+    try {
+      final authService = AuthService();
+      final authState = await authService.initialize();
 
-    // For now, return false (not authenticated)
-    return false;
+      return authState.isAuthenticated;
+    } catch (e) {
+      print('Error checking auth status: $e');
+      return false;
+    }
   }
 
   @override
