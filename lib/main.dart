@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'core/localization/app_localizations.dart';
 import 'core/constants/colors.dart';
-import 'core/services/firebase_service.dart';
 import 'core/routing/app_routes.dart';
 import 'core/routing/route_generator.dart';
 
@@ -10,9 +10,13 @@ void main() async {
   // Ensure Flutter binding is initialized
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Firebase (will be done when first accessed)
-  // Firebase will auto-initialize on Android via google-services.json
-  // and on iOS via GoogleService-Info.plist
+  // Initialize Firebase
+  try {
+    await Firebase.initializeApp();
+    print('Firebase initialized successfully');
+  } catch (e) {
+    print('Failed to initialize Firebase: $e');
+  }
 
   runApp(const MyApp());
 }
