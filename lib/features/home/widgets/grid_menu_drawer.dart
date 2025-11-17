@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/localization/app_localizations.dart';
+import '../../../core/routing/app_routes.dart';
 import '../../profile/screens/profile_screen.dart';
+import '../../auth/services/auth_service.dart';
 
 /// Right-side drawer menu that slides in when grid button is tapped
 class GridMenuDrawer extends StatelessWidget {
@@ -265,9 +267,9 @@ class GridMenuDrawer extends StatelessWidget {
             ),
           ),
           TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              // TODO: Implement logout logic
+            onPressed: () async {
+              Navigator.pop(context); // Close dialog
+              await _handleLogout(context);
             },
             child: const Text(
               'Logout',
@@ -277,5 +279,67 @@ class GridMenuDrawer extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  /// Handle logout
+  Future<void> _handleLogout(BuildContext context) async {
+    try {
+      // Show loading indicator
+      if (context.mounted) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => Center(
+            child: CircularProgressIndicator(color: AppColors.primary),
+          ),
+        );
+      }
+
+      // Sign out from Firebase and clear session
+      final authService = AuthService();
+      await authService.signOut();
+
+      // Small delay to ensure sign out completes
+      await Future.delayed(const Duration(milliseconds: 300));
+
+      if (!context.mounted) return;
+
+      // Close loading dialog
+      Navigator.pop(context);
+
+      // Navigate to login screen and clear all previous routes
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        AppRoutes.login,
+        (route) => false,
+      );
+
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Logged out successfully'),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } catch (e) {
+      print('Logout error: $e');
+
+      if (!context.mounted) return;
+
+      // Try to close loading dialog if it's showing
+      try {
+        Navigator.pop(context);
+      } catch (_) {}
+
+      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Logout failed: $e'),
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }
   }
 }
