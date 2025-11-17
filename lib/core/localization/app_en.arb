@@ -176,5 +176,6 @@
   "authLogout": "Logout",
   "authLogoutConfirm": "Are you sure you want to logout?",
   "authCancel": "Cancel",
-  "authConfirm": "Confirm"
+  "authConfirm": "Confirm",
+  "authInvalidPhoneFormat": "Please enter a valid phone number with country code (e.g., +966...)"
 }

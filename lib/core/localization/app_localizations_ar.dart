@@ -478,4 +478,8 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get authConfirm => 'تأكيد';
+
+  @override
+  String get authInvalidPhoneFormat =>
+      'الرجاء إدخال رقم هاتف صحيح مع رمز الدولة (مثال: +966...)';
 }

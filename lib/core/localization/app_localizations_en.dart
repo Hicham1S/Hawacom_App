@@ -475,4 +475,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authConfirm => 'Confirm';
+
+  @override
+  String get authInvalidPhoneFormat =>
+      'Please enter a valid phone number with country code (e.g., +966...)';
 }

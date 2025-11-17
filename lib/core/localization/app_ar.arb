@@ -155,5 +155,6 @@
   "authLogout": "تسجيل الخروج",
   "authLogoutConfirm": "هل أنت متأكد من تسجيل الخروج؟",
   "authCancel": "إلغاء",
-  "authConfirm": "تأكيد"
+  "authConfirm": "تأكيد",
+  "authInvalidPhoneFormat": "الرجاء إدخال رقم هاتف صحيح مع رمز الدولة (مثال: +966...)"
 }

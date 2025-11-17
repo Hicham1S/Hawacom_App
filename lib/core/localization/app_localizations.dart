@@ -1021,6 +1021,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Confirm'**
   String get authConfirm;
+
+  /// No description provided for @authInvalidPhoneFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid phone number with country code (e.g., +966...)'**
+  String get authInvalidPhoneFormat;
 }
 
 class _AppLocalizationsDelegate
