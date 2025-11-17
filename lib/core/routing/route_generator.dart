@@ -5,6 +5,9 @@ import '../../features/home/screens/home_screen.dart';
 import '../../features/messages/screens/messages_screen.dart';
 import '../../features/messages/screens/chat_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
+import '../../features/auth/screens/login_screen.dart';
+import '../../features/auth/screens/register_screen.dart';
+import '../../features/auth/screens/otp_verification_screen.dart';
 
 /// Centralized route generator for the application
 class RouteGenerator {
@@ -62,6 +65,38 @@ class RouteGenerator {
           builder: (_) => const HomeScreen(),
           settings: settings,
         );
+
+      // Authentication routes
+      case AppRoutes.login:
+        return MaterialPageRoute(
+          builder: (_) => const LoginScreen(),
+          settings: settings,
+        );
+
+      case AppRoutes.register:
+        return MaterialPageRoute(
+          builder: (_) => const RegisterScreen(),
+          settings: settings,
+        );
+
+      case AppRoutes.verifyOtp:
+        if (args is Map<String, dynamic>) {
+          final phoneNumber = args['phoneNumber'] as String?;
+          final verificationId = args['verificationId'] as String?;
+          final isExistingUser = args['isExistingUser'] as bool? ?? false;
+
+          if (phoneNumber != null) {
+            return MaterialPageRoute(
+              builder: (_) => OtpVerificationScreen(
+                phoneNumber: phoneNumber,
+                verificationId: verificationId,
+                isExistingUser: isExistingUser,
+              ),
+              settings: settings,
+            );
+          }
+        }
+        return _errorRoute(settings, 'OTP verification requires phone number');
 
       // Default: Unknown route
       default:

@@ -36,9 +36,12 @@ class FirebaseService {
   /// Initialize Firebase and all services
   Future<void> initialize() async {
     try {
-      // Initialize Firebase
-      await Firebase.initializeApp();
-      print('Firebase initialized successfully');
+      // Firebase should already be initialized in main.dart
+      // Only initialize if not already initialized
+      if (Firebase.apps.isEmpty) {
+        await Firebase.initializeApp();
+        print('Firebase initialized by FirebaseService');
+      }
 
       // Initialize FCM
       await _initializeFCM();
