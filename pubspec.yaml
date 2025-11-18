@@ -43,6 +43,16 @@ dependencies:
   # HTTP client for API calls
   http: ^1.2.0
 
+  # DIO for advanced HTTP features (caching, interceptors)
+  dio: ^4.0.6
+  dio_http_cache: ^0.3.0
+
+  # Provider for state management
+  provider: ^6.1.1
+
+  # UUID for generating unique IDs
+  uuid: ^4.3.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
