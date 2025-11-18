@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'core/localization/app_localizations.dart';
 import 'core/constants/colors.dart';
 import 'core/routing/app_routes.dart';
 import 'core/routing/route_generator.dart';
+import 'features/home/providers/category_provider.dart';
+import 'features/home/providers/service_provider.dart';
+import 'features/home/providers/slider_provider.dart';
 
 void main() async {
   // Ensure Flutter binding is initialized
@@ -26,41 +30,50 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Design App',
-      debugShowCheckedModeBanner: false,
-
-      // Localization delegates
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
+    return MultiProvider(
+      providers: [
+        // Home feature providers
+        ChangeNotifierProvider(create: (_) => CategoryProvider()),
+        ChangeNotifierProvider(create: (_) => ServiceProvider()),
+        ChangeNotifierProvider(create: (_) => SliderProvider()),
+        // Add more providers here as needed
       ],
+      child: MaterialApp(
+        title: 'Design App',
+        debugShowCheckedModeBanner: false,
 
-      // Supported languages
-      supportedLocales: const [
-        Locale('ar'), // Arabic
-        Locale('en'), // English
-      ],
+        // Localization delegates
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
 
-      // Default locale (Arabic)
-      locale: const Locale('ar'),
+        // Supported languages
+        supportedLocales: const [
+          Locale('ar'), // Arabic
+          Locale('en'), // English
+        ],
 
-      theme: ThemeData(
-        primaryColor: AppColors.primary,
-        scaffoldBackgroundColor: AppColors.background,
-        fontFamily: 'Cairo',
-        textTheme: const TextTheme(
-          bodyLarge: TextStyle(color: AppColors.textPrimary, fontFamily: 'Cairo'),
-          bodyMedium: TextStyle(color: AppColors.textPrimary, fontFamily: 'Cairo'),
+        // Default locale (Arabic)
+        locale: const Locale('ar'),
+
+        theme: ThemeData(
+          primaryColor: AppColors.primary,
+          scaffoldBackgroundColor: AppColors.background,
+          fontFamily: 'Cairo',
+          textTheme: const TextTheme(
+            bodyLarge: TextStyle(color: AppColors.textPrimary, fontFamily: 'Cairo'),
+            bodyMedium: TextStyle(color: AppColors.textPrimary, fontFamily: 'Cairo'),
+          ),
+          useMaterial3: true,
         ),
-        useMaterial3: true,
-      ),
 
-      // Routing
-      initialRoute: AppRoutes.splash,
-      onGenerateRoute: RouteGenerator.generateRoute,
+        // Routing
+        initialRoute: AppRoutes.splash,
+        onGenerateRoute: RouteGenerator.generateRoute,
+      ),
     );
   }
 }
