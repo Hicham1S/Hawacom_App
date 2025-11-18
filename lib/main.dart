@@ -6,9 +6,11 @@ import 'core/localization/app_localizations.dart';
 import 'core/constants/colors.dart';
 import 'core/routing/app_routes.dart';
 import 'core/routing/route_generator.dart';
+import 'features/auth/providers/auth_provider.dart';
 import 'features/home/providers/category_provider.dart';
 import 'features/home/providers/service_provider.dart';
 import 'features/home/providers/slider_provider.dart';
+import 'features/profile/providers/address_provider.dart';
 
 void main() async {
   // Ensure Flutter binding is initialized
@@ -32,10 +34,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        // Auth provider
+        ChangeNotifierProvider(create: (_) => AuthProvider()..initialize()),
         // Home feature providers
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => ServiceProvider()),
         ChangeNotifierProvider(create: (_) => SliderProvider()),
+        // Profile feature providers
+        ChangeNotifierProvider(create: (_) => AddressProvider()),
         // Add more providers here as needed
       ],
       child: MaterialApp(

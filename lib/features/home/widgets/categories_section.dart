@@ -1,55 +1,150 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/localization/app_localizations.dart';
+import '../providers/category_provider.dart';
 
-class CategoriesSection extends StatelessWidget {
+class CategoriesSection extends StatefulWidget {
   const CategoriesSection({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+  State<CategoriesSection> createState() => _CategoriesSectionState();
+}
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: SizedBox(
-        height: 110,
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+class _CategoriesSectionState extends State<CategoriesSection> {
+  @override
+  void initState() {
+    super.initState();
+    // Load categories when widget initializes
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<CategoryProvider>().loadCategories();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<CategoryProvider>(
+      builder: (context, categoryProvider, child) {
+        if (categoryProvider.isLoading) {
+          return const SizedBox(
+            height: 110,
+            child: Center(
+              child: CircularProgressIndicator(color: AppColors.primary),
+            ),
+          );
+        }
+
+        if (categoryProvider.hasError) {
+          return SizedBox(
+            height: 110,
+            child: Center(
+              child: Text(
+                'Failed to load categories',
+                style: const TextStyle(color: Colors.red),
+              ),
+            ),
+          );
+        }
+
+        if (categoryProvider.categories.isEmpty) {
+          return const SizedBox.shrink();
+        }
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: SizedBox(
+            height: 110,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: categoryProvider.categories.length,
+              separatorBuilder: (context, index) => const SizedBox(width: 12),
+              itemBuilder: (context, index) {
+                final category = categoryProvider.categories[index];
+                return _buildCategoryButton(
+                  context,
+                  categoryId: category.id,
+                  imageUrl: category.imageUrl,
+                  label: category.name,
+                  onTap: () => _onCategoryTap(context, category.id, category.name),
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildCategoryButton(
+    BuildContext context, {
+    required String categoryId,
+    String? imageUrl,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 90,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildCategoryButton(
-              context,
-              iconPath: 'assets/images/icons/Architect.png',
-              label: l10n.architecturalDesign,
-              onTap: () => _onCategoryTap(context, 'architecturalDesign'),
+            // Category icon/image
+            Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                color: AppColors.secondary,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: imageUrl != null && imageUrl.isNotEmpty
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.network(
+                        imageUrl,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return const Icon(
+                            Icons.category,
+                            color: AppColors.primary,
+                            size: 28,
+                          );
+                        },
+                      ),
+                    )
+                  : const Icon(
+                      Icons.category,
+                      color: AppColors.primary,
+                      size: 28,
+                    ),
             ),
-            const SizedBox(width: 12),
-            _buildCategoryButton(
-              context,
-              iconPath: 'assets/images/icons/Love Circled.png',
-              label: l10n.socialMedia,
-              onTap: () => _onCategoryTap(context, 'socialMedia'),
-            ),
-            const SizedBox(width: 12),
-            _buildCategoryButton(
-              context,
-              iconPath: 'assets/images/icons/Interior.png',
-              label: l10n.interiorDecor,
-              onTap: () => _onCategoryTap(context, 'interiorDecor'),
-            ),
-            const SizedBox(width: 12),
-            _buildCategoryButton(
-              context,
-              iconPath: 'assets/images/icons/Little Black Dress.png',
-              label: l10n.fashionDesign,
-              onTap: () => _onCategoryTap(context, 'fashionDesign'),
-            ),
-            const SizedBox(width: 12),
-            _buildCategoryButton(
-              context,
-              iconPath: 'assets/images/icons/Branding.png',
-              label: l10n.hobbies,
-              onTap: () => _onCategoryTap(context, 'hobbies'),
+            const SizedBox(height: 8),
+            // Category name
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: AppColors.textPrimary,
+                  fontWeight: FontWeight.w500,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ],
         ),
@@ -57,60 +152,13 @@ class CategoriesSection extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoryButton(
-    BuildContext context, {
-    required String iconPath,
-    required String label,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Icon container
-          Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-              color: AppColors.cardBackground,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Image.asset(
-                iconPath,
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 8),
-
-          // Label
-          SizedBox(
-            width: 70,
-            child: Text(
-              label,
-              style: const TextStyle(
-                fontSize: 11,
-                color: Colors.white,
-                height: 1.2,
-                fontFamily: 'Cairo',
-              ),
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.visible,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _onCategoryTap(BuildContext context, String category) {
-    // Handle category tap
-    debugPrint('Category tapped: $category');
-    // TODO: Navigate to category page or filter content
+  void _onCategoryTap(BuildContext context, String categoryId, String categoryName) {
+    debugPrint('Category tapped: $categoryName (ID: $categoryId)');
+    // TODO: Navigate to category page with filtered services
+    // Navigator.pushNamed(
+    //   context,
+    //   AppRoutes.categoryDetails,
+    //   arguments: {'categoryId': categoryId, 'categoryName': categoryName},
+    // );
   }
 }

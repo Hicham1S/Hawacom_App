@@ -4,7 +4,7 @@ class ApiConfig {
   ApiConfig._(); // Private constructor to prevent instantiation
 
   // Base URLs
-  static const String baseUrl = 'https://hawwcom.sa/public/';
+  static const String baseUrl = 'https://hawacom.sa/admin/public/';
   static const String apiPath = 'api/';
   static const String apiBaseUrl = '$baseUrl$apiPath';
 
@@ -16,6 +16,9 @@ class ApiConfig {
   static const String logout = 'logout';
   static const String sendResetLinkEmail = 'send_reset_link_email';
   static const String user = 'user';
+
+  // Legacy PHP endpoint for user details (includes avatar)
+  static const String getUserPhp = 'getuser.php';
 
   // Categories
   static const String categories = 'categories';

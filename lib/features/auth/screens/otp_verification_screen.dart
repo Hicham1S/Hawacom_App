@@ -109,7 +109,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
       // Save session
       final sessionManager = SessionManager();
-      await sessionManager.saveUser(tempUser);
+      await sessionManager.saveUser(tempUser.toJson());
 
       if (!mounted) return;
 

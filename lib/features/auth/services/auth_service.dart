@@ -62,7 +62,7 @@ class AuthService {
 
       if (userCredential.user != null) {
         final user = UserModel.fromFirebaseUser(userCredential.user!);
-        await _sessionManager.saveUser(user);
+        await _sessionManager.saveUser(user.toJson());
 
         // Get and save token
         final token = await userCredential.user!.getIdToken();
@@ -111,8 +111,7 @@ class AuthService {
         await userCredential.user!.sendEmailVerification();
 
         final user = UserModel.fromFirebaseUser(userCredential.user!);
-        await _sessionManager.saveUser(user);
-
+        await _sessionManager.saveUser(user.toJson());
         // Get and save token
         final token = await userCredential.user!.getIdToken();
         if (token != null) {
@@ -168,8 +167,7 @@ class AuthService {
 
       if (userCredential.user != null) {
         final user = UserModel.fromFirebaseUser(userCredential.user!);
-        await _sessionManager.saveUser(user);
-
+        await _sessionManager.saveUser(user.toJson());
         // Get and save token
         final token = await userCredential.user!.getIdToken();
         if (token != null) {
@@ -226,8 +224,7 @@ class AuthService {
       final firebaseUser = _auth.currentUser;
       if (firebaseUser != null) {
         final user = UserModel.fromFirebaseUser(firebaseUser);
-        await _sessionManager.saveUser(user);
-        _currentState = AuthState.authenticated(user);
+        await _sessionManager.saveUser(user.toJson());        _currentState = AuthState.authenticated(user);
       }
     } catch (e) {
       print('Error reloading user: $e');

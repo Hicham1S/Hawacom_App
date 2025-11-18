@@ -35,29 +35,67 @@ class ServiceModel {
   });
 
   factory ServiceModel.fromJson(Map<String, dynamic> json) {
-    // Parse images - handle both array of objects and array of strings
+    // Helper function to extract string from multilingual field
+    String extractString(dynamic field, [String defaultValue = '']) {
+      if (field == null) return defaultValue;
+      if (field is String) return field;
+      if (field is Map) {
+        // Try Arabic first, then English, then any value
+        return field['ar']?.toString() ??
+               field['en']?.toString() ??
+               field.values.firstWhere((v) => v != null, orElse: () => defaultValue)?.toString() ??
+               defaultValue;
+      }
+      return field.toString();
+    }
+
+    // Parse images - handle media array, images array, or single image
     List<String> imageList = [];
-    if (json['images'] != null) {
-      final imgs = json['images'] as List;
-      imageList = imgs.map((img) {
-        if (img is Map && img['url'] != null) {
-          return img['url'].toString();
-        } else if (img is String) {
-          return img;
+
+    // Try media array first (standard Laravel format)
+    if (json['media'] is List && (json['media'] as List).isNotEmpty) {
+      final media = json['media'] as List;
+      imageList = media.map((m) {
+        if (m is Map) {
+          String? url = m['url'] ?? m['thumb'] ?? m['icon'];
+          if (url != null) {
+            // Fix old domain URLs
+            url = url.replaceAll('hawwcom.com', 'hawacom.sa');
+            url = url.replaceAll('http://', 'https://');
+          }
+          return url ?? '';
         }
         return '';
+      }).where((url) => url.toString().isNotEmpty).cast<String>().toList();
+    }
+    // Fallback to images array
+    else if (json['images'] != null) {
+      final imgs = json['images'] as List;
+      imageList = imgs.map((img) {
+        String url = '';
+        if (img is Map && img['url'] != null) {
+          url = img['url'].toString();
+        } else if (img is String) {
+          url = img;
+        }
+        // Fix old domain URLs
+        if (url.isNotEmpty) {
+          url = url.replaceAll('hawwcom.com', 'hawacom.sa');
+          url = url.replaceAll('http://', 'https://');
+        }
+        return url;
       }).where((url) => url.isNotEmpty).toList();
     }
 
     return ServiceModel(
       id: json['id']?.toString() ?? '',
-      name: json['name'] ?? '',
-      description: json['description'],
+      name: extractString(json['name']),
+      description: extractString(json['description'], ''),
       images: imageList,
       price: _parseDouble(json['price']),
       discountPrice: _parseDouble(json['discount_price']),
-      priceUnit: json['price_unit'],
-      quantityUnit: json['quantity_unit'],
+      priceUnit: extractString(json['price_unit'], ''),
+      quantityUnit: extractString(json['quantity_unit'], ''),
       rate: _parseDouble(json['rate']),
       totalReviews: json['total_reviews'] ?? 0,
       duration: json['duration'],

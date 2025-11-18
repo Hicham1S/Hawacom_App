@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../features/auth/models/user_model.dart';
 
 /// Session manager for persisting user authentication state
 class SessionManager {
@@ -31,10 +30,10 @@ class SessionManager {
   }
 
   /// Save user data
-  Future<bool> saveUser(UserModel user) async {
+  Future<bool> saveUser(Map<String, dynamic> userData) async {
     try {
       final prefs = await _preferences;
-      final userJson = json.encode(user.toJson());
+      final userJson = json.encode(userData);
       await prefs.setString(_keyUser, userJson);
       await prefs.setBool(_keyIsLoggedIn, true);
       return true;
@@ -45,12 +44,12 @@ class SessionManager {
   }
 
   /// Get saved user data
-  Future<UserModel?> getUser() async {
+  Future<Map<String, dynamic>?> getUser() async {
     try {
       final prefs = await _preferences;
       final userJson = prefs.getString(_keyUser);
       if (userJson != null) {
-        return UserModel.fromJson(json.decode(userJson));
+        return Map<String, dynamic>.from(json.decode(userJson));
       }
       return null;
     } catch (e) {

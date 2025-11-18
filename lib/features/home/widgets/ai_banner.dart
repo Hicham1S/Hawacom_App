@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '../../../core/localization/app_localizations.dart';
+import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
+import '../../../core/localization/app_localizations.dart';
+import '../providers/slider_provider.dart';
 
 class AIBanner extends StatefulWidget {
   const AIBanner({super.key});
@@ -11,20 +13,21 @@ class AIBanner extends StatefulWidget {
 }
 
 class _AIBannerState extends State<AIBanner> {
-  // Using the same banner image multiple times (simulating multiple banners)
-  final List<String> _bannerImages = [
-    'assets/images/Banner.png',
-    'assets/images/Banner.png',
-    'assets/images/Banner.png',
-  ];
-
-  int _currentIndex = 0;
   Timer? _timer;
 
   @override
   void initState() {
     super.initState();
-    _startAutoSlide();
+    // Load slider data
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final provider = context.read<SliderProvider>();
+      provider.loadSlider().then((_) {
+        // Start auto-rotation if slides loaded successfully
+        if (provider.hasSlides) {
+          _startAutoRotation();
+        }
+      });
+    });
   }
 
   @override
@@ -33,17 +36,19 @@ class _AIBannerState extends State<AIBanner> {
     super.dispose();
   }
 
-  void _startAutoSlide() {
+  void _startAutoRotation() {
     _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
-      setState(() {
-        _currentIndex = (_currentIndex + 1) % _bannerImages.length;
-      });
-    });
-  }
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
 
-  void _onBannerTap() {
-    // Handle banner tap or button press
-    // TODO: Navigate to AI feature or show dialog
+      final provider = context.read<SliderProvider>();
+      if (provider.hasSlides) {
+        final nextIndex = (provider.currentIndex + 1) % provider.slides.length;
+        provider.setCurrentIndex(nextIndex);
+      }
+    });
   }
 
   @override
@@ -51,103 +56,197 @@ class _AIBannerState extends State<AIBanner> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    return GestureDetector(
-      onTap: _onBannerTap,
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        constraints: BoxConstraints(
-          minHeight: 150,
-          maxHeight: screenHeight * 0.25, // Max 25% of screen height
-          maxWidth: double.infinity,
-        ),
-        height: 180,
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final bannerWidth = constraints.maxWidth;
-            final bannerHeight = constraints.maxHeight;
+    return Consumer<SliderProvider>(
+      builder: (context, sliderProvider, child) {
+        // Show loading state
+        if (sliderProvider.isLoading) {
+          return Container(
+            height: 180,
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: AppColors.secondary,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: const Center(
+              child: CircularProgressIndicator(color: AppColors.primary),
+            ),
+          );
+        }
 
-            return Stack(
+        // Show fallback banner if no slides from API
+        if (!sliderProvider.hasSlides) {
+          return _buildFallbackBanner(screenWidth, screenHeight);
+        }
+
+        final currentSlide = sliderProvider.slides[sliderProvider.currentIndex];
+
+        return GestureDetector(
+          onTap: () => _onBannerTap(currentSlide.id),
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            height: 180,
+            child: Stack(
               children: [
-                // Banner Image with smooth transition
+                // Banner Image
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 500),
                   child: ClipRRect(
-                    key: ValueKey<int>(_currentIndex),
+                    key: ValueKey<int>(sliderProvider.currentIndex),
                     borderRadius: BorderRadius.circular(16),
-                    child: Image.asset(
-                      _bannerImages[_currentIndex],
-                      width: double.infinity,
-                      height: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
+                    child: currentSlide.imageUrl != null && currentSlide.imageUrl!.isNotEmpty
+                        ? Image.network(
+                            currentSlide.imageUrl!,
+                            width: double.infinity,
+                            height: double.infinity,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return _buildFallbackImage();
+                            },
+                          )
+                        : _buildFallbackImage(),
                   ),
                 ),
 
-                // "اضغط هنا" Button positioned at bottom-right (responsive)
-                Positioned(
-                  bottom: bannerHeight * 0.11, // 11% from bottom
-                  right: bannerWidth * 0.08, // 8% from right
-                  child: ElevatedButton(
-                    onPressed: _onBannerTap,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      foregroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: bannerWidth * 0.06, // 6% of banner width
-                        vertical: bannerHeight * 0.10, // 10% of banner height
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      elevation: 4,
-                    ),
-                    child: Text(
-                      AppLocalizations.of(context)!.clickHere,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: (screenWidth * 0.035).clamp(
-                          12.0,
-                          18.0,
-                        ), // Min 12px, Max 18px
-                      ),
-                    ),
-                  ),
-                ),
-
-                // Page indicators (dots) at bottom-left (responsive)
-                Positioned(
-                  bottom: bannerHeight * 0.11, // 11% from bottom
-                  left: bannerWidth * 0.05, // 5% from left
-                  child: Row(
-                    children: List.generate(
-                      _bannerImages.length,
-                      (index) => Container(
-                        margin: EdgeInsets.symmetric(
-                          horizontal: bannerWidth * 0.01, // 1% spacing
+                // Button if provided
+                if (currentSlide.button != null && currentSlide.button!.isNotEmpty)
+                  Positioned(
+                    bottom: 20,
+                    right: screenWidth * 0.08,
+                    child: ElevatedButton(
+                      onPressed: () => _onBannerTap(currentSlide.id),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: screenWidth * 0.06,
+                          vertical: 12,
                         ),
-                        width: (bannerWidth * 0.02).clamp(
-                          6.0,
-                          12.0,
-                        ), // Min 6px, Max 12px
-                        height: (bannerWidth * 0.02).clamp(
-                          6.0,
-                          12.0,
-                        ), // Keep circular
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: _currentIndex == index
-                              ? Colors.white
-                              : Colors.white.withValues(alpha: 0.5),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 4,
+                      ),
+                      child: Text(
+                        currentSlide.button!,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: (screenWidth * 0.035).clamp(12.0, 18.0),
                         ),
                       ),
                     ),
                   ),
-                ),
+
+                // Page indicators if multiple slides
+                if (sliderProvider.slides.length > 1)
+                  Positioned(
+                    bottom: 20,
+                    left: screenWidth * 0.05,
+                    child: Row(
+                      children: List.generate(
+                        sliderProvider.slides.length,
+                        (index) => GestureDetector(
+                          onTap: () => sliderProvider.setCurrentIndex(index),
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
+                            width: (screenWidth * 0.02).clamp(6.0, 12.0),
+                            height: (screenWidth * 0.02).clamp(6.0, 12.0),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: index == sliderProvider.currentIndex
+                                  ? Colors.white
+                                  : Colors.white.withValues(alpha: 0.5),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
               ],
-            );
-          },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  /// Fallback banner with hardcoded assets
+  Widget _buildFallbackBanner(double screenWidth, double screenHeight) {
+    return GestureDetector(
+      onTap: _onDefaultBannerTap,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        height: 180,
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Image.asset(
+                'assets/images/Banner.png',
+                width: double.infinity,
+                height: double.infinity,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Positioned(
+              bottom: 20,
+              right: screenWidth * 0.08,
+              child: ElevatedButton(
+                onPressed: _onDefaultBannerTap,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.06,
+                    vertical: 12,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  elevation: 4,
+                ),
+                child: Text(
+                  AppLocalizations.of(context)!.clickHere,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: (screenWidth * 0.035).clamp(12.0, 18.0),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  Widget _buildFallbackImage() {
+    return Image.asset(
+      'assets/images/Banner.png',
+      width: double.infinity,
+      height: double.infinity,
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) {
+        return Container(
+          color: AppColors.secondary,
+          child: const Center(
+            child: Icon(
+              Icons.image_not_supported,
+              size: 50,
+              color: AppColors.primary,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _onBannerTap(String slideId) {
+    debugPrint('Banner tapped: $slideId');
+    // TODO: Navigate based on slide configuration
+  }
+
+  void _onDefaultBannerTap() {
+    debugPrint('Default banner tapped');
+    // TODO: Navigate to AI feature or show dialog
   }
 }

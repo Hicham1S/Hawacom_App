@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/localization/app_localizations.dart';
+import '../../../core/routing/app_routes.dart';
 import '../models/user_profile.dart';
 import '../services/profile_service.dart';
 import '../widgets/profile_header.dart';
@@ -180,6 +181,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text(l10n.profileEditComingSoon)),
                               );
+                            },
+                          ),
+
+                          ProfileInfoTile(
+                            icon: Icons.location_on_outlined,
+                            title: 'عناويني',
+                            value: 'إدارة عناوين التوصيل',
+                            onTap: () {
+                              Navigator.pushNamed(context, AppRoutes.addresses);
                             },
                           ),
 

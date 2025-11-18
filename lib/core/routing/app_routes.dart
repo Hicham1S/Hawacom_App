@@ -17,6 +17,9 @@ class AppRoutes {
   static const String profile = '/profile';
   static const String editProfile = '/edit-profile';
   static const String settings = '/settings';
+  static const String addresses = '/addresses';
+  static const String addAddress = '/add-address';
+  static const String editAddress = '/edit-address';
 
   // Messages routes
   static const String messages = '/messages';
