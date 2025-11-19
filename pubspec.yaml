@@ -31,6 +31,9 @@ dependencies:
   # Firebase Database (Chat real-time)
   firebase_database: ^10.5.6
 
+  # Firebase Firestore (Chat storage - compatible with old system)
+  cloud_firestore: ^4.15.8
+
   # Firebase Storage (File uploads)
   firebase_storage: ^11.6.9
 

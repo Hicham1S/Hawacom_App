@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
-import '../../../core/localization/app_localizations.dart';
 import '../../auth/providers/auth_provider.dart';
-import '../models/conversation.dart';
-import '../services/firebase_chat_service.dart';
-import '../widgets/chat_list_tile.dart';
+import '../models/conversation_firestore.dart';
+import '../services/firestore_chat_service.dart';
+import '../widgets/conversation_list_tile.dart';
 import 'chat_screen.dart';
 
-/// Messages list screen showing all conversations
+/// Messages list screen showing all conversations from Firestore
 class MessagesScreen extends StatefulWidget {
   const MessagesScreen({super.key});
 
@@ -17,20 +16,11 @@ class MessagesScreen extends StatefulWidget {
 }
 
 class _MessagesScreenState extends State<MessagesScreen> {
-  final FirebaseChatService _chatService = FirebaseChatService();
-  List<Conversation> _conversations = [];
-  List<Conversation> _allConversations = [];
-  bool _isLoading = true;
-  String _searchQuery = '';
+  final FirestoreChatService _chatService = FirestoreChatService();
   final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
 
   String get _currentUserId => context.read<AuthProvider>().currentUser?.id ?? '';
-
-  @override
-  void initState() {
-    super.initState();
-    _loadConversations();
-  }
 
   @override
   void dispose() {
@@ -38,51 +28,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
     super.dispose();
   }
 
-  Future<void> _loadConversations() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    try {
-      // Load conversations from Firebase
-      final conversations = await _chatService.getAllConversations(_currentUserId);
-
-      if (mounted) {
-        setState(() {
-          _allConversations = conversations;
-          _conversations = conversations;
-          _isLoading = false;
-        });
-      }
-    } catch (e) {
-      debugPrint('Error loading conversations: $e');
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
-    }
-  }
-
-  void _handleSearch(String query) {
-    setState(() {
-      _searchQuery = query;
-      if (query.isEmpty) {
-        _conversations = _allConversations;
-      } else {
-        _conversations = _allConversations
-            .where((c) => c.userName.toLowerCase().contains(query.toLowerCase()))
-            .toList();
-      }
-    });
-  }
-
-  void _openChat(Conversation conversation) async {
-    // Mark as read when opening
-    await _chatService.markMessagesAsRead(
-      conversationId: conversation.id,
-      userId: _currentUserId,
-    );
+  void _openChat(ConversationFirestore conversation) async {
+    // Mark as read
+    await _chatService.markAsRead(conversation.id, _currentUserId);
 
     if (!mounted) return;
 
@@ -93,15 +41,23 @@ class _MessagesScreenState extends State<MessagesScreen> {
         builder: (_) => ChatScreen(conversation: conversation),
       ),
     );
+  }
 
-    // Reload conversations when returning
-    _loadConversations();
+  List<ConversationFirestore> _filterConversations(
+      List<ConversationFirestore> conversations) {
+    if (_searchQuery.isEmpty) return conversations;
+
+    return conversations.where((conv) {
+      final otherUser = conv.getOtherUser(_currentUserId);
+      if (otherUser == null) return false;
+
+      return otherUser.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+          conv.lastMessage.toLowerCase().contains(_searchQuery.toLowerCase());
+    }).toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -110,24 +66,14 @@ class _MessagesScreenState extends State<MessagesScreen> {
           backgroundColor: AppColors.background,
           elevation: 0,
           title: Text(
-            l10n.messages,
+            'المحادثات',
             style: TextStyle(
               color: AppColors.textPrimary,
               fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
           ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                // TODO: Add new conversation
-              },
-              icon: Icon(
-                Icons.edit_square,
-                color: AppColors.primary,
-              ),
-            ),
-          ],
+          centerTitle: true,
         ),
         body: Column(
           children: [
@@ -142,13 +88,13 @@ class _MessagesScreenState extends State<MessagesScreen> {
                 ),
                 child: TextField(
                   controller: _searchController,
-                  textAlign: TextAlign.right, // Align text to right, but let Flutter auto-detect direction
+                  textAlign: TextAlign.right,
                   style: TextStyle(
                     color: AppColors.textPrimary,
                     fontSize: 15,
                   ),
                   decoration: InputDecoration(
-                    hintText: l10n.search,
+                    hintText: 'ابحث في المحادثات',
                     hintStyle: TextStyle(
                       color: AppColors.textSecondary,
                       fontSize: 15,
@@ -161,7 +107,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
                         ? IconButton(
                             onPressed: () {
                               _searchController.clear();
-                              _handleSearch('');
+                              setState(() {
+                                _searchQuery = '';
+                              });
                             },
                             icon: Icon(
                               Icons.clear,
@@ -171,71 +119,116 @@ class _MessagesScreenState extends State<MessagesScreen> {
                         : null,
                     border: InputBorder.none,
                   ),
-                  onChanged: _handleSearch,
+                  onChanged: (value) {
+                    setState(() {
+                      _searchQuery = value;
+                    });
+                  },
                 ),
               ),
             ),
 
-            // Conversations list
+            // Conversations list from Firestore
             Expanded(
-              child: _isLoading
-                  ? Center(
+              child: StreamBuilder<List<ConversationFirestore>>(
+                stream: _chatService.listenToConversations(_currentUserId),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
                       child: CircularProgressIndicator(
                         color: AppColors.primary,
                       ),
-                    )
-                  : _conversations.isEmpty
-                      ? _buildEmptyState(l10n)
-                      : RefreshIndicator(
-                          onRefresh: _loadConversations,
-                          color: AppColors.primary,
-                          child: ListView.builder(
-                            itemCount: _conversations.length,
-                            itemBuilder: (context, index) {
-                              final conversation = _conversations[index];
-                              return ChatListTile(
-                                conversation: conversation,
-                                onTap: () => _openChat(conversation),
-                              );
-                            },
-                          ),
-                        ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+                    );
+                  }
 
-  Widget _buildEmptyState(AppLocalizations l10n) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.chat_bubble_outline,
-            size: 80,
-            color: AppColors.textSecondary,
-          ),
-          const SizedBox(height: 16),
-          Text(
-            _searchQuery.isEmpty ? 'لا توجد محادثات' : 'لا توجد نتائج',
-            style: TextStyle(
-              color: AppColors.textSecondary,
-              fontSize: 18,
-            ),
-          ),
-          if (_searchQuery.isEmpty) ...[
-            const SizedBox(height: 8),
-            Text(
-              'ابدأ محادثة جديدة',
-              style: TextStyle(
-                color: AppColors.textSecondary,
-                fontSize: 14,
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.error_outline,
+                            size: 60,
+                            color: Colors.red,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'خطأ في تحميل المحادثات',
+                            style: TextStyle(
+                              color: AppColors.textSecondary,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            snapshot.error.toString(),
+                            style: TextStyle(
+                              color: AppColors.textSecondary,
+                              fontSize: 12,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+
+                  final conversations = snapshot.data ?? [];
+                  final filteredConversations = _filterConversations(conversations);
+
+                  if (filteredConversations.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.chat_bubble_outline,
+                            size: 80,
+                            color: AppColors.textSecondary.withOpacity(0.5),
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            _searchQuery.isEmpty
+                                ? 'لا توجد محادثات'
+                                : 'لا توجد نتائج',
+                            style: TextStyle(
+                              color: AppColors.textSecondary,
+                              fontSize: 18,
+                            ),
+                          ),
+                          if (_searchQuery.isEmpty) ...[
+                            const SizedBox(height: 8),
+                            Text(
+                              'ستظهر محادثاتك هنا',
+                              style: TextStyle(
+                                color: AppColors.textSecondary,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                    );
+                  }
+
+                  return ListView.separated(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: filteredConversations.length,
+                    separatorBuilder: (context, index) => const SizedBox(height: 8),
+                    itemBuilder: (context, index) {
+                      final conversation = filteredConversations[index];
+                      return ConversationListTile(
+                        conversation: conversation,
+                        currentUserId: _currentUserId,
+                        onTap: () => _openChat(conversation),
+                      );
+                    },
+                  );
+                },
               ),
             ),
           ],
-        ],
+        ),
       ),
     );
   }
