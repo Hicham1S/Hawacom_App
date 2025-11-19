@@ -5,6 +5,7 @@ import '../../features/home/screens/home_screen.dart';
 import '../../features/messages/screens/messages_screen.dart';
 import '../../features/messages/screens/chat_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
+import '../../features/profile/screens/edit_profile_screen.dart';
 import '../../features/profile/screens/addresses_screen.dart';
 import '../../features/auth/screens/login_screen.dart';
 import '../../features/auth/screens/register_screen.dart';
@@ -38,6 +39,13 @@ class RouteGenerator {
       case AppRoutes.profile:
         return MaterialPageRoute(
           builder: (_) => const ProfileScreen(),
+          settings: settings,
+        );
+
+      // Edit Profile
+      case AppRoutes.editProfile:
+        return MaterialPageRoute(
+          builder: (_) => const EditProfileScreen(),
           settings: settings,
         );
 

@@ -274,6 +274,16 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  /// Update user data with UserModelEnhanced object
+  Future<void> updateUser(UserModelEnhanced user) async {
+    _currentUser = user;
+    await _sessionManager.saveUser(_currentUser!.toStorageJson());
+    if (_currentUser!.apiToken != null) {
+      await _sessionManager.saveToken(_currentUser!.apiToken!);
+    }
+    notifyListeners();
+  }
+
   /// Update user profile
   Future<bool> updateProfile({
     String? name,

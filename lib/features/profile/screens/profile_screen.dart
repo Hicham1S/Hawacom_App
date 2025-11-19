@@ -176,11 +176,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             icon: Icons.edit_outlined,
                             title: l10n.profileEditProfile,
                             value: l10n.profileEditProfileDesc,
-                            onTap: () {
-                              // TODO: Navigate to edit profile
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text(l10n.profileEditComingSoon)),
-                              );
+                            onTap: () async {
+                              await Navigator.pushNamed(context, AppRoutes.editProfile);
+                              // Reload profile after edit
+                              _loadProfile();
                             },
                           ),
 

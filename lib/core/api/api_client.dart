@@ -1,99 +1,166 @@
-import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/foundation.dart';
 import '../config/api_config.dart';
-import '../../features/auth/services/auth_service.dart';
+import '../services/session_manager.dart';
 
-/// API Client for making HTTP requests to Laravel backend
-/// Based on the old LaravelApiClient pattern but modernized
+/// Production-ready API Client with automatic token management
+/// Features:
+/// - Automatic token injection via interceptor
+/// - Token refresh on 401 errors
+/// - Comprehensive error handling
+/// - Clean architecture with no code duplication
 class ApiClient {
   late final Dio _dio;
-  late final Options _optionsNetwork;
-  late final Options _optionsCache;
+  final SessionManager _sessionManager;
 
   // Singleton pattern
   static final ApiClient _instance = ApiClient._internal();
   factory ApiClient() => _instance;
 
-  ApiClient._internal() {
+  ApiClient._internal() : _sessionManager = SessionManager() {
     _dio = Dio(BaseOptions(
       baseUrl: ApiConfig.apiBaseUrl,
-      connectTimeout: 30000, // milliseconds for DIO v4
-      receiveTimeout: 30000, // milliseconds for DIO v4
+      connectTimeout: 30000, // milliseconds for Dio v4
+      receiveTimeout: 30000, // milliseconds for Dio v4
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
     ));
 
-    // Setup caching
-    if (kIsWeb || kDebugMode) {
-      // No cache in debug/web mode
-      _optionsNetwork = Options();
-      _optionsCache = Options();
-    } else {
-      // Cache for 3 days in production
-      _dio.interceptors.add(DioCacheManager(CacheConfig()).interceptor);
-      _optionsNetwork = buildCacheOptions(
-        ApiConfig.cacheDuration,
-        forceRefresh: true,
-      );
-      _optionsCache = buildCacheOptions(
-        ApiConfig.debugCacheDuration,
-        forceRefresh: false,
-      );
-    }
+    _setupInterceptors();
+  }
 
-    // Add logging interceptor in debug mode
+  /// Setup all interceptors
+  void _setupInterceptors() {
+    // 1. Token injection interceptor
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          final token = await _sessionManager.getToken();
+          if (token != null && token.isNotEmpty) {
+            // Add token as query parameter (Laravel pattern)
+            options.queryParameters['api_token'] = token;
+          }
+          return handler.next(options);
+        },
+      ),
+    );
+
+    // 2. Token refresh interceptor (handles 401 errors)
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onError: (error, handler) async {
+          if (error.response?.statusCode == 401) {
+            debugPrint('=== TOKEN EXPIRED - ATTEMPTING REFRESH ===');
+
+            // Try to refresh token
+            final refreshed = await _refreshToken();
+
+            if (refreshed) {
+              // Retry the failed request with new token
+              try {
+                final response = await _retry(error.requestOptions);
+                return handler.resolve(response);
+              } catch (e) {
+                return handler.next(error);
+              }
+            } else {
+              // Refresh failed - user needs to login again
+              debugPrint('Token refresh failed - session expired');
+              await _sessionManager.clearSession();
+              return handler.next(error);
+            }
+          }
+          return handler.next(error);
+        },
+      ),
+    );
+
+    // 3. Logging interceptor (debug mode only)
     if (kDebugMode) {
-      _dio.interceptors.add(LogInterceptor(
-        request: true,
-        requestHeader: true,
-        requestBody: true,
-        responseHeader: false,
-        responseBody: true,
-        error: true,
-      ));
+      _dio.interceptors.add(
+        LogInterceptor(
+          request: true,
+          requestHeader: true,
+          requestBody: true,
+          responseHeader: false,
+          responseBody: true,
+          error: true,
+          logPrint: (obj) => debugPrint(obj.toString()),
+        ),
+      );
     }
   }
 
-  /// Get query parameters with authentication token
-  Map<String, dynamic> _getQueryParameters() {
-    final authService = AuthService();
-    final user = authService.currentState.user;
+  /// Retry a failed request (used after token refresh)
+  Future<Response> _retry(RequestOptions requestOptions) async {
+    final options = Options(
+      method: requestOptions.method,
+      headers: requestOptions.headers,
+    );
 
-    if (user != null && user.id.isNotEmpty) {
-      return {'api_token': user.id}; // Using user ID as token for now
+    return _dio.request(
+      requestOptions.path,
+      data: requestOptions.data,
+      queryParameters: requestOptions.queryParameters,
+      options: options,
+    );
+  }
+
+  /// Refresh expired token
+  /// Returns true if refresh was successful
+  Future<bool> _refreshToken() async {
+    try {
+      final refreshToken = await _sessionManager.getRefreshToken();
+
+      if (refreshToken == null || refreshToken.isEmpty) {
+        debugPrint('No refresh token available');
+        return false;
+      }
+
+      // Call refresh endpoint
+      final response = await _dio.post(
+        'auth/refresh',
+        data: {'refresh_token': refreshToken},
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        final newToken = response.data['api_token'] as String?;
+        final newRefreshToken = response.data['refresh_token'] as String?;
+
+        if (newToken != null) {
+          await _sessionManager.saveToken(newToken);
+          if (newRefreshToken != null) {
+            await _sessionManager.saveRefreshToken(newRefreshToken);
+          }
+          debugPrint('Token refreshed successfully');
+          return true;
+        }
+      }
+
+      return false;
+    } catch (e) {
+      debugPrint('Token refresh error: $e');
+      return false;
     }
-    return {};
   }
 
-  /// Build full URI with query parameters
-  Uri _buildUri(String endpoint, [Map<String, dynamic>? queryParameters]) {
-    final params = {...?queryParameters, ..._getQueryParameters()};
-    return Uri.parse(ApiConfig.apiBaseUrl + endpoint)
-        .replace(queryParameters: params);
-  }
-
-  /// GET request with caching
+  /// GET request
   Future<ApiResponse> get(
     String endpoint, {
     Map<String, dynamic>? queryParameters,
-    bool useCache = true,
   }) async {
     try {
-      final uri = _buildUri(endpoint, queryParameters);
-      debugPrint('GET: $uri');
-
-      final response = await _dio.getUri(
-        uri,
-        options: useCache ? _optionsCache : _optionsNetwork,
+      final response = await _dio.get(
+        endpoint,
+        queryParameters: queryParameters,
       );
-
       return _handleResponse(response);
     } on DioError catch (e) {
       return _handleError(e);
+    } catch (e) {
+      return ApiResponse.error('Unexpected error: $e');
     }
   }
 
@@ -104,18 +171,16 @@ class ApiClient {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final uri = _buildUri(endpoint, queryParameters);
-      debugPrint('POST: $uri');
-
-      final response = await _dio.postUri(
-        uri,
-        data: data is Map ? json.encode(data) : data,
-        options: _optionsNetwork,
+      final response = await _dio.post(
+        endpoint,
+        data: data, // Dio handles JSON encoding automatically
+        queryParameters: queryParameters,
       );
-
       return _handleResponse(response);
     } on DioError catch (e) {
       return _handleError(e);
+    } catch (e) {
+      return ApiResponse.error('Unexpected error: $e');
     }
   }
 
@@ -126,18 +191,16 @@ class ApiClient {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final uri = _buildUri(endpoint, queryParameters);
-      debugPrint('PUT: $uri');
-
-      final response = await _dio.putUri(
-        uri,
-        data: data is Map ? json.encode(data) : data,
-        options: _optionsNetwork,
+      final response = await _dio.put(
+        endpoint,
+        data: data, // Dio handles JSON encoding automatically
+        queryParameters: queryParameters,
       );
-
       return _handleResponse(response);
     } on DioError catch (e) {
       return _handleError(e);
+    } catch (e) {
+      return ApiResponse.error('Unexpected error: $e');
     }
   }
 
@@ -147,17 +210,15 @@ class ApiClient {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final uri = _buildUri(endpoint, queryParameters);
-      debugPrint('DELETE: $uri');
-
-      final response = await _dio.deleteUri(
-        uri,
-        options: _optionsNetwork,
+      final response = await _dio.delete(
+        endpoint,
+        queryParameters: queryParameters,
       );
-
       return _handleResponse(response);
     } on DioError catch (e) {
       return _handleError(e);
+    } catch (e) {
+      return ApiResponse.error('Unexpected error: $e');
     }
   }
 
@@ -169,66 +230,139 @@ class ApiClient {
     Map<String, dynamic>? additionalData,
   }) async {
     try {
-      final uri = _buildUri(endpoint);
-      debugPrint('UPLOAD: $uri');
-
       final formData = FormData.fromMap({
         field: await MultipartFile.fromFile(filePath),
         ...?additionalData,
       });
 
-      final response = await _dio.postUri(
-        uri,
+      final response = await _dio.post(
+        endpoint,
         data: formData,
-        options: _optionsNetwork,
       );
 
       return _handleResponse(response);
     } on DioError catch (e) {
       return _handleError(e);
+    } catch (e) {
+      return ApiResponse.error('Unexpected error: $e');
     }
   }
 
   /// Handle successful response
   ApiResponse _handleResponse(Response response) {
-    if (response.data is Map && response.data['success'] == true) {
-      return ApiResponse.success(response.data['data']);
-    } else if (response.data is Map && response.data['success'] == false) {
-      return ApiResponse.error(
-        response.data['message'] ?? 'Request failed',
-      );
-    } else {
-      // For responses without success flag, assume success if status is 2xx
-      if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
-        return ApiResponse.success(response.data);
+    // Check if response has success flag
+    if (response.data is Map) {
+      final success = response.data['success'];
+
+      if (success == true) {
+        return ApiResponse.success(response.data['data']);
+      } else if (success == false) {
+        return ApiResponse.error(
+          response.data['message'] ?? 'Request failed',
+        );
       }
-      return ApiResponse.error('Unexpected response format');
     }
+
+    // For responses without success flag, check status code
+    if (response.statusCode != null &&
+        response.statusCode! >= 200 &&
+        response.statusCode! < 300) {
+      return ApiResponse.success(response.data);
+    }
+
+    return ApiResponse.error('Unexpected response format');
   }
 
-  /// Handle DIO errors (DIO v4 uses DioError)
+  /// Handle DioError with comprehensive error mapping (Dio v4)
   ApiResponse _handleError(DioError error) {
-    String message = 'An error occurred';
+    debugPrint('=== API ERROR ===');
+    debugPrint('Type: ${error.type}');
+    debugPrint('Message: ${error.message}');
+    debugPrint('Status Code: ${error.response?.statusCode}');
 
+    // Handle by status code
     if (error.response != null) {
-      // Server responded with error
+      final statusCode = error.response!.statusCode;
       final data = error.response!.data;
+
+      // Try to extract error message from response
+      String? serverMessage;
       if (data is Map && data['message'] != null) {
-        message = data['message'];
-      } else {
-        message = 'Server error: ${error.response!.statusCode}';
+        serverMessage = data['message'];
       }
-    } else if (error.type == DioErrorType.connectTimeout ||
-        error.type == DioErrorType.receiveTimeout) {
-      message = 'Connection timeout. Please check your internet connection';
-    } else if (error.type == DioErrorType.other) {
-      message = 'Network error. Please check your internet connection';
-    } else {
-      message = error.message;
+
+      // Map status codes to user-friendly messages
+      switch (statusCode) {
+        case 400:
+          return ApiResponse.error(
+            serverMessage ?? 'طلب غير صالح - Bad Request',
+          );
+
+        case 401:
+          return ApiResponse.error(
+            serverMessage ?? 'غير مصرح - Unauthorized',
+          );
+
+        case 403:
+          return ApiResponse.error(
+            serverMessage ?? 'ممنوع - Forbidden',
+          );
+
+        case 404:
+          return ApiResponse.error(
+            serverMessage ?? 'المورد غير موجود - Not Found',
+          );
+
+        case 422:
+          return ApiResponse.error(
+            serverMessage ?? 'بيانات غير صالحة - Validation Failed',
+          );
+
+        case 429:
+          return ApiResponse.error(
+            serverMessage ?? 'طلبات كثيرة جداً. حاول مرة أخرى لاحقاً',
+          );
+
+        case 500:
+          return ApiResponse.error(
+            serverMessage ?? 'خطأ في الخادم - Server Error',
+          );
+
+        case 503:
+          return ApiResponse.error(
+            serverMessage ?? 'الخدمة غير متوفرة - Service Unavailable',
+          );
+
+        default:
+          return ApiResponse.error(
+            serverMessage ?? 'خطأ في الخادم: $statusCode',
+          );
+      }
     }
 
-    debugPrint('API Error: $message');
-    return ApiResponse.error(message);
+    // Handle by error type (Dio v4)
+    switch (error.type) {
+      case DioErrorType.connectTimeout:
+      case DioErrorType.sendTimeout:
+      case DioErrorType.receiveTimeout:
+        return ApiResponse.error(
+          'انتهت مهلة الاتصال. تحقق من اتصالك بالإنترنت',
+        );
+
+      case DioErrorType.response:
+        return ApiResponse.error(
+          'خطأ في الاستجابة من الخادم',
+        );
+
+      case DioErrorType.cancel:
+        return ApiResponse.error('تم إلغاء الطلب');
+
+      case DioErrorType.other:
+      default:
+        return ApiResponse.error(
+          'خطأ في الشبكة. تحقق من اتصالك بالإنترنت',
+        );
+    }
   }
 }
 
@@ -253,4 +387,13 @@ class ApiResponse {
         success: false,
         errorMessage: message,
       );
+
+  @override
+  String toString() {
+    if (success) {
+      return 'ApiResponse.success(data: $data)';
+    } else {
+      return 'ApiResponse.error(message: $errorMessage)';
+    }
+  }
 }
