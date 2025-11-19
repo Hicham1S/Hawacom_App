@@ -23,6 +23,7 @@ class AuthProvider extends ChangeNotifier {
   bool _isLoading = false;
   String? _errorMessage;
   bool _isInitialized = false;
+  String? _phoneNumber;
 
   // Getters
   UserModelEnhanced? get currentUser => _currentUser;
@@ -250,19 +251,7 @@ class AuthProvider extends ChangeNotifier {
   /// Refresh user data from API
   Future<void> _refreshUserFromApi() async {
     try {
-      UserModelEnhanced? updatedUser;
-
-      // Try to get user from legacy PHP endpoint first (includes avatar)
-      if (_currentUser?.phoneNumber != null) {
-        updatedUser = await _repository.getUserByEmailOrPhone(_currentUser!.phoneNumber!);
-      } else if (_currentUser?.email != null) {
-        updatedUser = await _repository.getUserByEmailOrPhone(_currentUser!.email);
-      }
-
-      // Fallback to standard API endpoint
-      if (updatedUser == null) {
-        updatedUser = await _repository.getCurrentUser();
-      }
+      final updatedUser = await _repository.getCurrentUser();
 
       if (updatedUser != null) {
         _currentUser = updatedUser;
@@ -284,34 +273,66 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Update user profile
-  Future<bool> updateProfile({
-    String? name,
-    String? phoneNumber,
-    String? address,
-    String? bio,
-    String? photoUrl,
+  /// Note: Profile updates are now handled by ProfileRepository
+  /// Use ProfileRepository.updateProfile() instead
+
+  /// Set phone number for OTP login
+  void setPhoneNumber(String phoneNumber) {
+    _phoneNumber = phoneNumber;
+  }
+
+  /// Login with phone number (after OTP verification)
+  /// This is called after OTP is verified
+  Future<bool> loginWithPhoneNumber({
+    required String phoneNumber,
   }) async {
-    if (_currentUser == null) return false;
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
 
     try {
-      final updatedUser = await _repository.updateProfile(
-        name: name,
-        phoneNumber: phoneNumber,
-        address: address,
-        bio: bio,
-        photoUrl: photoUrl,
+      // Generate a random email for this phone number
+      // Format: +966xxxxxxxxx@hawacom.sa
+      final cleanPhone = phoneNumber.replaceAll(RegExp(r'[^\d]'), '');
+      final email = '$cleanPhone@hawacom.sa';
+      final password = 'hawacom123'; // Default password for phone login
+
+      // Try to login first
+      var userFromApi = await _repository.login(
+        email: email,
+        password: password,
       );
 
-      if (updatedUser != null) {
-        _currentUser = updatedUser;
-        await _sessionManager.saveUser(_currentUser!.toStorageJson());
-        notifyListeners();
-        return true;
+      // If login fails (user doesn't exist), register them
+      if (userFromApi == null) {
+        debugPrint('User not found, registering new user');
+
+        userFromApi = await _repository.register(
+          name: 'User $cleanPhone',
+          email: email,
+          password: password,
+          phoneNumber: phoneNumber,
+          isDesigner: false,
+        );
       }
-      return false;
+
+      if (userFromApi == null) {
+        throw Exception('Failed to login/register');
+      }
+
+      // Save user session
+      _currentUser = userFromApi;
+      await _sessionManager.saveUser(_currentUser!.toStorageJson());
+      if (_currentUser!.apiToken != null) {
+        await _sessionManager.saveToken(_currentUser!.apiToken!);
+      }
+
+      _isLoading = false;
+      notifyListeners();
+      return true;
     } catch (e) {
-      _errorMessage = 'Failed to update profile: ${e.toString()}';
+      _isLoading = false;
+      _errorMessage = 'Login failed: ${e.toString()}';
       debugPrint(_errorMessage);
       notifyListeners();
       return false;

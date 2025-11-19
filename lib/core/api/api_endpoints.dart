@@ -4,12 +4,14 @@ class ApiEndpoints {
   // Prevent instantiation
   ApiEndpoints._();
 
-  // Auth endpoints
-  static const String login = 'auth/login';
-  static const String register = 'auth/register';
-  static const String logout = 'auth/logout';
+  // Auth endpoints (Laravel standard)
+  static const String login = 'login';
+  static const String register = 'register';
+  static const String logout = 'logout';
+  static const String user = 'user';
   static const String refreshToken = 'auth/refresh';
   static const String verifyOtp = 'auth/verify-otp';
+  static const String forgotPassword = 'send_reset_link_email';
 
   // User endpoints
   static const String users = 'users';

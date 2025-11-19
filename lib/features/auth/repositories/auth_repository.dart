@@ -1,12 +1,14 @@
 import '../../../core/repositories/base_repository.dart';
-import '../../../core/config/api_config.dart';
+import '../../../core/api/api_endpoints.dart';
 import '../models/user_model_enhanced.dart';
 
-/// Repository for authentication API calls
+/// Production-ready AuthRepository
+/// Uses centralized ApiEndpoints for all endpoints
 class AuthRepository extends BaseRepository {
   AuthRepository({super.apiClient});
 
   /// Login with email and password
+  /// Returns UserModelEnhanced with api_token on success
   Future<UserModelEnhanced?> login({
     required String email,
     required String password,
@@ -23,7 +25,7 @@ class AuthRepository extends BaseRepository {
       }
 
       final response = await apiClient.post(
-        ApiConfig.login,
+        ApiEndpoints.login,
         data: data,
       );
 
@@ -37,6 +39,7 @@ class AuthRepository extends BaseRepository {
   }
 
   /// Register new user
+  /// Returns UserModelEnhanced with api_token on success
   Future<UserModelEnhanced?> register({
     required String name,
     required String email,
@@ -51,8 +54,8 @@ class AuthRepository extends BaseRepository {
         'name': name,
         'email': email,
         'password': password,
-        'password_confirmation': password, // Laravel typically requires this
-        'position': isDesigner, // Designer flag
+        'password_confirmation': password,
+        'position': isDesigner,
       };
 
       if (phoneNumber != null) {
@@ -68,7 +71,7 @@ class AuthRepository extends BaseRepository {
       }
 
       final response = await apiClient.post(
-        ApiConfig.register,
+        ApiEndpoints.register,
         data: data,
       );
 
@@ -84,56 +87,7 @@ class AuthRepository extends BaseRepository {
   /// Get current user profile
   Future<UserModelEnhanced?> getCurrentUser() async {
     try {
-      final response = await apiClient.get(ApiConfig.user);
-
-      if (response.success && response.data is Map) {
-        return UserModelEnhanced.fromJson(response.data);
-      }
-      return null;
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  /// Get user by email/phone using legacy PHP endpoint
-  /// This endpoint returns user data including avatar with full Media object
-  Future<UserModelEnhanced?> getUserByEmailOrPhone(String emailOrPhone) async {
-    try {
-      final response = await apiClient.get(
-        ApiConfig.getUserPhp,
-        queryParameters: {'email': emailOrPhone},
-      );
-
-      if (response.success && response.data is Map) {
-        return UserModelEnhanced.fromJson(response.data);
-      }
-      return null;
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  /// Update user profile
-  Future<UserModelEnhanced?> updateProfile({
-    String? name,
-    String? phoneNumber,
-    String? address,
-    String? bio,
-    String? photoUrl,
-  }) async {
-    try {
-      final data = <String, dynamic>{};
-
-      if (name != null) data['name'] = name;
-      if (phoneNumber != null) data['phone_number'] = phoneNumber;
-      if (address != null) data['address'] = address;
-      if (bio != null) data['bio'] = bio;
-      if (photoUrl != null) data['avatar'] = photoUrl;
-
-      final response = await apiClient.put(
-        ApiConfig.user,
-        data: data,
-      );
+      final response = await apiClient.get(ApiEndpoints.user);
 
       if (response.success && response.data is Map) {
         return UserModelEnhanced.fromJson(response.data);
@@ -147,10 +101,10 @@ class AuthRepository extends BaseRepository {
   /// Logout
   Future<bool> logout() async {
     try {
-      final response = await apiClient.post(ApiConfig.logout);
+      final response = await apiClient.post(ApiEndpoints.logout);
       return response.success;
     } catch (e) {
-      rethrow;
+      return false;
     }
   }
 
@@ -158,7 +112,7 @@ class AuthRepository extends BaseRepository {
   Future<bool> sendPasswordResetEmail(String email) async {
     try {
       final response = await apiClient.post(
-        ApiConfig.sendResetLinkEmail,
+        ApiEndpoints.forgotPassword,
         data: {'email': email},
       );
       return response.success;

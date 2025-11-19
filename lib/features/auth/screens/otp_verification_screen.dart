@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
-import '../../../core/localization/app_localizations.dart';
 import '../../../core/routing/app_routes.dart';
-import '../../../core/services/session_manager.dart';
-import '../models/user_model.dart';
+import '../providers/auth_provider.dart';
 
-/// OTP Verification screen - Verify phone number with OTP code
-/// Following the design pattern from old project
-/// Handles both login and registration flows
+/// OTP Verification Screen
+/// Currently uses static OTP (123456) for testing
+/// Easy to replace with real SMS service later
 class OtpVerificationScreen extends StatefulWidget {
   final String phoneNumber;
   final String? verificationId;
@@ -25,18 +24,11 @@ class OtpVerificationScreen extends StatefulWidget {
 }
 
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
+  final _formKey = GlobalKey<FormState>();
   final _otpController = TextEditingController();
 
-  bool _isLoading = false;
-  bool _isResending = false;
-  String? _errorMessage;
-
-  @override
-  void initState() {
-    super.initState();
-    // Auto-send OTP notification when screen loads
-    _sendOtp();
-  }
+  // Static OTP for testing (change this to integrate with SMS service)
+  static const String STATIC_OTP = '123456';
 
   @override
   void dispose() {
@@ -44,363 +36,285 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     super.dispose();
   }
 
-  /// Send OTP to phone number
-  /// TEMPORARY: Simulating OTP send (static OTP: 123456)
-  /// TODO: Replace with 3rd party SMS service integration
-  Future<void> _sendOtp() async {
-    setState(() {
-      _isResending = true;
-      _errorMessage = null;
-    });
+  Future<void> _handleVerifyOTP() async {
+    if (!_formKey.currentState!.validate()) return;
 
-    // Simulate sending OTP
-    await Future.delayed(const Duration(seconds: 1));
+    final authProvider = context.read<AuthProvider>();
+    final enteredOTP = _otpController.text.trim();
 
-    if (mounted) {
-      setState(() {
-        _isResending = false;
-      });
-
+    // Verify static OTP
+    if (enteredOTP != STATIC_OTP) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('OTP sent: 123456 (Static for testing)'),
-          backgroundColor: Colors.green,
+          content: Text('رمز التحقق غير صحيح - Incorrect OTP'),
+          backgroundColor: Colors.red,
         ),
       );
-    }
-  }
-
-  /// Verify OTP code
-  /// TEMPORARY: Using static OTP (123456) until 3rd party SMS service is integrated
-  /// TODO: Replace with 3rd party SMS service integration
-  Future<void> _verifyOtp() async {
-    if (_otpController.text.trim().length != 6) {
-      setState(() {
-        _errorMessage = AppLocalizations.of(context)!.authInvalidOTP;
-      });
       return;
     }
 
-    setState(() {
-      _isLoading = true;
-      _errorMessage = null;
-    });
-
-    // Simulate verification delay
-    await Future.delayed(const Duration(milliseconds: 500));
+    // OTP is correct - proceed with login/register
+    final success = await authProvider.loginWithPhoneNumber(
+      phoneNumber: widget.phoneNumber,
+    );
 
     if (!mounted) return;
 
-    // TEMPORARY: Static OTP verification
-    const String staticOtp = '123456';
-
-    if (_otpController.text.trim() == staticOtp) {
-      // OTP is correct, save session and navigate to home
-      // TEMPORARY: Create a temporary user for static OTP login
-      final tempUser = UserModel(
-        id: 'temp_${DateTime.now().millisecondsSinceEpoch}',
-        email: widget.phoneNumber, // Using phone as email for now
-        phoneNumber: widget.phoneNumber,
-        displayName: 'User',
-        emailVerified: true,
-        createdAt: DateTime.now(),
-        lastLoginAt: DateTime.now(),
-      );
-
-      // Save session
-      final sessionManager = SessionManager();
-      await sessionManager.saveUser(tempUser.toJson());
-
-      if (!mounted) return;
-
+    if (success) {
+      // Login successful - navigate to home
       Navigator.pushNamedAndRemoveUntil(
         context,
         AppRoutes.home,
         (route) => false,
       );
-
+    } else {
+      // Show error message from provider
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppLocalizations.of(context)!.authLoginSuccess),
-          backgroundColor: Colors.green,
+          content: Text(
+            authProvider.errorMessage ?? 'فشل تسجيل الدخول - Login failed',
+          ),
+          backgroundColor: Colors.red,
         ),
       );
-    } else {
-      // Invalid OTP
-      setState(() {
-        _isLoading = false;
-        _errorMessage = AppLocalizations.of(context)!.authInvalidOTP;
-      });
     }
   }
 
+  Future<void> _resendOTP() async {
+    // For now, just show a message
+    // Later you can integrate with SMS service here
+    debugPrint('=== RESEND OTP ===');
+    debugPrint('Phone: ${widget.phoneNumber}');
+    debugPrint('OTP Code: $STATIC_OTP (static for testing)');
+    debugPrint('==================');
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('تم إرسال الرمز مرة أخرى - OTP resent'),
+        backgroundColor: Colors.green,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-
-    return Scaffold(
-      backgroundColor: Colors.white, // ✅ White background
-      appBar: AppBar(
-        title: Text(
-          widget.isExistingUser ? l10n.authVerifyOTP : 'Register',
-          style: const TextStyle(
-            color: AppColors.primary,
-            fontWeight: FontWeight.w600,
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        backgroundColor: AppColors.background,
+        appBar: AppBar(
+          backgroundColor: AppColors.background,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: AppColors.textPrimary),
+            onPressed: () => Navigator.pop(context),
           ),
         ),
-        centerTitle: true,
-        backgroundColor: AppColors.secondary,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: AppColors.primary),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      body: ListView(
-        children: [
-          // Header with logo (same design as login)
-          Stack(
-            alignment: AlignmentDirectional.bottomCenter,
-            children: [
-              Container(
-                height: 180,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: AppColors.secondary,
-                  borderRadius: const BorderRadius.vertical(
-                    bottom: Radius.circular(10),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withValues(alpha: 0.2),
-                      blurRadius: 10,
-                      offset: const Offset(0, 5),
-                    ),
-                  ],
-                ),
-                margin: const EdgeInsets.only(bottom: 50),
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      const Text(
-                        'Hawacom',
-                        style: TextStyle(
-                          color: AppColors.primary,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        widget.isExistingUser
-                            ? 'Welcome back!'
-                            : 'Welcome to the best service provider system!',
-                        style: const TextStyle(
-                          color: AppColors.primary,
-                          fontSize: 14,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(width: 5, color: AppColors.primary),
-                  color: Colors.white,
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                    width: 100,
-                    height: 100,
-                    color: AppColors.primary,
-                    child: Icon(
-                      Icons.people_alt_rounded,
-                      size: 60,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          // Content
-          if (_isLoading)
-            const Center(
-              child: Padding(
-                padding: EdgeInsets.all(40),
-                child: CircularProgressIndicator(),
-              ),
-            )
-          else
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // Instructions
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: Text(
-                    widget.isExistingUser
-                        ? '${l10n.authEnterOTP}\n${widget.phoneNumber}'
-                        : 'Enter the verification code sent to\n${widget.phoneNumber}',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.black87, // ✅ Dark text
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-
-                // Error message
-                if (_errorMessage != null)
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.red.shade50,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.red.shade200),
-                    ),
-                    child: Text(
-                      _errorMessage!,
-                      style: TextStyle(color: Colors.red.shade900),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-
-                const SizedBox(height: 20),
-
-                // OTP Input Field - Following OLD TextFieldWidget design
-                Container(
-                  padding: const EdgeInsets.only(
-                    top: 20,
-                    bottom: 14,
-                    left: 20,
-                    right: 20,
-                  ),
-                  margin: const EdgeInsets.only(
-                    left: 20,
-                    right: 20,
-                    top: 0,
-                    bottom: 14,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white, // ✅ White background
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withValues(alpha: 0.1),
-                        blurRadius: 10,
-                        offset: const Offset(0, 5),
-                      ),
-                    ],
-                    border: Border.all(
-                      color: Colors.grey.withValues(alpha: 0.05),
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      // Label
-                      const Text(
-                        'OTP Code',
-                        style: TextStyle(
-                          color: Colors.black87, // ✅ Dark text
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      // OTP Field
-                      TextFormField(
-                        controller: _otpController,
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        maxLength: 6,
-                        style: const TextStyle(
-                          fontSize: 32,
-                          letterSpacing: 8,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87, // ✅ Dark input text
-                        ),
-                        decoration: InputDecoration(
-                          hintText: '- - - - - -',
-                          hintStyle: TextStyle(
-                            letterSpacing: 16,
-                            color: Colors.grey.shade400,
-                          ),
-                          counterText: '',
-                          border: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          errorBorder: InputBorder.none,
-                          focusedErrorBorder: InputBorder.none,
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 8,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 30),
-
-                // Verify button - Following OLD BlockButtonWidget design
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 30,
-                  ),
-                  child: ElevatedButton(
-                    onPressed: _verifyOtp,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.secondary, // ✅ Secondary background
-                      foregroundColor: AppColors.primary, // ✅ Primary text
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      elevation: 2,
-                    ),
-                    child: Text(
-                      l10n.authVerify,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
-                // Resend OTP button
-                Row(
+        body: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
+              child: Form(
+                key: _formKey,
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    // Icon
+                    Icon(
+                      Icons.sms_outlined,
+                      size: 80,
+                      color: AppColors.primary,
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Title
+                    Text(
+                      'تأكيد رقم الجوال',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+
+                    // Phone number display
+                    Text(
+                      'أدخل الرمز المرسل إلى\n${widget.phoneNumber}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+
+                    const SizedBox(height: 48),
+
+                    // OTP Field
+                    TextFormField(
+                      controller: _otpController,
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.center,
+                      textDirection: TextDirection.ltr,
+                      maxLength: 6,
+                      style: const TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 16,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: '••••••',
+                        counterText: '',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: AppColors.primary,
+                            width: 2,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: AppColors.primary.withValues(alpha: 0.3),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: AppColors.primary,
+                            width: 2,
+                          ),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'الرجاء إدخال رمز التحقق';
+                        }
+                        if (value.length != 6) {
+                          return 'الرمز يجب أن يكون 6 أرقام';
+                        }
+                        return null;
+                      },
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // Info Box (shows static OTP for testing)
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.green.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: Colors.green.withValues(alpha: 0.3),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.info_outline,
+                            color: Colors.green,
+                            size: 20,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            'رمز التحقق للتجربة: $STATIC_OTP',
+                            style: TextStyle(
+                              color: AppColors.textPrimary,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // Verify Button
+                    Consumer<AuthProvider>(
+                      builder: (context, authProvider, child) {
+                        return SizedBox(
+                          height: 56,
+                          child: ElevatedButton(
+                            onPressed: authProvider.isLoading ? null : _handleVerifyOTP,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primary,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            child: authProvider.isLoading
+                                ? const SizedBox(
+                                    height: 24,
+                                    width: 24,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : const Text(
+                                    'تحقق',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                          ),
+                        );
+                      },
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Resend OTP Link
                     TextButton(
-                      onPressed: _isResending ? null : _sendOtp,
-                      child: _isResending
-                          ? const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : Text(l10n.authResendOTP),
+                      onPressed: _resendOTP,
+                      child: Text(
+                        'لم يصلك الرمز؟ إعادة إرسال',
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 32),
+
+                    // Debug/Error Info
+                    Consumer<AuthProvider>(
+                      builder: (context, authProvider, child) {
+                        if (authProvider.errorMessage != null) {
+                          return Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.red.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: Colors.red),
+                            ),
+                            child: Text(
+                              authProvider.errorMessage!,
+                              style: const TextStyle(color: Colors.red),
+                              textAlign: TextAlign.center,
+                            ),
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
                     ),
                   ],
                 ),
-
-                const SizedBox(height: 40),
-              ],
+              ),
             ),
-        ],
+          ),
+        ),
       ),
     );
   }
