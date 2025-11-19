@@ -52,6 +52,8 @@ class SlideModel {
       if (url != null) {
         url = url.replaceAll('hawwcom.com', 'hawacom.sa');
         url = url.replaceAll('http://', 'https://'); // Ensure HTTPS
+        // Fix storage path: /publicstorage/ -> /admin/public/storage/
+        url = url.replaceAll('/publicstorage/', '/admin/public/storage/');
       }
 
       return url;

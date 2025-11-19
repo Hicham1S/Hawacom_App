@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/localization/app_localizations.dart';
+import '../../auth/providers/auth_provider.dart';
 import '../models/conversation.dart';
-import '../services/chat_service.dart';
+import '../services/firebase_chat_service.dart';
 import '../widgets/chat_list_tile.dart';
 import 'chat_screen.dart';
 
@@ -15,10 +17,14 @@ class MessagesScreen extends StatefulWidget {
 }
 
 class _MessagesScreenState extends State<MessagesScreen> {
+  final FirebaseChatService _chatService = FirebaseChatService();
   List<Conversation> _conversations = [];
+  List<Conversation> _allConversations = [];
   bool _isLoading = true;
   String _searchQuery = '';
   final TextEditingController _searchController = TextEditingController();
+
+  String get _currentUserId => context.read<AuthProvider>().currentUser?.id ?? '';
 
   @override
   void initState() {
@@ -37,29 +43,46 @@ class _MessagesScreenState extends State<MessagesScreen> {
       _isLoading = true;
     });
 
-    // Simulate loading delay
-    await Future.delayed(const Duration(milliseconds: 300));
+    try {
+      // Load conversations from Firebase
+      final conversations = await _chatService.getAllConversations(_currentUserId);
 
-    setState(() {
-      _conversations = ChatService.getAllConversations();
-      _isLoading = false;
-    });
+      if (mounted) {
+        setState(() {
+          _allConversations = conversations;
+          _conversations = conversations;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      debugPrint('Error loading conversations: $e');
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   void _handleSearch(String query) {
     setState(() {
       _searchQuery = query;
       if (query.isEmpty) {
-        _conversations = ChatService.getAllConversations();
+        _conversations = _allConversations;
       } else {
-        _conversations = ChatService.searchConversations(query);
+        _conversations = _allConversations
+            .where((c) => c.userName.toLowerCase().contains(query.toLowerCase()))
+            .toList();
       }
     });
   }
 
   void _openChat(Conversation conversation) async {
     // Mark as read when opening
-    await ChatService.markConversationAsRead(conversation.id);
+    await _chatService.markMessagesAsRead(
+      conversationId: conversation.id,
+      userId: _currentUserId,
+    );
 
     if (!mounted) return;
 

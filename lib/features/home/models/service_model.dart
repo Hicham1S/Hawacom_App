@@ -62,6 +62,8 @@ class ServiceModel {
             // Fix old domain URLs
             url = url.replaceAll('hawwcom.com', 'hawacom.sa');
             url = url.replaceAll('http://', 'https://');
+            // Fix storage path: /publicstorage/ -> /admin/public/storage/
+            url = url.replaceAll('/publicstorage/', '/admin/public/storage/');
           }
           return url ?? '';
         }
@@ -82,6 +84,8 @@ class ServiceModel {
         if (url.isNotEmpty) {
           url = url.replaceAll('hawwcom.com', 'hawacom.sa');
           url = url.replaceAll('http://', 'https://');
+          // Fix storage path: /publicstorage/ -> /admin/public/storage/
+          url = url.replaceAll('/publicstorage/', '/admin/public/storage/');
         }
         return url;
       }).where((url) => url.isNotEmpty).toList();

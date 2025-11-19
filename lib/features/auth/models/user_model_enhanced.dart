@@ -65,6 +65,8 @@ class UserModelEnhanced extends Equatable {
     if (photoUrl != null) {
       photoUrl = photoUrl.replaceAll('hawwcom.com', 'hawacom.sa');
       photoUrl = photoUrl.replaceAll('http://', 'https://');
+      // Fix storage path: /publicstorage/ -> /admin/public/storage/
+      photoUrl = photoUrl.replaceAll('/publicstorage/', '/admin/public/storage/');
     }
 
     // Parse address from custom_fields or direct field
