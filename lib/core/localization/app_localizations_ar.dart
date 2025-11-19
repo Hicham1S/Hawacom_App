@@ -482,4 +482,10 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get authInvalidPhoneFormat =>
       'الرجاء إدخال رقم هاتف صحيح مع رمز الدولة (مثال: +966...)';
+
+  @override
+  String get authLogoutSuccess => 'تم تسجيل الخروج بنجاح';
+
+  @override
+  String get authLogoutFailed => 'فشل تسجيل الخروج';
 }

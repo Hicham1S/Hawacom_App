@@ -177,5 +177,7 @@
   "authLogoutConfirm": "Are you sure you want to logout?",
   "authCancel": "Cancel",
   "authConfirm": "Confirm",
-  "authInvalidPhoneFormat": "Please enter a valid phone number with country code (e.g., +966...)"
+  "authInvalidPhoneFormat": "Please enter a valid phone number with country code (e.g., +966...)",
+  "authLogoutSuccess": "Logged out successfully",
+  "authLogoutFailed": "Logout failed"
 }

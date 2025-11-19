@@ -1027,6 +1027,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please enter a valid phone number with country code (e.g., +966...)'**
   String get authInvalidPhoneFormat;
+
+  /// No description provided for @authLogoutSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged out successfully'**
+  String get authLogoutSuccess;
+
+  /// No description provided for @authLogoutFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout failed'**
+  String get authLogoutFailed;
 }
 
 class _AppLocalizationsDelegate

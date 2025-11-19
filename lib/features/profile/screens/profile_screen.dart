@@ -346,11 +346,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
 
       // Show success message
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('تم تسجيل الخروج بنجاح - Logged out successfully'),
+        SnackBar(
+          content: Text(l10n.authLogoutSuccess),
           backgroundColor: Colors.green,
-          duration: Duration(seconds: 2),
+          duration: const Duration(seconds: 2),
         ),
       );
     } catch (e) {
@@ -364,9 +365,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       } catch (_) {}
 
       // Show error message
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('فشل تسجيل الخروج - Logout failed: $e'),
+          content: Text('${l10n.authLogoutFailed}: $e'),
           backgroundColor: Colors.red,
           duration: const Duration(seconds: 3),
         ),
