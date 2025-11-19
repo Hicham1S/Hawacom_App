@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/localization/app_localizations.dart';
 import '../../../core/routing/app_routes.dart';
+import '../../auth/providers/auth_provider.dart';
 import '../models/user_profile.dart';
 import '../services/profile_service.dart';
 import '../widgets/profile_header.dart';
@@ -299,10 +301,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              // TODO: Implement logout logic
-              Navigator.pop(context); // Return to previous screen
+            onPressed: () async {
+              Navigator.pop(context); // Close dialog
+              await _handleLogout();
             },
             child: const Text(
               'Logout',
@@ -312,5 +313,64 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
     );
+  }
+
+  /// Handle logout
+  Future<void> _handleLogout() async {
+    try {
+      // Show loading indicator
+      if (mounted) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => Center(
+            child: CircularProgressIndicator(color: AppColors.primary),
+          ),
+        );
+      }
+
+      // Get AuthProvider and logout
+      final authProvider = context.read<AuthProvider>();
+      await authProvider.logout();
+
+      if (!mounted) return;
+
+      // Close loading dialog
+      Navigator.pop(context);
+
+      // Navigate to login screen and clear all previous routes
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        AppRoutes.login,
+        (route) => false,
+      );
+
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('تم تسجيل الخروج بنجاح - Logged out successfully'),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } catch (e) {
+      debugPrint('Logout error: $e');
+
+      if (!mounted) return;
+
+      // Try to close loading dialog if it's showing
+      try {
+        Navigator.pop(context);
+      } catch (_) {}
+
+      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('فشل تسجيل الخروج - Logout failed: $e'),
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }
   }
 }

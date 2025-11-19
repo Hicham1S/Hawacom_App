@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/localization/app_localizations.dart';
 import '../../../core/routing/app_routes.dart';
 import '../../profile/screens/profile_screen.dart';
-import '../../auth/services/auth_service.dart';
+import '../../auth/providers/auth_provider.dart';
 
 /// Right-side drawer menu that slides in when grid button is tapped
 class GridMenuDrawer extends StatelessWidget {
@@ -233,8 +234,8 @@ class GridMenuDrawer extends StatelessWidget {
           ),
         ),
         onTap: () {
-          Navigator.pop(context);
-          // Handle logout
+          // Don't close drawer yet - show dialog first
+          // The logout will navigate away and clear all routes
           _showLogoutDialog(context, l10n);
         },
         contentPadding: const EdgeInsets.symmetric(horizontal: 4),
@@ -246,9 +247,12 @@ class GridMenuDrawer extends StatelessWidget {
   }
 
   void _showLogoutDialog(BuildContext context, AppLocalizations l10n) {
+    // Capture the original context before entering the dialog
+    final scaffoldContext = context;
+
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         backgroundColor: AppColors.cardBackground,
         title: Text(
           l10n.menuLogout,
@@ -260,7 +264,7 @@ class GridMenuDrawer extends StatelessWidget {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pop(dialogContext),
             child: Text(
               l10n.cancel,
               style: TextStyle(color: AppColors.textSecondary),
@@ -268,8 +272,8 @@ class GridMenuDrawer extends StatelessWidget {
           ),
           TextButton(
             onPressed: () async {
-              Navigator.pop(context); // Close dialog
-              await _handleLogout(context);
+              Navigator.pop(dialogContext); // Close dialog using dialog context
+              await _handleLogout(scaffoldContext); // Use original context for logout
             },
             child: const Text(
               'Logout',
@@ -295,12 +299,9 @@ class GridMenuDrawer extends StatelessWidget {
         );
       }
 
-      // Sign out from Firebase and clear session
-      final authService = AuthService();
-      await authService.signOut();
-
-      // Small delay to ensure sign out completes
-      await Future.delayed(const Duration(milliseconds: 300));
+      // Get AuthProvider and logout
+      final authProvider = context.read<AuthProvider>();
+      await authProvider.logout();
 
       if (!context.mounted) return;
 
@@ -317,13 +318,13 @@ class GridMenuDrawer extends StatelessWidget {
       // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Logged out successfully'),
+          content: Text('تم تسجيل الخروج بنجاح - Logged out successfully'),
           backgroundColor: Colors.green,
           duration: Duration(seconds: 2),
         ),
       );
     } catch (e) {
-      print('Logout error: $e');
+      debugPrint('Logout error: $e');
 
       if (!context.mounted) return;
 
@@ -335,7 +336,7 @@ class GridMenuDrawer extends StatelessWidget {
       // Show error message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Logout failed: $e'),
+          content: Text('فشل تسجيل الخروج - Logout failed: $e'),
           backgroundColor: Colors.red,
           duration: const Duration(seconds: 3),
         ),
