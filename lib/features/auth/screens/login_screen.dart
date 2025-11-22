@@ -46,8 +46,8 @@ class _LoginScreenState extends State<LoginScreen> {
       context,
       AppRoutes.verifyOtp,
       arguments: {
-        'phoneNumber': phoneNumber,
-        'isExistingUser': false, // We'll check this in the API later
+        'phoneNumber': '+966$phoneNumber',
+        'isExistingUser': true, // Login = existing user
       },
     );
   }

@@ -11,12 +11,14 @@ class OtpVerificationScreen extends StatefulWidget {
   final String phoneNumber;
   final String? verificationId;
   final bool isExistingUser;
+  final String? displayName;
 
   const OtpVerificationScreen({
     super.key,
     required this.phoneNumber,
     this.verificationId,
     this.isExistingUser = false,
+    this.displayName,
   });
 
   @override
@@ -56,6 +58,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     // OTP is correct - proceed with login/register
     final success = await authProvider.loginWithPhoneNumber(
       phoneNumber: widget.phoneNumber,
+      displayName: widget.displayName,
+      isNewUser: !widget.isExistingUser,
     );
 
     if (!mounted) return;
@@ -163,6 +167,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 16,
+                        color: Colors.black,
                       ),
                       decoration: InputDecoration(
                         hintText: '••••••',

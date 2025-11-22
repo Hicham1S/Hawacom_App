@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import '../../../core/api/api_client.dart';
 import '../../../core/api/api_endpoints.dart';
 import '../../../core/services/storage_service.dart';
-import '../../auth/models/user_model_enhanced.dart';
+import '../../../core/models/user_model.dart';
 
 /// Production-ready ProfileRepository
 ///
@@ -28,7 +28,7 @@ class ProfileRepository {
 
   /// Update user profile
   /// Uses PUT method (REST standard for full updates)
-  Future<UserModelEnhanced> updateProfile({
+  Future<UserModel> updateProfile({
     required String userId,
     required String name,
     required String email,
@@ -63,7 +63,7 @@ class ProfileRepository {
       );
 
       if (response.success && response.data != null) {
-        return UserModelEnhanced.fromJson(response.data);
+        return UserModel.fromJson(response.data);
       } else {
         // Throw with original error message from API
         throw ProfileException(
@@ -113,14 +113,14 @@ class ProfileRepository {
   }
 
   /// Get current user profile (refresh from API)
-  Future<UserModelEnhanced> getCurrentUser(String userId) async {
+  Future<UserModel> getCurrentUser(String userId) async {
     try {
       final response = await _apiClient.get(
         ApiEndpoints.userById(userId),
       );
 
       if (response.success && response.data != null) {
-        return UserModelEnhanced.fromJson(response.data);
+        return UserModel.fromJson(response.data);
       } else {
         throw ProfileException(
           response.errorMessage ?? 'فشل جلب بيانات المستخدم - Failed to get user profile',
@@ -161,7 +161,7 @@ class ProfileRepository {
 
   /// Update partial profile information
   /// Uses PATCH method (REST standard for partial updates)
-  Future<UserModelEnhanced> updatePartialProfile({
+  Future<UserModel> updatePartialProfile({
     required String userId,
     Map<String, dynamic>? updates,
   }) async {
@@ -181,7 +181,7 @@ class ProfileRepository {
       );
 
       if (response.success && response.data != null) {
-        return UserModelEnhanced.fromJson(response.data);
+        return UserModel.fromJson(response.data);
       } else {
         throw ProfileException(
           response.errorMessage ?? 'فشل التحديث - Failed to update',

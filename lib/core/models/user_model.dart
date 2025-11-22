@@ -1,7 +1,8 @@
-import 'package:equatable/equatable.dart';
+import 'base_model.dart';
 
-/// Enhanced user model with Laravel API fields including role/position
-class UserModelEnhanced extends Equatable {
+/// User model with Laravel API fields
+/// Used across all features (auth, profile, etc.)
+class UserModel extends BaseModel {
   final String id;
   final String name;
   final String email;
@@ -13,11 +14,11 @@ class UserModelEnhanced extends Equatable {
   final String? bio;
   final bool emailVerified;
   final bool phoneVerified;
-  final bool isDesigner; // Based on 'position' field from API
+  final bool isDesigner;
   final DateTime? createdAt;
   final DateTime? lastLoginAt;
 
-  const UserModelEnhanced({
+  const UserModel({
     required this.id,
     required this.name,
     required this.email,
@@ -35,7 +36,7 @@ class UserModelEnhanced extends Equatable {
   });
 
   /// Create from Laravel API response
-  factory UserModelEnhanced.fromJson(Map<String, dynamic> json) {
+  factory UserModel.fromJson(Map<String, dynamic> json) {
     // Parse position field to determine if user is designer
     bool designer = false;
     if (json['position'] != null) {
@@ -47,7 +48,6 @@ class UserModelEnhanced extends Equatable {
     // Parse avatar/photo URL - handle Media object format
     String? photoUrl;
     if (json['avatar'] is Map) {
-      // Media object with url, thumb, icon fields
       final avatar = json['avatar'] as Map;
       photoUrl = avatar['url'] ?? avatar['thumb'] ?? avatar['icon'];
     } else if (json['avatar'] is String) {
@@ -61,11 +61,10 @@ class UserModelEnhanced extends Equatable {
       }
     }
 
-    // Fix old domain URLs (hawwcom.com -> hawacom.sa)
+    // Fix old domain URLs
     if (photoUrl != null) {
       photoUrl = photoUrl.replaceAll('hawwcom.com', 'hawacom.sa');
       photoUrl = photoUrl.replaceAll('http://', 'https://');
-      // Fix storage path: /publicstorage/ -> /admin/public/storage/
       photoUrl = photoUrl.replaceAll('/publicstorage/', '/admin/public/storage/');
     }
 
@@ -85,7 +84,7 @@ class UserModelEnhanced extends Equatable {
       bio = json['bio'];
     }
 
-    return UserModelEnhanced(
+    return UserModel(
       id: json['id']?.toString() ?? '',
       name: json['name'] ?? '',
       email: json['email'] ?? '',
@@ -107,9 +106,9 @@ class UserModelEnhanced extends Equatable {
     );
   }
 
-  /// Create from Firebase User (for initial auth)
-  factory UserModelEnhanced.fromFirebaseUser(dynamic firebaseUser) {
-    return UserModelEnhanced(
+  /// Create from Firebase User
+  factory UserModel.fromFirebaseUser(dynamic firebaseUser) {
+    return UserModel(
       id: firebaseUser.uid,
       name: firebaseUser.displayName ?? '',
       email: firebaseUser.email ?? '',
@@ -121,7 +120,7 @@ class UserModelEnhanced extends Equatable {
     );
   }
 
-  /// Convert to JSON for API requests
+  @override
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{
       'id': id,
@@ -145,7 +144,7 @@ class UserModelEnhanced extends Equatable {
     return data;
   }
 
-  /// Simplified JSON for local storage
+  @override
   Map<String, dynamic> toStorageJson() {
     return {
       'id': id,
@@ -165,8 +164,8 @@ class UserModelEnhanced extends Equatable {
   }
 
   /// Load from local storage JSON
-  factory UserModelEnhanced.fromStorageJson(Map<String, dynamic> json) {
-    return UserModelEnhanced(
+  factory UserModel.fromStorageJson(Map<String, dynamic> json) {
+    return UserModel(
       id: json['id'] ?? '',
       name: json['name'] ?? '',
       email: json['email'] ?? '',
@@ -188,7 +187,7 @@ class UserModelEnhanced extends Equatable {
   }
 
   /// Copy with method
-  UserModelEnhanced copyWith({
+  UserModel copyWith({
     String? id,
     String? name,
     String? email,
@@ -204,7 +203,7 @@ class UserModelEnhanced extends Equatable {
     DateTime? createdAt,
     DateTime? lastLoginAt,
   }) {
-    return UserModelEnhanced(
+    return UserModel(
       id: id ?? this.id,
       name: name ?? this.name,
       email: email ?? this.email,

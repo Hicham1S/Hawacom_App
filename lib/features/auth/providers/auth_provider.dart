@@ -1,6 +1,7 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-import '../models/user_model_enhanced.dart';
+import '../../../core/models/user_model.dart';
 import '../repositories/auth_repository.dart';
 import '../../../core/services/session_manager.dart';
 
@@ -19,14 +20,14 @@ class AuthProvider extends ChangeNotifier {
         _firebaseAuth = firebase_auth.FirebaseAuth.instance;
 
   // State
-  UserModelEnhanced? _currentUser;
+  UserModel? _currentUser;
   bool _isLoading = false;
   String? _errorMessage;
   bool _isInitialized = false;
   String? _phoneNumber;
 
   // Getters
-  UserModelEnhanced? get currentUser => _currentUser;
+  UserModel? get currentUser => _currentUser;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   bool get hasError => _errorMessage != null;
@@ -57,16 +58,23 @@ class AuthProvider extends ChangeNotifier {
         final savedUserJson = await _sessionManager.getUser();
 
         if (savedUserJson != null) {
-          _currentUser = UserModelEnhanced.fromStorageJson(savedUserJson);
+          _currentUser = UserModel.fromStorageJson(savedUserJson);
 
-          // Verify Firebase auth state matches
-          final firebaseUser = _firebaseAuth.currentUser;
-          if (firebaseUser == null) {
-            // Firebase session expired, clear everything
-            await clearSession();
-          } else {
-            // Refresh user data from API
+          // Check if we have a valid API token
+          // Phone users don't use Firebase Auth, so we check token instead
+          if (_currentUser!.apiToken != null && _currentUser!.apiToken!.isNotEmpty) {
+            // Valid token exists - refresh user data from API
             await _refreshUserFromApi();
+          } else {
+            // No valid token - check Firebase for email/password users
+            final firebaseUser = _firebaseAuth.currentUser;
+            if (firebaseUser == null) {
+              // No token and no Firebase user = invalid session
+              await clearSession();
+            } else {
+              // Firebase user exists but no token - try to refresh
+              await _refreshUserFromApi();
+            }
           }
         }
       }
@@ -263,8 +271,8 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  /// Update user data with UserModelEnhanced object
-  Future<void> updateUser(UserModelEnhanced user) async {
+  /// Update user data with UserModel object
+  Future<void> updateUser(UserModel user) async {
     _currentUser = user;
     await _sessionManager.saveUser(_currentUser!.toStorageJson());
     if (_currentUser!.apiToken != null) {
@@ -283,41 +291,65 @@ class AuthProvider extends ChangeNotifier {
 
   /// Login with phone number (after OTP verification)
   /// This is called after OTP is verified
+  /// Uses random email like old code: randomNumber@hawacom.sa
   Future<bool> loginWithPhoneNumber({
     required String phoneNumber,
+    String? displayName,
+    bool isNewUser = false,
   }) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
-      // Generate a random email for this phone number
-      // Format: +966xxxxxxxxx@hawacom.sa
       final cleanPhone = phoneNumber.replaceAll(RegExp(r'[^\d]'), '');
-      final email = '$cleanPhone@hawacom.sa';
-      final password = 'hawacom123'; // Default password for phone login
+      final password = 'hawacom123'; // Default password like old code
 
-      // Try to login first
-      var userFromApi = await _repository.login(
-        email: email,
-        password: password,
-      );
+      UserModel? userFromApi;
 
-      // If login fails (user doesn't exist), register them
-      if (userFromApi == null) {
-        debugPrint('User not found, registering new user');
+      if (isNewUser) {
+        // New user registration - generate random email like old code
+        final randomNumber = Random().nextInt(100000000);
+        final email = '$randomNumber@hawacom.sa';
+
+        debugPrint('Registering new user with email: $email');
 
         userFromApi = await _repository.register(
-          name: 'User $cleanPhone',
+          name: displayName ?? 'User $cleanPhone',
           email: email,
           password: password,
           phoneNumber: phoneNumber,
           isDesigner: false,
         );
+      } else {
+        // Existing user login - try to find by phone number
+        // First try with phone as email (old users might have this)
+        var email = '$cleanPhone@hawacom.sa';
+
+        userFromApi = await _repository.login(
+          email: email,
+          password: password,
+        );
+
+        // If not found, user might not exist - register them
+        if (userFromApi == null) {
+          debugPrint('User not found with phone email, registering new user');
+
+          final randomNumber = Random().nextInt(100000000);
+          email = '$randomNumber@hawacom.sa';
+
+          userFromApi = await _repository.register(
+            name: displayName ?? 'User $cleanPhone',
+            email: email,
+            password: password,
+            phoneNumber: phoneNumber,
+            isDesigner: false,
+          );
+        }
       }
 
       if (userFromApi == null) {
-        throw Exception('Failed to login/register');
+        throw Exception('فشل تسجيل الدخول - Failed to login/register');
       }
 
       // Save user session
@@ -332,7 +364,7 @@ class AuthProvider extends ChangeNotifier {
       return true;
     } catch (e) {
       _isLoading = false;
-      _errorMessage = 'Login failed: ${e.toString()}';
+      _errorMessage = 'فشل تسجيل الدخول: ${e.toString()}';
       debugPrint(_errorMessage);
       notifyListeners();
       return false;

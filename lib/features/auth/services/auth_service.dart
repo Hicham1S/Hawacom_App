@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../core/services/session_manager.dart';
-import '../models/user_model.dart';
+import '../../../core/models/user_model.dart';
 import '../models/auth_state.dart';
 
 /// Authentication service for Firebase Auth operations

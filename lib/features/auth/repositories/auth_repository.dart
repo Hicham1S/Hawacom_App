@@ -1,6 +1,6 @@
 import '../../../core/repositories/base_repository.dart';
 import '../../../core/api/api_endpoints.dart';
-import '../models/user_model_enhanced.dart';
+import '../../../core/models/user_model.dart';
 
 /// Production-ready AuthRepository
 /// Uses centralized ApiEndpoints for all endpoints
@@ -8,8 +8,8 @@ class AuthRepository extends BaseRepository {
   AuthRepository({super.apiClient});
 
   /// Login with email and password
-  /// Returns UserModelEnhanced with api_token on success
-  Future<UserModelEnhanced?> login({
+  /// Returns UserModel with api_token on success
+  Future<UserModel?> login({
     required String email,
     required String password,
     String? firebaseToken,
@@ -30,7 +30,7 @@ class AuthRepository extends BaseRepository {
       );
 
       if (response.success && response.data is Map) {
-        return UserModelEnhanced.fromJson(response.data);
+        return UserModel.fromJson(response.data);
       }
       return null;
     } catch (e) {
@@ -39,8 +39,8 @@ class AuthRepository extends BaseRepository {
   }
 
   /// Register new user
-  /// Returns UserModelEnhanced with api_token on success
-  Future<UserModelEnhanced?> register({
+  /// Returns UserModel with api_token on success
+  Future<UserModel?> register({
     required String name,
     required String email,
     required String password,
@@ -76,7 +76,7 @@ class AuthRepository extends BaseRepository {
       );
 
       if (response.success && response.data is Map) {
-        return UserModelEnhanced.fromJson(response.data);
+        return UserModel.fromJson(response.data);
       }
       return null;
     } catch (e) {
@@ -85,12 +85,12 @@ class AuthRepository extends BaseRepository {
   }
 
   /// Get current user profile
-  Future<UserModelEnhanced?> getCurrentUser() async {
+  Future<UserModel?> getCurrentUser() async {
     try {
       final response = await apiClient.get(ApiEndpoints.user);
 
       if (response.success && response.data is Map) {
-        return UserModelEnhanced.fromJson(response.data);
+        return UserModel.fromJson(response.data);
       }
       return null;
     } catch (e) {

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'user_model.dart';
+import '../../../core/models/user_model.dart';
 
 /// Authentication state status
 enum AuthStatus {

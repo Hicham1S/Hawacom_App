@@ -100,6 +100,7 @@ class RouteGenerator {
           final phoneNumber = args['phoneNumber'] as String?;
           final verificationId = args['verificationId'] as String?;
           final isExistingUser = args['isExistingUser'] as bool? ?? false;
+          final displayName = args['displayName'] as String?;
 
           if (phoneNumber != null) {
             return MaterialPageRoute(
@@ -107,6 +108,7 @@ class RouteGenerator {
                 phoneNumber: phoneNumber,
                 verificationId: verificationId,
                 isExistingUser: isExistingUser,
+                displayName: displayName,
               ),
               settings: settings,
             );
