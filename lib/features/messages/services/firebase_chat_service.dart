@@ -282,6 +282,8 @@ class FirebaseChatService {
   /// Create or get existing conversation
   Future<String?> createConversation({
     required String userId,
+    required String userName,
+    String? userAvatarUrl,
     required String otherUserId,
     required String otherUserName,
     String? otherUserAvatarUrl,
@@ -307,11 +309,10 @@ class FirebaseChatService {
       });
 
       // Create conversation for other user (they would see current user's info)
-      // Note: You'd need to pass current user's info here
       await _conversationsRef(otherUserId).child(conversationId).set({
         'userId': userId,
-        'userName': 'Current User', // TODO: Pass current user name
-        'userAvatarUrl': null, // TODO: Pass current user avatar
+        'userName': userName,
+        'userAvatarUrl': userAvatarUrl,
         'createdAt': DateTime.now().toIso8601String(),
       });
 

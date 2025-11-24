@@ -244,7 +244,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         debugPrint('API Token (first 20 chars): ${currentUser.apiToken!.substring(0, currentUser.apiToken!.length > 20 ? 20 : currentUser.apiToken!.length)}...');
       }
 
-      // Update profile
+      // Update profile (with optional password change)
       final updatedUser = await _repository.updateProfile(
         userId: currentUser.id,
         name: _nameController.text.trim(),
@@ -342,13 +342,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       backgroundColor: AppColors.primary.withValues(alpha: 0.1),
                       backgroundImage: _selectedImage != null
                           ? FileImage(_selectedImage!)
-                          : (_uploadedAvatarUrl != null
-                              ? NetworkImage(_uploadedAvatarUrl!)
-                              : (user?.photoUrl != null
-                                  ? NetworkImage(user!.photoUrl!)
-                                  : null)) as ImageProvider?,
+                          : (user?.photoUrl != null
+                              ? NetworkImage(user!.photoUrl!)
+                              : null) as ImageProvider?,
                       child: _selectedImage == null &&
-                              _uploadedAvatarUrl == null &&
                               user?.photoUrl == null
                           ? Text(
                               user?.name.isNotEmpty == true

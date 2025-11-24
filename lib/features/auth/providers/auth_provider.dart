@@ -33,6 +33,7 @@ class AuthProvider extends ChangeNotifier {
   bool get hasError => _errorMessage != null;
   bool get isAuthenticated => _currentUser != null;
   bool get isInitialized => _isInitialized;
+  String? get phoneNumber => _phoneNumber;
 
   /// Check if current user is a designer
   bool get isDesigner => _currentUser?.isDesigner ?? false;

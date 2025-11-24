@@ -51,8 +51,7 @@ class ApiEndpoints {
   static String conversationMessages(String conversationId) =>
       'conversations/$conversationId/messages';
 
-  // Media upload endpoints
-  static const String uploadAvatar = 'upload/avatar';
-  static const String uploadImage = 'upload/image';
-  static const String uploadFile = 'upload/file';
+  // Media upload endpoints (Laravel)
+  static const String uploads = 'uploads/store';
+  static const String deleteUpload = 'uploads/clear';
 }

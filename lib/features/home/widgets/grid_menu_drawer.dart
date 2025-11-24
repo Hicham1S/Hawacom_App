@@ -120,6 +120,37 @@ class GridMenuDrawer extends StatelessWidget {
   }
 
   Widget _buildHeader(BuildContext context, AppLocalizations l10n) {
+    final user = context.watch<AuthProvider>().currentUser;
+
+    // Get display name: user's name if available, otherwise phone number
+    String displayName = l10n.menuUserName;
+    if (user != null) {
+      if (user.name.isNotEmpty && !user.name.contains('@')) {
+        displayName = user.name;
+      } else if (user.phoneNumber != null && user.phoneNumber!.isNotEmpty) {
+        displayName = user.phoneNumber!;
+      } else {
+        displayName = user.email;
+      }
+    }
+
+    // Get initials for avatar
+    String initials = '?';
+    if (user != null) {
+      if (user.name.isNotEmpty && !user.name.contains('@')) {
+        final parts = user.name.trim().split(' ');
+        if (parts.length >= 2) {
+          initials = '${parts[0][0]}${parts[1][0]}'.toUpperCase();
+        } else {
+          initials = user.name[0].toUpperCase();
+        }
+      } else if (user.phoneNumber != null && user.phoneNumber!.isNotEmpty) {
+        initials = '#';
+      } else if (user.email.isNotEmpty) {
+        initials = user.email[0].toUpperCase();
+      }
+    }
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -135,11 +166,19 @@ class GridMenuDrawer extends StatelessWidget {
           CircleAvatar(
             radius: 30,
             backgroundColor: AppColors.primary,
-            child: const Icon(
-              Icons.person,
-              size: 32,
-              color: Colors.white,
-            ),
+            backgroundImage: user?.photoUrl != null && user!.photoUrl!.isNotEmpty
+                ? NetworkImage(user.photoUrl!)
+                : null,
+            child: user?.photoUrl == null || user!.photoUrl!.isEmpty
+                ? Text(
+                    initials,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  )
+                : null,
           ),
           const SizedBox(width: 16),
           // User Info
@@ -156,12 +195,13 @@ class GridMenuDrawer extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  l10n.menuUserName,
+                  displayName,
                   style: TextStyle(
                     color: AppColors.textPrimary,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),

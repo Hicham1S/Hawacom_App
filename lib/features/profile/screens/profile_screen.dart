@@ -191,22 +191,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
 
                     ProfileInfoTile(
-                      icon: Icons.location_on_outlined,
-                      title: 'عناويني',
-                      value: 'إدارة عناوين التوصيل',
-                      onTap: () {
-                        Navigator.pushNamed(context, AppRoutes.addresses);
-                      },
-                    ),
-
-                    ProfileInfoTile(
                       icon: Icons.security_outlined,
                       title: l10n.profileChangePassword,
                       value: l10n.profileChangePasswordDesc,
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(l10n.profilePasswordComingSoon)),
-                        );
+                      onTap: () async {
+                        await Navigator.pushNamed(context, AppRoutes.editProfile);
+                        _refreshProfile();
                       },
                     ),
 

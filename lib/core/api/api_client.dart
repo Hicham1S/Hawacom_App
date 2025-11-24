@@ -358,7 +358,6 @@ class ApiClient {
         return ApiResponse.error('تم إلغاء الطلب');
 
       case DioErrorType.other:
-      default:
         return ApiResponse.error(
           'خطأ في الشبكة. تحقق من اتصالك بالإنترنت',
         );

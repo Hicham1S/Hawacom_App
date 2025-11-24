@@ -1,8 +1,9 @@
 import 'dart:io';
+import 'package:dio/dio.dart' as dio;
 import 'package:flutter/foundation.dart';
+import 'package:uuid/uuid.dart';
 import '../../../core/api/api_client.dart';
 import '../../../core/api/api_endpoints.dart';
-import '../../../core/services/storage_service.dart';
 import '../../../core/models/user_model.dart';
 
 /// Production-ready ProfileRepository
@@ -18,16 +19,14 @@ import '../../../core/models/user_model.dart';
 /// - Cleaner, more maintainable code
 class ProfileRepository {
   final ApiClient _apiClient;
-  final StorageService _storageService;
 
   ProfileRepository({
     ApiClient? apiClient,
-    StorageService? storageService,
-  })  : _apiClient = apiClient ?? ApiClient(),
-        _storageService = storageService ?? StorageService();
+  })  : _apiClient = apiClient ?? ApiClient();
 
   /// Update user profile
-  /// Uses PUT method (REST standard for full updates)
+  /// Uses POST method (as required by the Laravel backend)
+  /// Can optionally include password change
   Future<UserModel> updateProfile({
     required String userId,
     required String name,
@@ -56,8 +55,8 @@ class ProfileRepository {
         debugPrint('Updating profile for user: $userId');
       }
 
-      // Use PUT for full resource update (REST standard)
-      final response = await _apiClient.put(
+      // Use POST (Laravel backend requires POST for updates)
+      final response = await _apiClient.post(
         ApiEndpoints.userById(userId),
         data: userData,
       );
@@ -79,33 +78,65 @@ class ProfileRepository {
     }
   }
 
-  /// Upload avatar to Firebase Storage
-  /// Returns the download URL
-  /// Delegates to StorageService for separation of concerns
+  /// Upload avatar to Laravel backend
+  /// Returns the uploaded file UUID/URL
   Future<String> uploadAvatar({
     required File imageFile,
     required String userId,
   }) async {
     try {
-      // Validate file exists (best practice)
+      // Validate file exists
       if (!imageFile.existsSync()) {
         throw ProfileException('الملف غير موجود - File does not exist');
       }
 
-      // Use dedicated StorageService
-      final downloadUrl = await _storageService.uploadAvatar(
-        imageFile: imageFile,
-        userId: userId,
-      );
+      final String fileName = imageFile.path.split('/').last;
+      final String uuid = const Uuid().v4();
+
+      // Create form data for multipart upload
+      final formData = dio.FormData.fromMap({
+        'file': await dio.MultipartFile.fromFile(
+          imageFile.path,
+          filename: fileName,
+        ),
+        'uuid': uuid,
+        'field': 'avatar',
+      });
 
       if (kDebugMode) {
-        debugPrint('Avatar uploaded successfully for user: $userId');
+        debugPrint('Uploading avatar for user: $userId');
+        debugPrint('File: $fileName, UUID: $uuid');
       }
 
-      return downloadUrl;
-    } on StorageException catch (e) {
-      // Storage service already has user-friendly messages
-      throw ProfileException(e.message);
+      // Upload to Laravel backend
+      final response = await _apiClient.post(
+        ApiEndpoints.uploads,
+        data: formData,
+      );
+
+      if (response.success && response.data != null) {
+        // Laravel returns the UUID in response.data
+        // The UUID is used to link the media to the user profile
+        String uploadedUuid;
+        if (response.data is String) {
+          uploadedUuid = response.data;
+        } else if (response.data is Map && response.data['data'] != null) {
+          uploadedUuid = response.data['data'].toString();
+        } else {
+          uploadedUuid = response.data.toString();
+        }
+
+        if (kDebugMode) {
+          debugPrint('Avatar uploaded successfully, UUID: $uploadedUuid');
+        }
+        return uploadedUuid;
+      } else {
+        throw ProfileException(
+          response.errorMessage ?? 'فشل رفع الصورة - Failed to upload avatar',
+        );
+      }
+    } on ProfileException {
+      rethrow;
     } catch (e) {
       debugPrint('Avatar upload error: $e');
       throw ProfileException('فشل رفع الصورة: $e');
@@ -198,10 +229,14 @@ class ProfileRepository {
   /// Delete user avatar
   Future<void> deleteAvatar({
     required String userId,
-    required String avatarUrl,
+    required String avatarUuid,
   }) async {
     try {
-      await _storageService.deleteFile(avatarUrl);
+      // Delete from Laravel backend
+      await _apiClient.post(
+        ApiEndpoints.deleteUpload,
+        data: {'uuid': avatarUuid},
+      );
 
       // Update user profile to remove avatar URL
       await updatePartialProfile(
@@ -212,8 +247,8 @@ class ProfileRepository {
       if (kDebugMode) {
         debugPrint('Avatar deleted for user: $userId');
       }
-    } on StorageException catch (e) {
-      throw ProfileException(e.message);
+    } on ProfileException {
+      rethrow;
     } catch (e) {
       debugPrint('Delete avatar error: $e');
       throw ProfileException('فشل حذف الصورة: $e');
