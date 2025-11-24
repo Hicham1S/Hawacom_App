@@ -1,15 +1,41 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/colors.dart';
-import '../models/user_profile.dart';
+import '../../../core/models/user_model.dart';
 
 /// Profile header with avatar and user name
 class ProfileHeader extends StatelessWidget {
-  final UserProfile user;
+  final UserModel user;
 
   const ProfileHeader({
     super.key,
     required this.user,
   });
+
+  /// Get display name: user's name if available, otherwise phone number
+  String get _displayName {
+    if (user.name.isNotEmpty && !user.name.contains('@')) {
+      return user.name;
+    } else if (user.phoneNumber != null && user.phoneNumber!.isNotEmpty) {
+      return user.phoneNumber!;
+    } else {
+      return user.email;
+    }
+  }
+
+  /// Get initials for avatar
+  String get _initials {
+    if (user.name.isNotEmpty && !user.name.contains('@')) {
+      final parts = user.name.trim().split(' ');
+      if (parts.length >= 2) {
+        return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
+      }
+      return user.name[0].toUpperCase();
+    } else if (user.phoneNumber != null && user.phoneNumber!.isNotEmpty) {
+      return '#';
+    } else {
+      return user.email[0].toUpperCase();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +71,9 @@ class ProfileHeader extends StatelessWidget {
 
         const SizedBox(height: 16),
 
-        // User Name
+        // User Name (or phone number if no name)
         Text(
-          user.name,
+          _displayName,
           style: TextStyle(
             color: AppColors.textPrimary,
             fontSize: 24,
@@ -67,8 +93,8 @@ class ProfileHeader extends StatelessWidget {
           ),
         ),
 
-        // Location (if available)
-        if (user.location != null) ...[
+        // Address (if available)
+        if (user.address != null && user.address!.isNotEmpty) ...[
           const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -79,11 +105,14 @@ class ProfileHeader extends StatelessWidget {
                 color: AppColors.textSecondary,
               ),
               const SizedBox(width: 4),
-              Text(
-                user.location!,
-                style: TextStyle(
-                  color: AppColors.textSecondary,
-                  fontSize: 13,
+              Flexible(
+                child: Text(
+                  user.address!,
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 13,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
@@ -94,11 +123,11 @@ class ProfileHeader extends StatelessWidget {
   }
 
   Widget _buildAvatar() {
-    if (user.avatarUrl != null && user.avatarUrl!.isNotEmpty) {
+    if (user.photoUrl != null && user.photoUrl!.isNotEmpty) {
       // Network image
       return CircleAvatar(
         radius: 60,
-        backgroundImage: NetworkImage(user.avatarUrl!),
+        backgroundImage: NetworkImage(user.photoUrl!),
         backgroundColor: AppColors.cardBackground,
       );
     } else {
@@ -107,7 +136,7 @@ class ProfileHeader extends StatelessWidget {
         radius: 60,
         backgroundColor: AppColors.primary,
         child: Text(
-          user.initials,
+          _initials,
           style: const TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.bold,

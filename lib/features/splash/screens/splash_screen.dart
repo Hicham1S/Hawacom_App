@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import '../../../core/routing/app_routes.dart';
-import '../controllers/splash_controller.dart';
+import '../../auth/providers/auth_provider.dart';
 
 /// Splash screen with video animation shown at app startup
 /// Production-ready implementation with:
 /// - Parallel video + auth loading for performance
 /// - Proper error handling and logging
-/// - Separated business logic (Controller pattern)
+/// - Uses AuthProvider for authentication check
 class SplashScreen extends StatefulWidget {
-  final SplashController? controller;
-
-  const SplashScreen({
-    super.key,
-    this.controller,
-  });
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -22,7 +18,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   late VideoPlayerController _videoController;
-  late SplashController _controller;
 
   bool _isVideoInitialized = false;
   bool _isNavigating = false;
@@ -33,7 +28,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _controller = widget.controller ?? SplashController();
     _initializeSplash();
   }
 
@@ -44,20 +38,19 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   /// Initialize splash - runs video and auth check in parallel
-  /// This is the main performance improvement
   Future<void> _initializeSplash() async {
-    // Create video controller first (before try/catch for safety)
+    // Create video controller first
     _videoController = VideoPlayerController.asset('assets/videos/splash.mp4');
 
     try {
-      // Run video initialization and auth check IN PARALLEL
-      // This saves 1-2 seconds compared to sequential execution
-      final results = await Future.wait([
-        _initializeVideo(),
-        _controller.initialize(),
-      ]);
+      // Get AuthProvider
+      final authProvider = context.read<AuthProvider>();
 
-      final navResult = results[1] as SplashNavigationResult;
+      // Run video initialization and auth check IN PARALLEL
+      await Future.wait([
+        _initializeVideo(),
+        authProvider.initialize(),
+      ]);
 
       // Wait for video to finish
       await _waitForCompletion();
@@ -65,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (!mounted || _isNavigating) return;
 
       // Navigate based on auth status
-      _navigateToNextScreen(navResult);
+      _navigateToNextScreen(authProvider.isAuthenticated);
     } catch (e) {
       debugPrint('SplashScreen: Error during initialization - $e');
       await _handleInitializationError();
@@ -116,23 +109,18 @@ class _SplashScreenState extends State<SplashScreen> {
     if (!mounted || _isNavigating) return;
 
     // On error, navigate to login (safe default)
-    _navigateToNextScreen(
-      SplashNavigationResult(
-        isAuthenticated: false,
-        shouldNavigateToHome: false,
-      ),
-    );
+    _navigateToNextScreen(false);
   }
 
   /// Navigate to appropriate screen based on auth status
-  void _navigateToNextScreen(SplashNavigationResult result) {
+  void _navigateToNextScreen(bool isAuthenticated) {
     if (_isNavigating) return;
 
     setState(() => _isNavigating = true);
 
-    final targetRoute = result.shouldNavigateToHome
-        ? AppRoutes.home
-        : AppRoutes.login;
+    final targetRoute = isAuthenticated ? AppRoutes.home : AppRoutes.login;
+
+    debugPrint('SplashScreen: Navigating to ${isAuthenticated ? "home" : "login"}');
 
     Navigator.pushReplacementNamed(context, targetRoute);
   }

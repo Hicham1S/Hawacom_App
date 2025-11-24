@@ -322,29 +322,41 @@ class AuthProvider extends ChangeNotifier {
           isDesigner: false,
         );
       } else {
-        // Existing user login - try to find by phone number
-        // First try with phone as email (old users might have this)
-        var email = '$cleanPhone@hawacom.sa';
+        // Existing user login - try to find by phone number first
+        debugPrint('Trying to login with phone: $cleanPhone');
 
-        userFromApi = await _repository.login(
-          email: email,
+        // Use loginWithPhone which looks up email by phone number
+        userFromApi = await _repository.loginWithPhone(
+          phoneNumber: phoneNumber,
           password: password,
         );
 
-        // If not found, user might not exist - register them
+        // If not found, user doesn't exist - register them
         if (userFromApi == null) {
-          debugPrint('User not found with phone email, registering new user');
+          debugPrint('User not found, registering new user');
 
           final randomNumber = Random().nextInt(100000000);
-          email = '$randomNumber@hawacom.sa';
+          final email = '$randomNumber@hawacom.sa';
 
-          userFromApi = await _repository.register(
-            name: displayName ?? 'User $cleanPhone',
-            email: email,
-            password: password,
-            phoneNumber: phoneNumber,
-            isDesigner: false,
-          );
+          try {
+            userFromApi = await _repository.register(
+              name: displayName ?? 'User $cleanPhone',
+              email: email,
+              password: password,
+              phoneNumber: phoneNumber,
+              isDesigner: false,
+            );
+          } catch (e) {
+            // Check if it's "phone already taken" error
+            final errorMsg = e.toString().toLowerCase();
+            if (errorMsg.contains('phone') && errorMsg.contains('taken')) {
+              throw Exception(
+                'رقم الجوال مسجل مسبقاً. حاول مرة أخرى أو تواصل مع الدعم\n'
+                'Phone number already registered. Please try again or contact support.'
+              );
+            }
+            rethrow;
+          }
         }
       }
 
