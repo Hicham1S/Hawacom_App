@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/localization/app_localizations.dart';
+import '../../../core/routing/app_routes.dart';
 import '../providers/service_provider.dart';
 import '../models/service_model.dart';
 
@@ -36,19 +37,22 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
 
     return Directionality(
       textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: AppColors.background,
-        body: Consumer<ServiceProvider>(
-          builder: (context, provider, child) {
-            if (provider.isLoading) {
-              return const Center(
+      child: Consumer<ServiceProvider>(
+        builder: (context, provider, child) {
+          if (provider.isLoading) {
+            return Scaffold(
+              backgroundColor: AppColors.background,
+              body: const Center(
                 child: CircularProgressIndicator(),
-              );
-            }
+              ),
+            );
+          }
 
-            final service = provider.selectedService;
-            if (service == null) {
-              return Center(
+          final service = provider.selectedService;
+          if (service == null) {
+            return Scaffold(
+              backgroundColor: AppColors.background,
+              body: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -60,10 +64,13 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                     ),
                   ],
                 ),
-              );
-            }
+              ),
+            );
+          }
 
-            return CustomScrollView(
+          return Scaffold(
+            backgroundColor: AppColors.background,
+            body: CustomScrollView(
               slivers: [
                 // App Bar with Images
                 _buildImageHeader(service),
@@ -99,10 +106,10 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                   ),
                 ),
               ],
-            );
-          },
-        ),
-        bottomNavigationBar: _buildBottomBar(),
+            ),
+            bottomNavigationBar: _buildBottomBar(service),
+          );
+        },
       ),
     );
   }
@@ -432,7 +439,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
     );
   }
 
-  Widget _buildBottomBar() {
+  Widget _buildBottomBar(ServiceModel service) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -448,9 +455,10 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
       child: SafeArea(
         child: ElevatedButton(
           onPressed: () {
-            // TODO: Navigate to booking screen
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('قريباً: احجز الآن')),
+            Navigator.pushNamed(
+              context,
+              AppRoutes.bookService,
+              arguments: {'service': service},
             );
           },
           style: ElevatedButton.styleFrom(

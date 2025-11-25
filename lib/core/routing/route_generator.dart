@@ -14,6 +14,7 @@ import '../../features/services/screens/service_detail_screen.dart';
 import '../../features/bookings/screens/bookings_screen.dart';
 import '../../features/bookings/screens/booking_detail_screen.dart';
 import '../../features/search/screens/search_screen.dart';
+import '../../features/book_service/screens/book_service_screen.dart';
 
 /// Centralized route generator for the application
 class RouteGenerator {
@@ -132,6 +133,18 @@ class RouteGenerator {
           }
         }
         return _errorRoute(settings, 'Service details requires serviceId');
+
+      case AppRoutes.bookService:
+        if (args is Map<String, dynamic>) {
+          final service = args['service'];
+          if (service != null) {
+            return MaterialPageRoute(
+              builder: (_) => BookServiceScreen(service: service),
+              settings: settings,
+            );
+          }
+        }
+        return _errorRoute(settings, 'Book service requires service argument');
 
       // Booking routes
       case AppRoutes.myBookings:

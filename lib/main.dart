@@ -14,6 +14,7 @@ import 'features/profile/providers/address_provider.dart';
 import 'features/services/providers/service_provider.dart';
 import 'features/bookings/providers/booking_provider.dart';
 import 'features/search/providers/search_provider.dart';
+import 'features/book_service/providers/book_service_provider.dart';
 
 void main() async {
   // Ensure Flutter binding is initialized
@@ -37,8 +38,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        // Auth provider
-        ChangeNotifierProvider(create: (_) => AuthProvider()..initialize()),
+        // Auth provider (initialized in SplashScreen)
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
         // Home feature providers
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => home_service.ServiceProvider()),
@@ -51,6 +52,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => BookingProvider()),
         // Search feature providers
         ChangeNotifierProvider(create: (_) => SearchProvider()),
+        // Book Service provider
+        ChangeNotifierProvider(create: (_) => BookServiceProvider()),
         // Add more providers here as needed
       ],
       child: MaterialApp(

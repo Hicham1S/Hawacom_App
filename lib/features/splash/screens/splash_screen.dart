@@ -28,7 +28,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _initializeSplash();
+    // Defer initialization to after build phase
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initializeSplash();
+    });
   }
 
   @override
