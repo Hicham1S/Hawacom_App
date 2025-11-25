@@ -119,16 +119,35 @@ class ServiceRepository extends BaseRepository {
     }
   }
 
-  /// Search services
+  /// Search services with keywords and category filters
   Future<List<ServiceModel>> searchServices(
-    String query, {
+    String? keywords, {
+    List<String>? categoryIds,
     int? limit,
     int? offset,
   }) async {
     try {
       final queryParams = <String, dynamic>{
-        'search': query,
+        'with': 'eProvider;categories',
       };
+
+      // Build search query
+      final searchParts = <String>[];
+      if (categoryIds != null && categoryIds.isNotEmpty) {
+        searchParts.add('categories.id:${categoryIds.join(',')}');
+      }
+      if (keywords != null && keywords.isNotEmpty) {
+        searchParts.add('name:$keywords');
+      }
+
+      if (searchParts.isNotEmpty) {
+        queryParams['search'] = searchParts.join(';');
+        queryParams['searchFields'] = categoryIds != null && categoryIds.isNotEmpty
+            ? 'categories.id:in;name:like'
+            : 'name:like';
+        queryParams['searchJoin'] = 'and';
+      }
+
       if (limit != null) queryParams['limit'] = limit;
       if (offset != null) queryParams['offset'] = offset;
 

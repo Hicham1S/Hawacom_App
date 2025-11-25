@@ -13,6 +13,7 @@ import 'features/home/providers/slider_provider.dart';
 import 'features/profile/providers/address_provider.dart';
 import 'features/services/providers/service_provider.dart';
 import 'features/bookings/providers/booking_provider.dart';
+import 'features/search/providers/search_provider.dart';
 
 void main() async {
   // Ensure Flutter binding is initialized
@@ -48,6 +49,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ServiceProvider()),
         // Bookings feature providers
         ChangeNotifierProvider(create: (_) => BookingProvider()),
+        // Search feature providers
+        ChangeNotifierProvider(create: (_) => SearchProvider()),
         // Add more providers here as needed
       ],
       child: MaterialApp(

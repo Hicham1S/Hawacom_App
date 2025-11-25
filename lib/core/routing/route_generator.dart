@@ -13,6 +13,7 @@ import '../../features/auth/screens/otp_verification_screen.dart';
 import '../../features/services/screens/service_detail_screen.dart';
 import '../../features/bookings/screens/bookings_screen.dart';
 import '../../features/bookings/screens/booking_detail_screen.dart';
+import '../../features/search/screens/search_screen.dart';
 
 /// Centralized route generator for the application
 class RouteGenerator {
@@ -150,6 +151,13 @@ class RouteGenerator {
           }
         }
         return _errorRoute(settings, 'Booking details requires bookingId');
+
+      // Search
+      case AppRoutes.search:
+        return MaterialPageRoute(
+          builder: (_) => const SearchScreen(),
+          settings: settings,
+        );
 
       // Default: Unknown route
       default:
