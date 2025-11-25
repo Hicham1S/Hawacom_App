@@ -54,4 +54,9 @@ class ApiEndpoints {
   // Media upload endpoints (Laravel)
   static const String uploads = 'uploads/store';
   static const String deleteUpload = 'uploads/clear';
+
+  // Booking endpoints
+  static const String bookings = 'bookings';
+  static String bookingById(String bookingId) => 'bookings/$bookingId';
+  static const String bookingStatuses = 'booking_statuses';
 }

@@ -55,6 +55,7 @@ dependencies:
 
   # UUID for generating unique IDs
   uuid: ^4.3.3
+  carousel_slider: ^5.1.1
 
 dev_dependencies:
   flutter_test:

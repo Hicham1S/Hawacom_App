@@ -8,9 +8,11 @@ import 'core/routing/app_routes.dart';
 import 'core/routing/route_generator.dart';
 import 'features/auth/providers/auth_provider.dart';
 import 'features/home/providers/category_provider.dart';
-import 'features/home/providers/service_provider.dart';
+import 'features/home/providers/service_provider.dart' as home_service;
 import 'features/home/providers/slider_provider.dart';
 import 'features/profile/providers/address_provider.dart';
+import 'features/services/providers/service_provider.dart';
+import 'features/bookings/providers/booking_provider.dart';
 
 void main() async {
   // Ensure Flutter binding is initialized
@@ -38,10 +40,14 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthProvider()..initialize()),
         // Home feature providers
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
-        ChangeNotifierProvider(create: (_) => ServiceProvider()),
+        ChangeNotifierProvider(create: (_) => home_service.ServiceProvider()),
         ChangeNotifierProvider(create: (_) => SliderProvider()),
         // Profile feature providers
         ChangeNotifierProvider(create: (_) => AddressProvider()),
+        // Services feature providers
+        ChangeNotifierProvider(create: (_) => ServiceProvider()),
+        // Bookings feature providers
+        ChangeNotifierProvider(create: (_) => BookingProvider()),
         // Add more providers here as needed
       ],
       child: MaterialApp(

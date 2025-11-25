@@ -10,6 +10,9 @@ import '../../features/profile/screens/addresses_screen.dart';
 import '../../features/auth/screens/login_screen.dart';
 import '../../features/auth/screens/register_screen.dart';
 import '../../features/auth/screens/otp_verification_screen.dart';
+import '../../features/services/screens/service_detail_screen.dart';
+import '../../features/bookings/screens/bookings_screen.dart';
+import '../../features/bookings/screens/booking_detail_screen.dart';
 
 /// Centralized route generator for the application
 class RouteGenerator {
@@ -115,6 +118,38 @@ class RouteGenerator {
           }
         }
         return _errorRoute(settings, 'OTP verification requires phone number');
+
+      // Service routes
+      case AppRoutes.serviceDetails:
+        if (args is Map<String, dynamic>) {
+          final serviceId = args['serviceId'] as String?;
+          if (serviceId != null) {
+            return MaterialPageRoute(
+              builder: (_) => ServiceDetailScreen(serviceId: serviceId),
+              settings: settings,
+            );
+          }
+        }
+        return _errorRoute(settings, 'Service details requires serviceId');
+
+      // Booking routes
+      case AppRoutes.myBookings:
+        return MaterialPageRoute(
+          builder: (_) => const BookingsScreen(),
+          settings: settings,
+        );
+
+      case AppRoutes.bookingDetails:
+        if (args is Map<String, dynamic>) {
+          final bookingId = args['bookingId'] as String?;
+          if (bookingId != null) {
+            return MaterialPageRoute(
+              builder: (_) => BookingDetailScreen(bookingId: bookingId),
+              settings: settings,
+            );
+          }
+        }
+        return _errorRoute(settings, 'Booking details requires bookingId');
 
       // Default: Unknown route
       default:

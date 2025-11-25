@@ -200,6 +200,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       },
                     ),
 
+                    ProfileInfoTile(
+                      icon: Icons.bookmark_outline,
+                      title: 'حجوزاتي',
+                      value: 'عرض جميع الحجوزات والطلبات',
+                      onTap: () {
+                        Navigator.pushNamed(context, AppRoutes.myBookings);
+                      },
+                    ),
+
                     const SizedBox(height: 24),
 
                     // Logout Button
