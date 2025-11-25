@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/localization/app_localizations.dart';
+import '../../../core/routing/app_routes.dart';
 import '../providers/service_provider.dart';
 
 class ProjectsGallery extends StatefulWidget {
@@ -251,11 +252,10 @@ class _ProjectsGalleryState extends State<ProjectsGallery> {
 
   void _onProjectTap(BuildContext context, String serviceId, String serviceName) {
     debugPrint('Project tapped: $serviceName (ID: $serviceId)');
-    // TODO: Navigate to project details page
-    // Navigator.pushNamed(
-    //   context,
-    //   AppRoutes.projectDetails,
-    //   arguments: {'serviceId': serviceId},
-    // );
+    Navigator.pushNamed(
+      context,
+      AppRoutes.serviceDetails,
+      arguments: {'serviceId': serviceId},
+    );
   }
 }

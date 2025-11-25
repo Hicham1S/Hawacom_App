@@ -44,21 +44,37 @@ class ServiceProvider extends ChangeNotifier {
 
   /// Load recommended services
   Future<void> loadRecommended() async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
     try {
       _recommended = await _repository.getRecommended();
+      _isLoading = false;
       notifyListeners();
     } catch (e) {
-      debugPrint('Failed to load recommended services: ${e.toString()}');
+      _isLoading = false;
+      _errorMessage = 'Failed to load recommended services: ${e.toString()}';
+      debugPrint(_errorMessage);
+      notifyListeners();
     }
   }
 
   /// Load featured services
   Future<void> loadFeatured({String? categoryId}) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
     try {
       _featured = await _repository.getFeatured(categoryId: categoryId);
+      _isLoading = false;
       notifyListeners();
     } catch (e) {
-      debugPrint('Failed to load featured services: ${e.toString()}');
+      _isLoading = false;
+      _errorMessage = 'Failed to load featured services: ${e.toString()}';
+      debugPrint(_errorMessage);
+      notifyListeners();
     }
   }
 

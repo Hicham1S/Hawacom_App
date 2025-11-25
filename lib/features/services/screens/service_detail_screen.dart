@@ -52,6 +52,14 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
           if (service == null) {
             return Scaffold(
               backgroundColor: AppColors.background,
+              appBar: AppBar(
+                backgroundColor: AppColors.primary,
+                title: const Text('تفاصيل الخدمة'),
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ),
               body: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -61,6 +69,15 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                     Text(
                       'لم يتم العثور على الخدمة',
                       style: TextStyle(color: AppColors.textSecondary),
+                    ),
+                    const SizedBox(height: 24),
+                    ElevatedButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: Colors.white,
+                      ),
+                      child: const Text('العودة'),
                     ),
                   ],
                 ),

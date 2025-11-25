@@ -48,7 +48,13 @@ class ServiceRepository extends BaseRepository {
       );
 
       if (response.success && response.data != null) {
-        return ServiceModel.fromJson(response.data as Map<String, dynamic>);
+        // Check if response.data is a Map before casting
+        if (response.data is Map<String, dynamic>) {
+          return ServiceModel.fromJson(response.data as Map<String, dynamic>);
+        } else {
+          debugPrint('Error: Expected Map but got ${response.data.runtimeType}');
+          return null;
+        }
       }
 
       return null;

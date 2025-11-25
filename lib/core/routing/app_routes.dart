@@ -36,6 +36,9 @@ class AppRoutes {
   static const String myBookings = '/my-bookings';
   static const String bookingDetails = '/booking-details';
 
+  // Checkout & Payment
+  static const String checkout = '/checkout';
+
   // Search & Categories
   static const String search = '/search';
   static const String category = '/category';

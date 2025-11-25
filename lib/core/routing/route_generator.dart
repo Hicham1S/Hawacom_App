@@ -15,6 +15,7 @@ import '../../features/bookings/screens/bookings_screen.dart';
 import '../../features/bookings/screens/booking_detail_screen.dart';
 import '../../features/search/screens/search_screen.dart';
 import '../../features/book_service/screens/book_service_screen.dart';
+import '../../features/checkout/screens/checkout_screen.dart';
 
 /// Centralized route generator for the application
 class RouteGenerator {
@@ -171,6 +172,19 @@ class RouteGenerator {
           builder: (_) => const SearchScreen(),
           settings: settings,
         );
+
+      // Checkout
+      case AppRoutes.checkout:
+        if (args is Map<String, dynamic>) {
+          final booking = args['booking'];
+          if (booking != null) {
+            return MaterialPageRoute(
+              builder: (_) => CheckoutScreen(booking: booking),
+              settings: settings,
+            );
+          }
+        }
+        return _errorRoute(settings, 'Checkout requires booking argument');
 
       // Default: Unknown route
       default:

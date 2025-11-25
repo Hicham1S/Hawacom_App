@@ -828,20 +828,12 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
     final booking = await provider.createBooking();
 
     if (booking != null) {
-      // Show success message
+      // Navigate to checkout to complete payment
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('تم إنشاء الحجز بنجاح'),
-            backgroundColor: Colors.green,
-          ),
-        );
-
-        // Navigate to booking details
-        Navigator.pushReplacementNamed(
+        Navigator.pushNamed(
           context,
-          AppRoutes.bookingDetails,
-          arguments: {'bookingId': booking.id},
+          AppRoutes.checkout,
+          arguments: {'booking': booking},
         );
       }
     } else if (provider.errorMessage != null) {

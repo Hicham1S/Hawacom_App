@@ -31,10 +31,10 @@ class ApiEndpoints {
   static String categoryById(String categoryId) => 'categories/$categoryId';
 
   // Service/Project endpoints
-  static const String services = 'services';
-  static String serviceById(String serviceId) => 'services/$serviceId';
+  static const String services = 'e_services';
+  static String serviceById(String serviceId) => 'e_services/$serviceId';
   static String servicesByCategory(String categoryId) =>
-      'categories/$categoryId/services';
+      'categories/$categoryId/e_services';
 
   // Slider/Banner endpoints
   static const String sliders = 'sliders';
@@ -59,4 +59,25 @@ class ApiEndpoints {
   static const String bookings = 'bookings';
   static String bookingById(String bookingId) => 'bookings/$bookingId';
   static const String bookingStatuses = 'booking_statuses';
+
+  // Payment endpoints
+  static const String paymentMethods = 'payment_methods';
+  static const String paymentStatuses = 'payment_statuses';
+  static const String payments = 'payments';
+  static String paymentById(String paymentId) => 'payments/$paymentId';
+
+  // Payment gateway URLs
+  static String stripePaymentUrl(String bookingId) => 'payments/stripe/$bookingId';
+  static String paypalPaymentUrl(String bookingId) => 'payments/paypal/$bookingId';
+  static String razorpayPaymentUrl(String bookingId) => 'payments/razorpay/$bookingId';
+  static String paystackPaymentUrl(String bookingId) => 'payments/paystack/$bookingId';
+  static String flutterwavePaymentUrl(String bookingId) => 'payments/flutterwave/$bookingId';
+  static String paymobPaymentUrl(String bookingId) => 'payments/paymob/$bookingId';
+  static String stripeFPXPaymentUrl(String bookingId) => 'payments/stripe_fpx/$bookingId';
+
+  // Wallet endpoints
+  static const String wallets = 'wallets';
+  static String walletById(String walletId) => 'wallets/$walletId';
+  static String walletTransactions(String walletId) => 'wallets/$walletId/transactions';
+  static const String walletPayment = 'payments/wallet';
 }
