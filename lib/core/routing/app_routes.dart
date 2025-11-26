@@ -44,6 +44,7 @@ class AppRoutes {
   // Search & Categories
   static const String search = '/search';
   static const String category = '/category';
+  static const String categoryDetails = '/category-details';
 
   // Notifications
   static const String notifications = '/notifications';

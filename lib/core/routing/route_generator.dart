@@ -21,6 +21,7 @@ import '../../features/notifications/screens/notifications_screen.dart';
 import '../../features/settings/screens/settings_screen.dart';
 import '../../features/settings/screens/language_settings_screen.dart';
 import '../../features/settings/screens/theme_settings_screen.dart';
+import '../../features/home/screens/category_detail_screen.dart';
 
 /// Centralized route generator for the application
 class RouteGenerator {
@@ -177,6 +178,23 @@ class RouteGenerator {
           builder: (_) => const SearchScreen(),
           settings: settings,
         );
+
+      // Category Details
+      case AppRoutes.categoryDetails:
+        if (args is Map<String, dynamic>) {
+          final categoryId = args['categoryId'] as String?;
+          final categoryName = args['categoryName'] as String?;
+          if (categoryId != null && categoryName != null) {
+            return MaterialPageRoute(
+              builder: (_) => CategoryDetailScreen(
+                categoryId: categoryId,
+                categoryName: categoryName,
+              ),
+              settings: settings,
+            );
+          }
+        }
+        return _errorRoute(settings, 'Category details requires categoryId and categoryName');
 
       // Checkout
       case AppRoutes.checkout:

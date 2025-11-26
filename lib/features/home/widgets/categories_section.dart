@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
+import '../../../core/routing/app_routes.dart';
 import '../providers/category_provider.dart';
 
 class CategoriesSection extends StatefulWidget {
@@ -152,12 +153,10 @@ class _CategoriesSectionState extends State<CategoriesSection> {
   }
 
   void _onCategoryTap(BuildContext context, String categoryId, String categoryName) {
-    debugPrint('Category tapped: $categoryName (ID: $categoryId)');
-    // TODO: Navigate to category page with filtered services
-    // Navigator.pushNamed(
-    //   context,
-    //   AppRoutes.categoryDetails,
-    //   arguments: {'categoryId': categoryId, 'categoryName': categoryName},
-    // );
+    Navigator.pushNamed(
+      context,
+      AppRoutes.categoryDetails,
+      arguments: {'categoryId': categoryId, 'categoryName': categoryName},
+    );
   }
 }
