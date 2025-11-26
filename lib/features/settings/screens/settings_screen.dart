@@ -16,13 +16,13 @@ class SettingsScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(
-          backgroundColor: AppColors.background,
+          backgroundColor: AppColors.primary,
+          foregroundColor: Colors.white,
           elevation: 0,
-          title: Text(
+          title: const Text(
             'الإعدادات',
             style: TextStyle(
-              color: AppColors.textPrimary,
-              fontSize: 24,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -75,19 +75,7 @@ class SettingsScreen extends StatelessWidget {
               },
             ),
 
-            const SizedBox(height: 12),
 
-            // Addresses
-            _buildSettingCard(
-              context,
-              title: 'العناوين',
-              subtitle: 'إدارة عناوين التوصيل',
-              icon: Icons.location_on,
-              iconColor: Colors.red,
-              onTap: () {
-                Navigator.pushNamed(context, AppRoutes.addresses);
-              },
-            ),
 
             const SizedBox(height: 24),
 
@@ -154,33 +142,61 @@ class SettingsScreen extends StatelessWidget {
     required Color iconColor,
     required VoidCallback onTap,
   }) {
-    return Card(
-      elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        gradient: LinearGradient(
+          colors: [
+            AppColors.cardBackground,
+            AppColors.cardBackground.withValues(alpha: 0.8),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          padding: const EdgeInsets.all(18),
           child: Row(
             children: [
-              // Icon
               Container(
-                width: 48,
-                height: 48,
+                width: 56,
+                height: 56,
                 decoration: BoxDecoration(
-                  color: iconColor.withValues(alpha: 0.1),
-                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                    colors: [
+                      iconColor.withValues(alpha: 0.2),
+                      iconColor.withValues(alpha: 0.1),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(14),
+                  boxShadow: [
+                    BoxShadow(
+                      color: iconColor.withValues(alpha: 0.15),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
                 child: Icon(
                   icon,
                   color: iconColor,
-                  size: 24,
+                  size: 26,
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 18),
 
               // Title and Subtitle
               Expanded(
@@ -189,18 +205,18 @@ class SettingsScreen extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: AppColors.textPrimary,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 6),
                     Text(
                       subtitle,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: AppColors.textSecondary,
-                        fontSize: 14,
+                        fontSize: 13,
                       ),
                     ),
                   ],
