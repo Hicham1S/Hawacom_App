@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/routing/app_routes.dart';
+import '../../../core/localization/app_localizations.dart';
 
 /// Phone number registration screen
 /// Matches the design theme from login screen
@@ -82,7 +83,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'تسجيل حساب جديد',
+                      AppLocalizations.of(context)!.authCreateYourAccount,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 28,
@@ -92,7 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'أدخل بياناتك للتسجيل',
+                      AppLocalizations.of(context)!.authRegisterNow,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16,
@@ -112,9 +113,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         fontSize: 16,
                       ),
                       decoration: InputDecoration(
-                        labelText: 'الاسم الكامل',
+                        labelText: AppLocalizations.of(context)!.authFullName,
                         labelStyle: TextStyle(color: AppColors.textSecondary),
-                        hintText: 'أدخل اسمك الكامل',
+                        hintText: AppLocalizations.of(context)!.authFullNameHint,
                         hintStyle: TextStyle(color: Colors.grey[400]),
                         prefixIcon: Icon(Icons.person_outline, color: AppColors.primary),
                         border: OutlineInputBorder(
@@ -125,10 +126,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
-                          return 'الرجاء إدخال الاسم';
+                          return AppLocalizations.of(context)!.authFullNameRequired;
                         }
                         if (value.trim().length < 3) {
-                          return 'الاسم يجب أن يكون 3 أحرف على الأقل';
+                          return 'الاسم يجب أن يكون 3 أحرف على الأقل'; // Missing key
                         }
                         return null;
                       },
@@ -146,7 +147,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         fontSize: 16,
                       ),
                       decoration: InputDecoration(
-                        labelText: 'رقم الجوال',
+                        labelText: AppLocalizations.of(context)!.authPhoneNumber,
                         labelStyle: TextStyle(color: AppColors.textSecondary),
                         hintText: '05xxxxxxxx',
                         hintStyle: TextStyle(color: Colors.grey[400]),
@@ -161,12 +162,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
-                          return 'الرجاء إدخال رقم الجوال';
+                          return AppLocalizations.of(context)!.authPhoneRequired;
                         }
                         // Saudi phone number validation
                         final cleanNumber = value.replaceAll(RegExp(r'[^\d]'), '');
                         if (cleanNumber.length < 9 || cleanNumber.length > 10) {
-                          return 'رقم الجوال غير صحيح';
+                          return AppLocalizations.of(context)!.authInvalidPhoneFormat;
                         }
                         return null;
                       },
@@ -194,7 +195,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              'سيتم إرسال رمز التحقق إلى رقم جوالك',
+                              AppLocalizations.of(context)!.authOTPSent,
                               style: TextStyle(
                                 color: AppColors.textPrimary,
                                 fontSize: 13,
@@ -218,9 +219,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        child: const Text(
-                          'تسجيل حساب جديد',
-                          style: TextStyle(
+                        child: Text(
+                          AppLocalizations.of(context)!.authRegister,
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
@@ -243,9 +244,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             fontSize: 14,
                           ),
                           children: [
-                            const TextSpan(text: 'لديك حساب؟ '),
+                            TextSpan(text: '${AppLocalizations.of(context)!.authAlreadyHaveAccount} '),
                             TextSpan(
-                              text: 'تسجيل الدخول',
+                              text: AppLocalizations.of(context)!.authLogin,
                               style: TextStyle(
                                 color: AppColors.primary,
                                 fontWeight: FontWeight.bold,

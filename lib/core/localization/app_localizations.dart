@@ -590,6 +590,18 @@ abstract class AppLocalizations {
   /// **'Change password coming soon'**
   String get profilePasswordComingSoon;
 
+  /// No description provided for @profileMyBookings.
+  ///
+  /// In en, this message translates to:
+  /// **'My Bookings'**
+  String get profileMyBookings;
+
+  /// No description provided for @profileViewBookings.
+  ///
+  /// In en, this message translates to:
+  /// **'View all bookings and orders'**
+  String get profileViewBookings;
+
   /// No description provided for @messages.
   ///
   /// In en, this message translates to:
@@ -733,6 +745,276 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Attachments coming soon'**
   String get messagesAttachmentSoon;
+
+  /// No description provided for @messagesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Conversations'**
+  String get messagesTitle;
+
+  /// No description provided for @messagesSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search conversations'**
+  String get messagesSearchHint;
+
+  /// No description provided for @messagesLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading conversations'**
+  String get messagesLoadError;
+
+  /// No description provided for @messagesStartPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Your conversations will appear here'**
+  String get messagesStartPrompt;
+
+  /// No description provided for @bookingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Book Service'**
+  String get bookingTitle;
+
+  /// No description provided for @bookingAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get bookingAddress;
+
+  /// No description provided for @bookingAddAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Address'**
+  String get bookingAddAddress;
+
+  /// No description provided for @bookingNoAddresses.
+  ///
+  /// In en, this message translates to:
+  /// **'No addresses found. Please add one.'**
+  String get bookingNoAddresses;
+
+  /// No description provided for @bookingSchedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Service Schedule'**
+  String get bookingSchedule;
+
+  /// No description provided for @bookingNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Now'**
+  String get bookingNow;
+
+  /// No description provided for @bookingLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule Later'**
+  String get bookingLater;
+
+  /// No description provided for @bookingDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration (Hours)'**
+  String get bookingDuration;
+
+  /// No description provided for @bookingQuantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity'**
+  String get bookingQuantity;
+
+  /// No description provided for @bookingCoupon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coupon Code'**
+  String get bookingCoupon;
+
+  /// No description provided for @bookingCouponApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Coupon applied: {code}'**
+  String bookingCouponApplied(String code);
+
+  /// No description provided for @bookingEnterCoupon.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter coupon code'**
+  String get bookingEnterCoupon;
+
+  /// No description provided for @bookingApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get bookingApply;
+
+  /// No description provided for @bookingNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Additional Notes'**
+  String get bookingNotes;
+
+  /// No description provided for @bookingNotesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add any special notes...'**
+  String get bookingNotesHint;
+
+  /// No description provided for @bookingPriceBreakdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Price Breakdown'**
+  String get bookingPriceBreakdown;
+
+  /// No description provided for @bookingSubtotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Subtotal'**
+  String get bookingSubtotal;
+
+  /// No description provided for @bookingTax.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax (15%)'**
+  String get bookingTax;
+
+  /// No description provided for @bookingDiscount.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount'**
+  String get bookingDiscount;
+
+  /// No description provided for @bookingTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get bookingTotal;
+
+  /// No description provided for @bookingConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Booking'**
+  String get bookingConfirm;
+
+  /// No description provided for @bookingRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get bookingRetry;
+
+  /// No description provided for @bookingAddressNoDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Address without description'**
+  String get bookingAddressNoDesc;
+
+  /// No description provided for @walletTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet'**
+  String get walletTitle;
+
+  /// No description provided for @walletBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Available Balance'**
+  String get walletBalance;
+
+  /// No description provided for @walletAddFunds.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Funds'**
+  String get walletAddFunds;
+
+  /// No description provided for @walletTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Transactions'**
+  String get walletTransactions;
+
+  /// No description provided for @walletNoTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'No transactions'**
+  String get walletNoTransactions;
+
+  /// No description provided for @walletAddFundsSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Funds added successfully'**
+  String get walletAddFundsSuccess;
+
+  /// No description provided for @walletAddFundsFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to add funds'**
+  String get walletAddFundsFail;
+
+  /// No description provided for @walletAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get walletAmount;
+
+  /// No description provided for @walletAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get walletAdd;
+
+  /// No description provided for @serviceDetailsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Service Details'**
+  String get serviceDetailsTitle;
+
+  /// No description provided for @serviceNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Service not found'**
+  String get serviceNotFound;
+
+  /// No description provided for @serviceBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get serviceBack;
+
+  /// No description provided for @serviceReviews.
+  ///
+  /// In en, this message translates to:
+  /// **'reviews'**
+  String get serviceReviews;
+
+  /// No description provided for @serviceDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get serviceDuration;
+
+  /// No description provided for @serviceDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get serviceDescription;
+
+  /// No description provided for @serviceCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get serviceCategories;
+
+  /// No description provided for @serviceProvider.
+  ///
+  /// In en, this message translates to:
+  /// **'Service Provider'**
+  String get serviceProvider;
+
+  /// No description provided for @serviceBookNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Book Now'**
+  String get serviceBookNow;
 
   /// No description provided for @authLogin.
   ///

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../models/conversation_firestore.dart';
 import '../services/firestore_chat_service.dart';
@@ -66,7 +67,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
           backgroundColor: AppColors.background,
           elevation: 0,
           title: Text(
-            'المحادثات',
+            AppLocalizations.of(context)!.messagesTitle,
             style: TextStyle(
               color: AppColors.textPrimary,
               fontSize: 24,
@@ -94,7 +95,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                     fontSize: 15,
                   ),
                   decoration: InputDecoration(
-                    hintText: 'ابحث في المحادثات',
+                    hintText: AppLocalizations.of(context)!.messagesSearchHint,
                     hintStyle: TextStyle(
                       color: AppColors.textSecondary,
                       fontSize: 15,
@@ -153,7 +154,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            'خطأ في تحميل المحادثات',
+                            AppLocalizations.of(context)!.messagesLoadError,
                             style: TextStyle(
                               color: AppColors.textSecondary,
                               fontSize: 16,
@@ -189,8 +190,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
                           const SizedBox(height: 16),
                           Text(
                             _searchQuery.isEmpty
-                                ? 'لا توجد محادثات'
-                                : 'لا توجد نتائج',
+                                ? AppLocalizations.of(context)!.messagesEmpty
+                                : AppLocalizations.of(context)!.messagesNoResults,
                             style: TextStyle(
                               color: AppColors.textSecondary,
                               fontSize: 18,
@@ -199,7 +200,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                           if (_searchQuery.isEmpty) ...[
                             const SizedBox(height: 8),
                             Text(
-                              'ستظهر محادثاتك هنا',
+                              AppLocalizations.of(context)!.messagesStartPrompt,
                               style: TextStyle(
                                 color: AppColors.textSecondary,
                                 fontSize: 14,

@@ -261,6 +261,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profilePasswordComingSoon => 'Change password coming soon';
 
   @override
+  String get profileMyBookings => 'My Bookings';
+
+  @override
+  String get profileViewBookings => 'View all bookings and orders';
+
+  @override
   String get messages => 'Messages';
 
   @override
@@ -331,6 +337,143 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get messagesAttachmentSoon => 'Attachments coming soon';
+
+  @override
+  String get messagesTitle => 'Conversations';
+
+  @override
+  String get messagesSearchHint => 'Search conversations';
+
+  @override
+  String get messagesLoadError => 'Error loading conversations';
+
+  @override
+  String get messagesStartPrompt => 'Your conversations will appear here';
+
+  @override
+  String get bookingTitle => 'Book Service';
+
+  @override
+  String get bookingAddress => 'Address';
+
+  @override
+  String get bookingAddAddress => 'Add Address';
+
+  @override
+  String get bookingNoAddresses => 'No addresses found. Please add one.';
+
+  @override
+  String get bookingSchedule => 'Service Schedule';
+
+  @override
+  String get bookingNow => 'Now';
+
+  @override
+  String get bookingLater => 'Schedule Later';
+
+  @override
+  String get bookingDuration => 'Duration (Hours)';
+
+  @override
+  String get bookingQuantity => 'Quantity';
+
+  @override
+  String get bookingCoupon => 'Coupon Code';
+
+  @override
+  String bookingCouponApplied(String code) {
+    return 'Coupon applied: $code';
+  }
+
+  @override
+  String get bookingEnterCoupon => 'Enter coupon code';
+
+  @override
+  String get bookingApply => 'Apply';
+
+  @override
+  String get bookingNotes => 'Additional Notes';
+
+  @override
+  String get bookingNotesHint => 'Add any special notes...';
+
+  @override
+  String get bookingPriceBreakdown => 'Price Breakdown';
+
+  @override
+  String get bookingSubtotal => 'Subtotal';
+
+  @override
+  String get bookingTax => 'Tax (15%)';
+
+  @override
+  String get bookingDiscount => 'Discount';
+
+  @override
+  String get bookingTotal => 'Total';
+
+  @override
+  String get bookingConfirm => 'Confirm Booking';
+
+  @override
+  String get bookingRetry => 'Retry';
+
+  @override
+  String get bookingAddressNoDesc => 'Address without description';
+
+  @override
+  String get walletTitle => 'Wallet';
+
+  @override
+  String get walletBalance => 'Available Balance';
+
+  @override
+  String get walletAddFunds => 'Add Funds';
+
+  @override
+  String get walletTransactions => 'Recent Transactions';
+
+  @override
+  String get walletNoTransactions => 'No transactions';
+
+  @override
+  String get walletAddFundsSuccess => 'Funds added successfully';
+
+  @override
+  String get walletAddFundsFail => 'Failed to add funds';
+
+  @override
+  String get walletAmount => 'Amount';
+
+  @override
+  String get walletAdd => 'Add';
+
+  @override
+  String get serviceDetailsTitle => 'Service Details';
+
+  @override
+  String get serviceNotFound => 'Service not found';
+
+  @override
+  String get serviceBack => 'Back';
+
+  @override
+  String get serviceReviews => 'reviews';
+
+  @override
+  String get serviceDuration => 'Duration';
+
+  @override
+  String get serviceDescription => 'Description';
+
+  @override
+  String get serviceCategories => 'Categories';
+
+  @override
+  String get serviceProvider => 'Service Provider';
+
+  @override
+  String get serviceBookNow => 'Book Now';
 
   @override
   String get authLogin => 'Login';

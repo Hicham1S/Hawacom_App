@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/routing/app_routes.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../providers/auth_provider.dart';
 
 /// Phone number login screen
@@ -76,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'تسجيل الدخول',
+                      AppLocalizations.of(context)!.authLogin,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 28,
@@ -86,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'أدخل رقم جوالك للمتابعة',
+                      AppLocalizations.of(context)!.authLoginNow, // Using generic login prompt or create a specific one if needed
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16,
@@ -106,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontSize: 16,
                       ),
                       decoration: InputDecoration(
-                        labelText: 'رقم الجوال',
+                        labelText: AppLocalizations.of(context)!.authPhoneNumber,
                         labelStyle: TextStyle(color: AppColors.textSecondary),
                         hintText: '05xxxxxxxx',
                         hintStyle: TextStyle(color: Colors.grey[400]),
@@ -121,12 +122,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
-                          return 'الرجاء إدخال رقم الجوال';
+                          return AppLocalizations.of(context)!.authPhoneRequired;
                         }
                         // Saudi phone number validation
                         final cleanNumber = value.replaceAll(RegExp(r'[^\d]'), '');
                         if (cleanNumber.length < 9 || cleanNumber.length > 10) {
-                          return 'رقم الجوال غير صحيح';
+                          return AppLocalizations.of(context)!.authInvalidPhoneFormat;
                         }
                         return null;
                       },
@@ -189,9 +190,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                       strokeWidth: 2,
                                     ),
                                   )
-                                : const Text(
-                                    'إرسال رمز التحقق',
-                                    style: TextStyle(
+                                : Text(
+                                    AppLocalizations.of(context)!.authSendResetLink, // Reusing similar string or add authSendOTP
+                                    style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,
@@ -216,9 +217,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontSize: 14,
                           ),
                           children: [
-                            const TextSpan(text: 'ليس لديك حساب؟ '),
+                            TextSpan(text: '${AppLocalizations.of(context)!.authDontHaveAccount} '),
                             TextSpan(
-                              text: 'سجل الآن',
+                              text: AppLocalizations.of(context)!.authRegisterNow,
                               style: TextStyle(
                                 color: AppColors.primary,
                                 fontWeight: FontWeight.bold,

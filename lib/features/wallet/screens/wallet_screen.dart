@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../providers/wallet_provider.dart';
 import '../models/wallet_transaction_model.dart';
 import 'package:intl/intl.dart';
@@ -29,9 +30,9 @@ class _WalletScreenState extends State<WalletScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
-        title: const Text(
-          'المحفظة',
-          style: TextStyle(
+        title: Text(
+          AppLocalizations.of(context)!.walletTitle,
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -90,9 +91,9 @@ class _WalletScreenState extends State<WalletScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'الرصيد المتاح',
-            style: TextStyle(
+          Text(
+          AppLocalizations.of(context)!.walletBalance,
+          style: const TextStyle(
               color: Colors.white70,
               fontSize: 14,
             ),
@@ -118,7 +119,7 @@ class _WalletScreenState extends State<WalletScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 12),
                   ),
                   icon: const Icon(Icons.add, size: 20),
-                  label: const Text('إضافة رصيد'),
+                  label: Text(AppLocalizations.of(context)!.walletAddFunds),
                 ),
               ),
             ],
@@ -149,9 +150,9 @@ class _WalletScreenState extends State<WalletScreen> {
               color: AppColors.textSecondary.withValues(alpha: 0.5),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'لا توجد معاملات',
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context)!.walletNoTransactions,
+              style: const TextStyle(
                 fontSize: 16,
                 color: AppColors.textSecondary,
               ),
@@ -164,11 +165,11 @@ class _WalletScreenState extends State<WalletScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
+        Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: Text(
-            'المعاملات الأخيرة',
-            style: TextStyle(
+            AppLocalizations.of(context)!.walletTransactions,
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: AppColors.textPrimary,
@@ -267,7 +268,7 @@ class _WalletScreenState extends State<WalletScreen> {
                 backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,
               ),
-              child: const Text('إعادة المحاولة'),
+              child: Text(AppLocalizations.of(context)!.bookingRetry), // Reusing retry key
             ),
           ],
         ),
@@ -281,20 +282,20 @@ class _WalletScreenState extends State<WalletScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('إضافة رصيد'),
+        title: Text(AppLocalizations.of(context)!.walletAddFunds),
         content: TextField(
           controller: controller,
           keyboardType: TextInputType.number,
-          decoration: const InputDecoration(
-            labelText: 'المبلغ',
+          decoration: InputDecoration(
+            labelText: AppLocalizations.of(context)!.walletAmount,
             suffixText: 'ر.س',
-            border: OutlineInputBorder(),
+            border: const OutlineInputBorder(),
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('إلغاء'),
+            child: Text(AppLocalizations.of(context)!.authCancel), // Reusing cancel key
           ),
           ElevatedButton(
             onPressed: () async {
@@ -306,7 +307,7 @@ class _WalletScreenState extends State<WalletScreen> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(
-                        success ? 'تم إضافة الرصيد بنجاح' : 'فشل إضافة الرصيد',
+                        success ? AppLocalizations.of(context)!.walletAddFundsSuccess : AppLocalizations.of(context)!.walletAddFundsFail,
                       ),
                       backgroundColor: success ? Colors.green : Colors.red,
                     ),
@@ -318,7 +319,7 @@ class _WalletScreenState extends State<WalletScreen> {
               backgroundColor: AppColors.primary,
               foregroundColor: Colors.white,
             ),
-            child: const Text('إضافة'),
+            child: Text(AppLocalizations.of(context)!.walletAdd),
           ),
         ],
       ),

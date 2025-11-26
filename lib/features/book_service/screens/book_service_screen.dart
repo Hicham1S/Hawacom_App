@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/routing/app_routes.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../providers/book_service_provider.dart';
 import '../../services/models/service_model.dart';
 import '../../profile/models/address_model.dart';
@@ -49,9 +50,9 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
         backgroundColor: AppColors.background,
         foregroundColor: AppColors.textPrimary,
         elevation: 0,
-        title: const Text(
-          'حجز الخدمة',
-          style: TextStyle(
+        title: Text(
+          AppLocalizations.of(context)!.bookingTitle,
+          style: const TextStyle(
             color: AppColors.textPrimary,
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -180,9 +181,9 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'العنوان',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context)!.bookingAddress,
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: AppColors.textPrimary,
@@ -195,9 +196,9 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                     });
                   },
                   icon: const Icon(Icons.add, size: 18, color: AppColors.primary),
-                  label: const Text(
-                    'إضافة عنوان',
-                    style: TextStyle(fontSize: 14, color: AppColors.primary),
+                  label: Text(
+                    AppLocalizations.of(context)!.bookingAddAddress,
+                    style: const TextStyle(fontSize: 14, color: AppColors.primary),
                   ),
                 ),
               ],
@@ -210,10 +211,10 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                   color: AppColors.background,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: const Center(
+                child: Center(
                   child: Text(
-                    'لا توجد عناوين. الرجاء إضافة عنوان.',
-                    style: TextStyle(
+                    AppLocalizations.of(context)!.bookingNoAddresses,
+                    style: const TextStyle(
                       color: AppColors.textSecondary,
                       fontSize: 14,
                     ),
@@ -252,7 +253,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                address.description.isNotEmpty ? address.description : (address.address.isNotEmpty ? address.address : 'عنوان بدون وصف'),
+                address.description.isNotEmpty ? address.description : (address.address.isNotEmpty ? address.address : AppLocalizations.of(context)!.bookingAddressNoDesc),
                 style: TextStyle(
                   fontSize: 14,
                   color: isSelected ? AppColors.primary : AppColors.textPrimary,
@@ -275,9 +276,9 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'موعد الخدمة',
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context)!.bookingSchedule,
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: AppColors.textPrimary,
@@ -299,7 +300,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                       ),
                       child: Center(
                         child: Text(
-                          'الآن',
+                          AppLocalizations.of(context)!.bookingNow,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
@@ -326,7 +327,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                       ),
                       child: Center(
                         child: Text(
-                          'جدولة لاحقاً',
+                          AppLocalizations.of(context)!.bookingLater,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
@@ -415,7 +416,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.service.priceUnit == 'hourly' ? 'المدة (بالساعات)' : 'الكمية',
+              widget.service.priceUnit == 'hourly' ? AppLocalizations.of(context)!.bookingDuration : AppLocalizations.of(context)!.bookingQuantity,
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -486,9 +487,9 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'كود الخصم',
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context)!.bookingCoupon,
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: AppColors.textPrimary,
@@ -509,7 +510,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        'تم تطبيق كود الخصم: ${provider.couponCode}',
+                        AppLocalizations.of(context)!.bookingCouponApplied(provider.couponCode!),
                         style: const TextStyle(
                           fontSize: 14,
                           color: Colors.green,
@@ -535,7 +536,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                       controller: _couponController,
                       style: const TextStyle(color: AppColors.textPrimary),
                       decoration: InputDecoration(
-                        hintText: 'أدخل كود الخصم',
+                        hintText: AppLocalizations.of(context)!.bookingEnterCoupon,
                         hintStyle: const TextStyle(color: AppColors.textSecondary),
                         filled: true,
                         fillColor: AppColors.background,
@@ -570,7 +571,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                               color: Colors.white,
                             ),
                           )
-                        : const Text('تطبيق'),
+                        : Text(AppLocalizations.of(context)!.bookingApply),
                   ),
                 ],
               ),
@@ -589,9 +590,9 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'ملاحظات إضافية',
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context)!.bookingNotes,
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: AppColors.textPrimary,
@@ -603,7 +604,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
               maxLines: 3,
               style: const TextStyle(color: AppColors.textPrimary),
               decoration: InputDecoration(
-                hintText: 'أضف أي ملاحظات خاصة بالحجز...',
+                hintText: AppLocalizations.of(context)!.bookingNotesHint,
                 hintStyle: const TextStyle(color: AppColors.textSecondary),
                 filled: true,
                 fillColor: AppColors.background,
@@ -630,9 +631,9 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'تفاصيل السعر',
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context)!.bookingPriceBreakdown,
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: AppColors.textPrimary,
@@ -640,25 +641,25 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
             ),
             const SizedBox(height: 12),
             _buildPriceRow(
-              'المجموع الفرعي',
+              AppLocalizations.of(context)!.bookingSubtotal,
               provider.calculateSubtotal(),
             ),
             const SizedBox(height: 8),
             _buildPriceRow(
-              'الضريبة (15%)',
+              AppLocalizations.of(context)!.bookingTax,
               provider.calculateTax(),
             ),
             if (provider.couponDiscount > 0) ...[
               const SizedBox(height: 8),
               _buildPriceRow(
-                'الخصم',
+                AppLocalizations.of(context)!.bookingDiscount,
                 -provider.couponDiscount,
                 color: Colors.green,
               ),
             ],
             const Divider(height: 24, color: AppColors.textSecondary),
             _buildPriceRow(
-              'المجموع الكلي',
+              AppLocalizations.of(context)!.bookingTotal,
               provider.calculateTotal(),
               isTotal: true,
             ),
@@ -714,9 +715,9 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                   color: Colors.white,
                 ),
               )
-            : const Text(
-                'تأكيد الحجز',
-                style: TextStyle(
+            : Text(
+                AppLocalizations.of(context)!.bookingConfirm,
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -757,7 +758,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
               backgroundColor: AppColors.primary,
               foregroundColor: Colors.white,
             ),
-            child: const Text('إعادة المحاولة'),
+            child: Text(AppLocalizations.of(context)!.bookingRetry),
           ),
         ],
       ),

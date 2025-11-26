@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/colors.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../models/chat_message.dart';
 
 /// Chat message bubble widget
@@ -91,7 +92,7 @@ class ChatMessageBubble extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  'فشل تحميل الصورة',
+                                  AppLocalizations.of(context)!.failedToLoadImage,
                                   style: TextStyle(
                                     color: isMe ? Colors.white70 : Colors.grey,
                                     fontSize: 12,

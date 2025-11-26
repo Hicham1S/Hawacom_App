@@ -315,9 +315,9 @@ class GridMenuDrawer extends StatelessWidget {
               Navigator.pop(dialogContext); // Close dialog using dialog context
               await _handleLogout(scaffoldContext); // Use original context for logout
             },
-            child: const Text(
-              'Logout',
-              style: TextStyle(color: Colors.redAccent),
+            child: Text(
+              l10n.menuLogout,
+              style: const TextStyle(color: Colors.redAccent),
             ),
           ),
         ],

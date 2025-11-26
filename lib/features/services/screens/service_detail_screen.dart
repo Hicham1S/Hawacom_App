@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/routing/app_routes.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../providers/service_provider.dart';
 import '../models/service_model.dart';
 
@@ -51,7 +52,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
               backgroundColor: AppColors.background,
               appBar: AppBar(
                 backgroundColor: AppColors.primary,
-                title: const Text('تفاصيل الخدمة'),
+                title: Text(AppLocalizations.of(context)!.serviceDetailsTitle),
                 leading: IconButton(
                   icon: const Icon(Icons.arrow_back),
                   onPressed: () => Navigator.pop(context),
@@ -64,7 +65,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                     const Icon(Icons.error_outline, size: 64, color: Colors.grey),
                     const SizedBox(height: 16),
                     Text(
-                      'لم يتم العثور على الخدمة',
+                      AppLocalizations.of(context)!.serviceNotFound,
                       style: TextStyle(color: AppColors.textSecondary),
                     ),
                     const SizedBox(height: 24),
@@ -74,7 +75,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                         backgroundColor: AppColors.primary,
                         foregroundColor: Colors.white,
                       ),
-                      child: const Text('العودة'),
+                      child: Text(AppLocalizations.of(context)!.serviceBack),
                     ),
                   ],
                 ),
@@ -273,7 +274,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
               ),
               const SizedBox(width: 8),
               Text(
-                '(${service.totalReviews} تقييم)',
+                '(${service.totalReviews} ${AppLocalizations.of(context)!.serviceReviews})',
                 style: TextStyle(
                   fontSize: 14,
                   color: AppColors.textSecondary,
@@ -324,7 +325,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                 Icon(Icons.schedule, size: 18, color: AppColors.textSecondary),
                 const SizedBox(width: 4),
                 Text(
-                  'المدة: ${service.duration}',
+                  '${AppLocalizations.of(context)!.serviceDuration}: ${service.duration}',
                   style: TextStyle(
                     fontSize: 14,
                     color: AppColors.textSecondary,
@@ -345,7 +346,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'الوصف',
+            AppLocalizations.of(context)!.serviceDescription,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -373,7 +374,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'الفئات',
+            AppLocalizations.of(context)!.serviceCategories,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -404,7 +405,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'مقدم الخدمة',
+            AppLocalizations.of(context)!.serviceProvider,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -482,9 +483,9 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
               borderRadius: BorderRadius.circular(12),
             ),
           ),
-          child: const Text(
-            'احجز الآن',
-            style: TextStyle(
+          child: Text(
+            AppLocalizations.of(context)!.serviceBookNow,
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: Colors.white,

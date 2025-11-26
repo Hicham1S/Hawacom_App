@@ -262,6 +262,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profilePasswordComingSoon => 'تغيير كلمة المرور قريباً';
 
   @override
+  String get profileMyBookings => 'حجوزاتي';
+
+  @override
+  String get profileViewBookings => 'عرض جميع الحجوزات والطلبات';
+
+  @override
   String get messages => 'الرسائل';
 
   @override
@@ -332,6 +338,143 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get messagesAttachmentSoon => 'إرفاق الملفات قريباً';
+
+  @override
+  String get messagesTitle => 'المحادثات';
+
+  @override
+  String get messagesSearchHint => 'ابحث في المحادثات';
+
+  @override
+  String get messagesLoadError => 'خطأ في تحميل المحادثات';
+
+  @override
+  String get messagesStartPrompt => 'ستظهر محادثاتك هنا';
+
+  @override
+  String get bookingTitle => 'حجز الخدمة';
+
+  @override
+  String get bookingAddress => 'العنوان';
+
+  @override
+  String get bookingAddAddress => 'إضافة عنوان';
+
+  @override
+  String get bookingNoAddresses => 'لا توجد عناوين. الرجاء إضافة عنوان.';
+
+  @override
+  String get bookingSchedule => 'موعد الخدمة';
+
+  @override
+  String get bookingNow => 'الآن';
+
+  @override
+  String get bookingLater => 'جدولة لاحقاً';
+
+  @override
+  String get bookingDuration => 'المدة (بالساعات)';
+
+  @override
+  String get bookingQuantity => 'الكمية';
+
+  @override
+  String get bookingCoupon => 'كود الخصم';
+
+  @override
+  String bookingCouponApplied(String code) {
+    return 'تم تطبيق كود الخصم: $code';
+  }
+
+  @override
+  String get bookingEnterCoupon => 'أدخل كود الخصم';
+
+  @override
+  String get bookingApply => 'تطبيق';
+
+  @override
+  String get bookingNotes => 'ملاحظات إضافية';
+
+  @override
+  String get bookingNotesHint => 'أضف أي ملاحظات خاصة بالحجز...';
+
+  @override
+  String get bookingPriceBreakdown => 'تفاصيل السعر';
+
+  @override
+  String get bookingSubtotal => 'المجموع الفرعي';
+
+  @override
+  String get bookingTax => 'الضريبة (15%)';
+
+  @override
+  String get bookingDiscount => 'الخصم';
+
+  @override
+  String get bookingTotal => 'المجموع الكلي';
+
+  @override
+  String get bookingConfirm => 'تأكيد الحجز';
+
+  @override
+  String get bookingRetry => 'إعادة المحاولة';
+
+  @override
+  String get bookingAddressNoDesc => 'عنوان بدون وصف';
+
+  @override
+  String get walletTitle => 'المحفظة';
+
+  @override
+  String get walletBalance => 'الرصيد المتاح';
+
+  @override
+  String get walletAddFunds => 'إضافة رصيد';
+
+  @override
+  String get walletTransactions => 'المعاملات الأخيرة';
+
+  @override
+  String get walletNoTransactions => 'لا توجد معاملات';
+
+  @override
+  String get walletAddFundsSuccess => 'تم إضافة الرصيد بنجاح';
+
+  @override
+  String get walletAddFundsFail => 'فشل إضافة الرصيد';
+
+  @override
+  String get walletAmount => 'المبلغ';
+
+  @override
+  String get walletAdd => 'إضافة';
+
+  @override
+  String get serviceDetailsTitle => 'تفاصيل الخدمة';
+
+  @override
+  String get serviceNotFound => 'لم يتم العثور على الخدمة';
+
+  @override
+  String get serviceBack => 'العودة';
+
+  @override
+  String get serviceReviews => 'تقييم';
+
+  @override
+  String get serviceDuration => 'المدة';
+
+  @override
+  String get serviceDescription => 'الوصف';
+
+  @override
+  String get serviceCategories => 'الفئات';
+
+  @override
+  String get serviceProvider => 'مقدم الخدمة';
+
+  @override
+  String get serviceBookNow => 'احجز الآن';
 
   @override
   String get authLogin => 'تسجيل الدخول';

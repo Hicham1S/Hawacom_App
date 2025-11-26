@@ -202,8 +202,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                     ProfileInfoTile(
                       icon: Icons.bookmark_outline,
-                      title: 'حجوزاتي',
-                      value: 'عرض جميع الحجوزات والطلبات',
+                      title: l10n.profileMyBookings,
+                      value: l10n.profileViewBookings,
                       onTap: () {
                         Navigator.pushNamed(context, AppRoutes.myBookings);
                       },
@@ -310,9 +310,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Navigator.pop(context); // Close dialog
               await _handleLogout();
             },
-            child: const Text(
-              'Logout',
-              style: TextStyle(color: Colors.redAccent),
+            child: Text(
+              l10n.menuLogout,
+              style: const TextStyle(color: Colors.redAccent),
             ),
           ),
         ],

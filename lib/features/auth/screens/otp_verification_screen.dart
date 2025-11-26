@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/routing/app_routes.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../providers/auth_provider.dart';
 
 /// OTP Verification Screen
@@ -47,8 +48,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     // Verify static OTP
     if (enteredOTP != STATIC_OTP) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('رمز التحقق غير صحيح - Incorrect OTP'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.authInvalidOTP),
           backgroundColor: Colors.red,
         ),
       );
@@ -76,7 +77,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            authProvider.errorMessage ?? 'فشل تسجيل الدخول - Login failed',
+            authProvider.errorMessage ?? AppLocalizations.of(context)!.authLogoutFailed, // Using generic failure or add authLoginFailed
           ),
           backgroundColor: Colors.red,
         ),
@@ -93,8 +94,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     debugPrint('==================');
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('تم إرسال الرمز مرة أخرى - OTP resent'),
+      SnackBar(
+        content: Text(AppLocalizations.of(context)!.authOTPSent),
         backgroundColor: Colors.green,
       ),
     );
@@ -134,7 +135,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
                     // Title
                     Text(
-                      'تأكيد رقم الجوال',
+                      AppLocalizations.of(context)!.authVerifyOTP,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 28,
@@ -146,7 +147,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
                     // Phone number display
                     Text(
-                      'أدخل الرمز المرسل إلى\n${widget.phoneNumber}',
+                      '${AppLocalizations.of(context)!.authEnterOTP}\n${widget.phoneNumber}',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16,
@@ -197,10 +198,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'الرجاء إدخال رمز التحقق';
+                          return AppLocalizations.of(context)!.authInvalidOTP; // Using invalid OTP message or add authOTPRequired
                         }
                         if (value.length != 6) {
-                          return 'الرمز يجب أن يكون 6 أرقام';
+                          return AppLocalizations.of(context)!.authInvalidOTP;
                         }
                         return null;
                       },
@@ -263,8 +264,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                                       strokeWidth: 2,
                                     ),
                                   )
-                                : const Text(
-                                    'تحقق',
+                                : Text(
+                                    AppLocalizations.of(context)!.authVerify,
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
@@ -282,7 +283,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     TextButton(
                       onPressed: _resendOTP,
                       child: Text(
-                        'لم يصلك الرمز؟ إعادة إرسال',
+                        AppLocalizations.of(context)!.authResendOTP,
                         style: TextStyle(
                           color: AppColors.primary,
                           fontSize: 14,
