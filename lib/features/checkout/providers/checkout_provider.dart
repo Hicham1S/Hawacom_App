@@ -3,10 +3,12 @@ import '../repositories/checkout_repository.dart';
 import '../models/payment_method_model.dart';
 import '../models/payment_model.dart';
 import '../../bookings/models/booking_model.dart';
+import '../../wallet/repositories/wallet_repository.dart';
 
 /// Provider for managing checkout and payment flow
 class CheckoutProvider extends ChangeNotifier {
   final CheckoutRepository _repository = CheckoutRepository();
+  final WalletRepository _walletRepository = WalletRepository();
 
   // State
   BookingModel? _booking;
@@ -64,9 +66,23 @@ class CheckoutProvider extends ChangeNotifier {
   }
 
   /// Select payment method
-  void selectPaymentMethod(PaymentMethodModel method) {
+  Future<void> selectPaymentMethod(PaymentMethodModel method) async {
     _selectedPaymentMethod = method;
+    _errorMessage = null;
     notifyListeners();
+
+    // Check wallet balance if wallet payment is selected
+    if (method.isWallet && _booking != null) {
+      // Calculate total from booking
+      final total = (_booking!.taxesValue ?? 0.0) + (_booking!.service.actualPrice * (_booking!.quantity ?? 1));
+      final hasSufficientBalance = await _walletRepository.hasSufficientBalance(total);
+      
+      if (!hasSufficientBalance) {
+        _errorMessage = 'رصيد المحفظة غير كافٍ. الرجاء إضافة رصيد أو اختيار طريقة دفع أخرى.';
+        _selectedPaymentMethod = null;
+        notifyListeners();
+      }
+    }
   }
 
   /// Process payment with selected method

@@ -22,6 +22,7 @@ import '../../features/settings/screens/settings_screen.dart';
 import '../../features/settings/screens/language_settings_screen.dart';
 import '../../features/settings/screens/theme_settings_screen.dart';
 import '../../features/home/screens/category_detail_screen.dart';
+import '../../features/wallet/screens/wallet_screen.dart';
 
 /// Centralized route generator for the application
 class RouteGenerator {
@@ -239,6 +240,13 @@ class RouteGenerator {
       case AppRoutes.themeSettings:
         return MaterialPageRoute(
           builder: (_) => const ThemeSettingsScreen(),
+          settings: settings,
+        );
+
+      // Wallet
+      case AppRoutes.wallet:
+        return MaterialPageRoute(
+          builder: (_) => const WalletScreen(),
           settings: settings,
         );
 

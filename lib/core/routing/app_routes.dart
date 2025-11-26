@@ -58,6 +58,9 @@ class AppRoutes {
   static const String terms = '/terms';
   static const String privacy = '/privacy';
 
+  // Wallet
+  static const String wallet = '/wallet';
+
   // Route helpers
   static String chatWithId(String userId) => '$chat?userId=$userId';
   static String serviceDetailsWithId(String serviceId) =>
