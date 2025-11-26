@@ -16,6 +16,8 @@ import 'features/bookings/providers/booking_provider.dart';
 import 'features/search/providers/search_provider.dart';
 import 'features/book_service/providers/book_service_provider.dart';
 import 'features/checkout/providers/checkout_provider.dart';
+import 'features/messages/providers/message_provider.dart';
+import 'features/stories/providers/story_provider.dart';
 
 void main() async {
   // Ensure Flutter binding is initialized
@@ -57,6 +59,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => BookServiceProvider()),
         // Checkout provider
         ChangeNotifierProvider(create: (_) => CheckoutProvider()),
+        // Messages provider
+        ChangeNotifierProvider(create: (_) => MessageProvider()),
+        // Stories provider
+        ChangeNotifierProvider(create: (_) => StoryProvider()),
         // Add more providers here as needed
       ],
       child: MaterialApp(
