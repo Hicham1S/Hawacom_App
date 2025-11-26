@@ -55,8 +55,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                 _buildServiceCard(booking),
                 _buildBookingInfoCard(booking),
                 _buildPricingCard(booking),
-                if (booking.addressDescription != null)
-                  _buildAddressCard(booking),
+
                 if (booking.paymentId != null) _buildPaymentCard(booking),
                 _buildActionsCard(booking),
                 const SizedBox(height: 20),
@@ -217,35 +216,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
     );
   }
 
-  Widget _buildAddressCard(BookingModel booking) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Row(
-              children: [
-                Icon(Icons.location_on, color: AppColors.primary),
-                SizedBox(width: 8),
-                Text(
-                  'العنوان',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Text(
-              booking.addressDescription ?? 'لا يوجد وصف',
-              style: const TextStyle(fontSize: 14, color: Colors.grey),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+
 
   Widget _buildPaymentCard(BookingModel booking) {
     return Card(

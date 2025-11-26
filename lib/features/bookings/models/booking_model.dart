@@ -11,9 +11,7 @@ class BookingModel extends BaseModel {
   final int quantity;
   final BookingStatusModel status;
   final ServiceModel service;
-  final String? addressDescription;
-  final String? addressLatitude;
-  final String? addressLongitude;
+
   final DateTime bookingAt;
   final DateTime? startAt;
   final DateTime? endsAt;
@@ -31,9 +29,7 @@ class BookingModel extends BaseModel {
     this.quantity = 1,
     required this.status,
     required this.service,
-    this.addressDescription,
-    this.addressLatitude,
-    this.addressLongitude,
+
     required this.bookingAt,
     this.startAt,
     this.endsAt,
@@ -53,9 +49,7 @@ class BookingModel extends BaseModel {
         quantity,
         status,
         service,
-        addressDescription,
-        addressLatitude,
-        addressLongitude,
+
         bookingAt,
         startAt,
         endsAt,
@@ -89,9 +83,7 @@ class BookingModel extends BaseModel {
               isFavorite: false,
               categories: [],
             ),
-      addressDescription: json['address']?['description']?.toString(),
-      addressLatitude: json['address']?['latitude']?.toString(),
-      addressLongitude: json['address']?['longitude']?.toString(),
+
       bookingAt: json['booking_at'] != null
           ? DateTime.parse(json['booking_at'])
           : DateTime.now(),
@@ -115,13 +107,7 @@ class BookingModel extends BaseModel {
       'quantity': quantity,
       'booking_status_id': status.id,
       'e_service': service.toJson(), // Send full service object
-      if (addressDescription != null)
-        'address': {
-          'address': addressDescription, // API expects 'address' field
-          'description': addressDescription,
-          'latitude': addressLatitude,
-          'longitude': addressLongitude,
-        },
+
       'booking_at': bookingAt.toUtc().toIso8601String(),
       if (startAt != null) 'start_at': startAt!.toUtc().toIso8601String(),
       if (endsAt != null) 'ends_at': endsAt!.toUtc().toIso8601String(),

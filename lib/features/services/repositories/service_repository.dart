@@ -25,7 +25,7 @@ class ServiceRepository extends BaseRepository {
       if (response.success && response.data != null) {
         final List<dynamic> data = response.data is List
             ? response.data
-            : (response.data['data'] as List? ?? []);
+            : (response.data is Map ? (response.data['data'] as List? ?? []) : []);
 
         return data
             .map((json) => ServiceModel.fromJson(json as Map<String, dynamic>))
@@ -82,7 +82,7 @@ class ServiceRepository extends BaseRepository {
       if (response.success && response.data != null) {
         final List<dynamic> data = response.data is List
             ? response.data
-            : (response.data['data'] as List? ?? []);
+            : (response.data is Map ? (response.data['data'] as List? ?? []) : []);
 
         return data
             .map((json) => ServiceModel.fromJson(json as Map<String, dynamic>))
@@ -110,7 +110,7 @@ class ServiceRepository extends BaseRepository {
       if (response.success && response.data != null) {
         final List<dynamic> data = response.data is List
             ? response.data
-            : (response.data['data'] as List? ?? []);
+            : (response.data is Map ? (response.data['data'] as List? ?? []) : []);
 
         return data
             .map((json) => ServiceModel.fromJson(json as Map<String, dynamic>))
@@ -164,7 +164,7 @@ class ServiceRepository extends BaseRepository {
       if (response.success && response.data != null) {
         final List<dynamic> data = response.data is List
             ? response.data
-            : (response.data['data'] as List? ?? []);
+            : (response.data is Map ? (response.data['data'] as List? ?? []) : []);
 
         return data
             .map((json) => ServiceModel.fromJson(json as Map<String, dynamic>))

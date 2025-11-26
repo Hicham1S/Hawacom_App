@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import '../../services/models/service_model.dart';
-import '../../profile/models/address_model.dart';
-import '../../profile/repositories/address_repository.dart';
+
 import '../../bookings/models/booking_model.dart';
 import '../../bookings/models/booking_status_model.dart';
 import '../../bookings/repositories/booking_repository.dart';
 
 /// Provider for managing service booking flow
 class BookServiceProvider extends ChangeNotifier {
-  final AddressRepository _addressRepository = AddressRepository();
+
   final BookingRepository _bookingRepository = BookingRepository();
 
   // Service being booked
   ServiceModel? _service;
 
   // Booking state
-  List<AddressModel> _addresses = [];
-  AddressModel? _selectedAddress;
+
   DateTime _bookingDate = DateTime.now();
   TimeOfDay _bookingTime = TimeOfDay.now();
   bool _isScheduled = false;
@@ -29,15 +27,14 @@ class BookServiceProvider extends ChangeNotifier {
 
   // Loading states
   bool _isLoading = false;
-  bool _isLoadingAddresses = false;
+
   bool _isValidatingCoupon = false;
   String? _errorMessage;
   String? _couponError;
 
   // Getters
   ServiceModel? get service => _service;
-  List<AddressModel> get addresses => _addresses;
-  AddressModel? get selectedAddress => _selectedAddress;
+
   DateTime get bookingDate => _bookingDate;
   TimeOfDay get bookingTime => _bookingTime;
   bool get isScheduled => _isScheduled;
@@ -48,7 +45,7 @@ class BookServiceProvider extends ChangeNotifier {
   double get couponDiscount => _couponDiscount;
   String? get notes => _notes;
   bool get isLoading => _isLoading;
-  bool get isLoadingAddresses => _isLoadingAddresses;
+
   bool get isValidatingCoupon => _isValidatingCoupon;
   String? get errorMessage => _errorMessage;
   String? get couponError => _couponError;
@@ -71,31 +68,7 @@ class BookServiceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Load user addresses
-  Future<void> loadAddresses() async {
-    _isLoadingAddresses = true;
-    _errorMessage = null;
-    notifyListeners();
 
-    try {
-      _addresses = await _addressRepository.getAddresses();
-      if (_addresses.isNotEmpty && _selectedAddress == null) {
-        _selectedAddress = _addresses.first;
-      }
-      _isLoadingAddresses = false;
-      notifyListeners();
-    } catch (e) {
-      _errorMessage = 'فشل تحميل العناوين: $e';
-      _isLoadingAddresses = false;
-      notifyListeners();
-    }
-  }
-
-  /// Select address
-  void selectAddress(AddressModel address) {
-    _selectedAddress = address;
-    notifyListeners();
-  }
 
   /// Toggle scheduled booking
   void toggleScheduled(bool value) {
@@ -235,11 +208,7 @@ class BookServiceProvider extends ChangeNotifier {
       return null;
     }
 
-    if (_selectedAddress == null) {
-      _errorMessage = 'الرجاء تحديد العنوان';
-      notifyListeners();
-      return null;
-    }
+
 
     _isLoading = true;
     _errorMessage = null;
@@ -254,9 +223,7 @@ class BookServiceProvider extends ChangeNotifier {
         quantity: _quantity,
         status: const BookingStatusModel(id: '1', status: 'قيد الانتظار', order: 1),
         service: _service!,
-        addressDescription: _selectedAddress!.description,
-        addressLatitude: _selectedAddress!.latitude?.toString(),
-        addressLongitude: _selectedAddress!.longitude?.toString(),
+
         bookingAt: fullBookingDateTime,
         taxesValue: calculateTax(),
         couponDiscount: _couponDiscount,
@@ -279,7 +246,7 @@ class BookServiceProvider extends ChangeNotifier {
   /// Clear booking state
   void clearBooking() {
     _service = null;
-    _selectedAddress = null;
+
     _bookingDate = DateTime.now();
     _bookingTime = TimeOfDay.now();
     _isScheduled = false;

@@ -5,7 +5,7 @@ import '../../../core/routing/app_routes.dart';
 import '../../../core/localization/app_localizations.dart';
 import '../providers/book_service_provider.dart';
 import '../../services/models/service_model.dart';
-import '../../profile/models/address_model.dart';
+
 
 /// Book Service Screen - Complete booking flow
 class BookServiceScreen extends StatefulWidget {
@@ -31,7 +31,6 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final provider = context.read<BookServiceProvider>();
       provider.initializeBooking(widget.service);
-      provider.loadAddresses();
     });
   }
 
@@ -61,11 +60,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
       ),
       body: Consumer<BookServiceProvider>(
         builder: (context, provider, child) {
-          if (provider.isLoadingAddresses) {
-            return const Center(
-              child: CircularProgressIndicator(color: AppColors.primary),
-            );
-          }
+
 
           if (provider.errorMessage != null) {
             return _buildErrorWidget(provider.errorMessage!);
@@ -78,8 +73,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
               children: [
                 _buildServiceCard(),
                 const SizedBox(height: 16),
-                _buildAddressSection(provider),
-                const SizedBox(height: 16),
+
                 _buildScheduleSection(provider),
                 const SizedBox(height: 16),
                 _buildQuantityDurationSection(provider),
@@ -169,103 +163,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
     );
   }
 
-  Widget _buildAddressSection(BookServiceProvider provider) {
-    return Card(
-      color: AppColors.cardBackground,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  AppLocalizations.of(context)!.bookingAddress,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-                TextButton.icon(
-                  onPressed: () {
-                    Navigator.pushNamed(context, AppRoutes.addAddress).then((_) {
-                      provider.loadAddresses();
-                    });
-                  },
-                  icon: const Icon(Icons.add, size: 18, color: AppColors.primary),
-                  label: Text(
-                    AppLocalizations.of(context)!.bookingAddAddress,
-                    style: const TextStyle(fontSize: 14, color: AppColors.primary),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            if (provider.addresses.isEmpty)
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: AppColors.background,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Center(
-                  child: Text(
-                    AppLocalizations.of(context)!.bookingNoAddresses,
-                    style: const TextStyle(
-                      color: AppColors.textSecondary,
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-              )
-            else
-              ...provider.addresses.map((address) => _buildAddressItem(provider, address)),
-          ],
-        ),
-      ),
-    );
-  }
 
-  Widget _buildAddressItem(BookServiceProvider provider, AddressModel address) {
-    final isSelected = provider.selectedAddress?.id == address.id;
-    return InkWell(
-      onTap: () => provider.selectAddress(address),
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 8),
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary.withValues(alpha: 0.1) : AppColors.background,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: isSelected ? AppColors.primary : AppColors.background,
-            width: 2,
-          ),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              isSelected ? Icons.radio_button_checked : Icons.radio_button_unchecked,
-              color: isSelected ? AppColors.primary : AppColors.textSecondary,
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                address.description.isNotEmpty ? address.description : (address.address.isNotEmpty ? address.address : AppLocalizations.of(context)!.bookingAddressNoDesc),
-                style: TextStyle(
-                  fontSize: 14,
-                  color: isSelected ? AppColors.primary : AppColors.textPrimary,
-                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   Widget _buildScheduleSection(BookServiceProvider provider) {
     return Card(
@@ -752,7 +650,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
           ElevatedButton(
             onPressed: () {
               context.read<BookServiceProvider>().clearError();
-              context.read<BookServiceProvider>().loadAddresses();
+              context.read<BookServiceProvider>().clearError();
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
@@ -814,17 +712,6 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
   }
 
   Future<void> _confirmBooking(BookServiceProvider provider) async {
-    // Validate address
-    if (provider.selectedAddress == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('الرجاء تحديد العنوان'),
-          backgroundColor: Colors.red,
-        ),
-      );
-      return;
-    }
-
     // Create booking
     final booking = await provider.createBooking();
 
