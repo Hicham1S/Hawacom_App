@@ -18,6 +18,9 @@ import '../../features/book_service/screens/book_service_screen.dart';
 import '../../features/checkout/screens/checkout_screen.dart';
 import '../../features/favorites/screens/favorites_screen.dart';
 import '../../features/notifications/screens/notifications_screen.dart';
+import '../../features/settings/screens/settings_screen.dart';
+import '../../features/settings/screens/language_settings_screen.dart';
+import '../../features/settings/screens/theme_settings_screen.dart';
 
 /// Centralized route generator for the application
 class RouteGenerator {
@@ -199,6 +202,25 @@ class RouteGenerator {
       case AppRoutes.notifications:
         return MaterialPageRoute(
           builder: (_) => const NotificationsScreen(),
+          settings: settings,
+        );
+
+      // Settings
+      case AppRoutes.settings:
+        return MaterialPageRoute(
+          builder: (_) => const SettingsScreen(),
+          settings: settings,
+        );
+
+      case AppRoutes.languageSettings:
+        return MaterialPageRoute(
+          builder: (_) => const LanguageSettingsScreen(),
+          settings: settings,
+        );
+
+      case AppRoutes.themeSettings:
+        return MaterialPageRoute(
+          builder: (_) => const ThemeSettingsScreen(),
           settings: settings,
         );
 

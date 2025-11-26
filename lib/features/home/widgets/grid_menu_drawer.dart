@@ -58,7 +58,7 @@ class GridMenuDrawer extends StatelessWidget {
                     title: l10n.menuFavorites,
                     onTap: () {
                       Navigator.pop(context);
-                      // Navigate to favorites
+                      Navigator.pushNamed(context, AppRoutes.favorites);
                     },
                   ),
                   _buildMenuItem(
@@ -86,7 +86,7 @@ class GridMenuDrawer extends StatelessWidget {
                     title: l10n.menuSettings,
                     onTap: () {
                       Navigator.pop(context);
-                      // Navigate to settings
+                      Navigator.pushNamed(context, AppRoutes.settings);
                     },
                   ),
                   _buildMenuItem(

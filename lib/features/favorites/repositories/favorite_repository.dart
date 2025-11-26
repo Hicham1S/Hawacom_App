@@ -1,10 +1,14 @@
 import 'package:flutter/foundation.dart';
 import '../../../core/repositories/base_repository.dart';
+import '../../../core/services/session_manager.dart';
 import '../models/favorite_model.dart';
 
 /// Repository for favorite-related API calls
 class FavoriteRepository extends BaseRepository {
-  FavoriteRepository({super.apiClient});
+  final SessionManager _sessionManager;
+
+  FavoriteRepository({super.apiClient, SessionManager? sessionManager})
+      : _sessionManager = sessionManager ?? SessionManager();
 
   /// Get all user's favorites
   Future<List<FavoriteModel>> getAllFavorites() async {
@@ -36,9 +40,26 @@ class FavoriteRepository extends BaseRepository {
   /// Add service to favorites
   Future<bool> addToFavorites(String serviceId) async {
     try {
+      // Get current user from session
+      final user = await _sessionManager.getUser();
+      if (user == null) {
+        debugPrint('Error adding to favorites: User not logged in');
+        return false;
+      }
+
+      // Get user ID from the map
+      final userId = user['id']?.toString();
+      if (userId == null) {
+        debugPrint('Error adding to favorites: User ID not found');
+        return false;
+      }
+
       final response = await apiClient.post(
         'favorites',
-        data: {'e_service_id': serviceId},
+        data: {
+          'e_service_id': serviceId,
+          'user_id': userId,
+        },
       );
 
       return response.success;
