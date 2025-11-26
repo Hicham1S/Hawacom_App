@@ -68,7 +68,7 @@ class ChatMessageBubble extends StatelessWidget {
                         fit: BoxFit.cover,
                         loadingBuilder: (context, child, loadingProgress) {
                           if (loadingProgress == null) return child;
-                          return Container(
+                          return SizedBox(
                             height: 150,
                             child: Center(
                               child: CircularProgressIndicator(

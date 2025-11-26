@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import '../../../core/api/api_client.dart';
 import '../../../core/api/api_endpoints.dart';
 import '../../../core/repositories/base_repository.dart';
 import '../models/service_model.dart';

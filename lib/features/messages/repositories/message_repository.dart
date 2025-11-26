@@ -7,14 +7,12 @@ import '../services/chat_service.dart';
 /// Repository for message-related operations
 /// Abstracts data source (Firestore/Mock) from business logic
 class MessageRepository {
-  final FirestoreChatService _firestoreService;
   final bool _useFirestore;
 
   MessageRepository({
     FirestoreChatService? firestoreService,
     bool useFirestore = true,
-  })  : _firestoreService = firestoreService ?? FirestoreChatService(),
-        _useFirestore = useFirestore;
+  })  : _useFirestore = useFirestore;
 
   /// Get all conversations
   /// If useFirestore is false, uses mock data

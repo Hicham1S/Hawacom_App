@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../../../core/constants/colors.dart';
-import '../../../core/localization/app_localizations.dart';
 import '../../../core/routing/app_routes.dart';
 import '../providers/service_provider.dart';
 import '../models/service_model.dart';
@@ -33,8 +32,6 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Consumer<ServiceProvider>(
@@ -144,7 +141,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.2),
+                color: Colors.black.withValues(alpha: 0.2),
                 blurRadius: 8,
               ),
             ],
@@ -162,7 +159,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
+                  color: Colors.black.withValues(alpha: 0.2),
                   blurRadius: 8,
                 ),
               ],
@@ -227,7 +224,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                               shape: BoxShape.circle,
                               color: _currentImageIndex == entry.key
                                   ? Colors.white
-                                  : Colors.white.withOpacity(0.4),
+                                  : Colors.white.withValues(alpha: 0.4),
                             ),
                           );
                         }).toList(),
@@ -390,7 +387,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
             children: service.categories.map((category) {
               return Chip(
                 label: Text(category.name),
-                backgroundColor: AppColors.primary.withOpacity(0.1),
+                backgroundColor: AppColors.primary.withValues(alpha: 0.1),
                 labelStyle: TextStyle(color: AppColors.primary),
               );
             }).toList(),
@@ -463,7 +460,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, -2),
           ),

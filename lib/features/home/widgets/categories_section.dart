@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
-import '../../../core/localization/app_localizations.dart';
 import '../providers/category_provider.dart';
 
 class CategoriesSection extends StatefulWidget {
@@ -92,7 +91,7 @@ class _CategoriesSectionState extends State<CategoriesSection> {
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
+              color: Colors.grey.withValues(alpha: 0.1),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),

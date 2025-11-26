@@ -190,7 +190,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary.withOpacity(0.1) : AppColors.background,
+          color: isSelected ? AppColors.primary.withValues(alpha: 0.1) : AppColors.background,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: isSelected ? AppColors.primary : AppColors.background,
@@ -293,7 +293,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           Icon(
             Icons.payment_outlined,
             size: 80,
-            color: AppColors.textSecondary.withOpacity(0.5),
+            color: AppColors.textSecondary.withValues(alpha: 0.5),
           ),
           const SizedBox(height: 16),
           const Text(

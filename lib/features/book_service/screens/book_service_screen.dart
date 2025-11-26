@@ -236,7 +236,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
         margin: const EdgeInsets.only(bottom: 8),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary.withOpacity(0.1) : AppColors.background,
+          color: isSelected ? AppColors.primary.withValues(alpha: 0.1) : AppColors.background,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: isSelected ? AppColors.primary : AppColors.background,
@@ -252,7 +252,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                address.description ?? address.address ?? 'عنوان بدون وصف',
+                address.description.isNotEmpty ? address.description : (address.address.isNotEmpty ? address.address : 'عنوان بدون وصف'),
                 style: TextStyle(
                   fontSize: 14,
                   color: isSelected ? AppColors.primary : AppColors.textPrimary,
@@ -499,7 +499,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.1),
+                  color: Colors.green.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: Colors.green, width: 1),
                 ),

@@ -428,7 +428,7 @@ class _SearchScreenState extends State<SearchScreen> {
           Icon(
             Icons.search,
             size: 80,
-            color: AppColors.textSecondary.withOpacity(0.5),
+            color: AppColors.textSecondary.withValues(alpha: 0.5),
           ),
           const SizedBox(height: 16),
           const Text(
@@ -460,7 +460,7 @@ class _SearchScreenState extends State<SearchScreen> {
           Icon(
             Icons.search_off,
             size: 80,
-            color: AppColors.textSecondary.withOpacity(0.5),
+            color: AppColors.textSecondary.withValues(alpha: 0.5),
           ),
           const SizedBox(height: 16),
           const Text(

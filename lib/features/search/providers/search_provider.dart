@@ -12,7 +12,7 @@ class SearchProvider extends ChangeNotifier {
   // State
   List<ServiceModel> _searchResults = [];
   List<CategoryModel> _categories = [];
-  List<String> _selectedCategoryIds = [];
+  final List<String> _selectedCategoryIds = [];
   String _searchKeywords = '';
   bool _isLoading = false;
   bool _isLoadingCategories = false;

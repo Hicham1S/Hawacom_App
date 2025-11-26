@@ -178,7 +178,7 @@ class BookServiceProvider extends ChangeNotifier {
       await Future.delayed(const Duration(seconds: 1));
 
       // Mock successful coupon (in real app, get from API response)
-      _appliedCouponId = 'COUPON_${_couponCode}';
+      _appliedCouponId = 'COUPON_$_couponCode';
       _couponDiscount = 10.0; // Mock 10 SAR discount
       _couponError = null;
 
