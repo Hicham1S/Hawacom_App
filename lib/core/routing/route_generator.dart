@@ -16,6 +16,8 @@ import '../../features/bookings/screens/booking_detail_screen.dart';
 import '../../features/search/screens/search_screen.dart';
 import '../../features/book_service/screens/book_service_screen.dart';
 import '../../features/checkout/screens/checkout_screen.dart';
+import '../../features/favorites/screens/favorites_screen.dart';
+import '../../features/notifications/screens/notifications_screen.dart';
 
 /// Centralized route generator for the application
 class RouteGenerator {
@@ -185,6 +187,20 @@ class RouteGenerator {
           }
         }
         return _errorRoute(settings, 'Checkout requires booking argument');
+
+      // Favorites
+      case AppRoutes.favorites:
+        return MaterialPageRoute(
+          builder: (_) => const FavoritesScreen(),
+          settings: settings,
+        );
+
+      // Notifications
+      case AppRoutes.notifications:
+        return MaterialPageRoute(
+          builder: (_) => const NotificationsScreen(),
+          settings: settings,
+        );
 
       // Default: Unknown route
       default:

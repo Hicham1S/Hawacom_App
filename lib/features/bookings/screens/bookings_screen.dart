@@ -22,19 +22,28 @@ class _BookingsScreenState extends State<BookingsScreen>
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    _loadInitialData();
+    // Load data after the frame is built
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadInitialData();
+    });
   }
 
   Future<void> _loadInitialData() async {
+    if (!mounted) return;
+
     final provider = context.read<BookingProvider>();
     await provider.loadBookingStatuses();
 
+    if (!mounted) return;
+
     if (provider.bookingStatuses.isNotEmpty) {
       // Setup tab controller
-      _tabController = TabController(
-        length: provider.bookingStatuses.length,
-        vsync: this,
-      );
+      setState(() {
+        _tabController = TabController(
+          length: provider.bookingStatuses.length,
+          vsync: this,
+        );
+      });
 
       // Load first status bookings
       final firstStatus = provider.getStatusByOrder(1);

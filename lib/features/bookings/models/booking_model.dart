@@ -117,6 +117,7 @@ class BookingModel extends BaseModel {
       'e_service': service.id,
       if (addressDescription != null)
         'address': {
+          'address': addressDescription, // API expects 'address' field
           'description': addressDescription,
           'latitude': addressLatitude,
           'longitude': addressLongitude,

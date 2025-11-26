@@ -1,0 +1,141 @@
+import 'package:flutter/material.dart';
+import '../models/favorite_model.dart';
+import '../repositories/favorite_repository.dart';
+
+/// Provider for managing favorites state
+class FavoriteProvider extends ChangeNotifier {
+  final FavoriteRepository _repository;
+
+  FavoriteProvider({FavoriteRepository? repository})
+      : _repository = repository ?? FavoriteRepository();
+
+  // State
+  List<FavoriteModel> _favorites = [];
+  bool _isLoading = false;
+  String? _errorMessage;
+  Set<String> _favoriteServiceIds = {}; // For quick lookup
+
+  // Getters
+  List<FavoriteModel> get favorites => _favorites;
+  bool get isLoading => _isLoading;
+  String? get errorMessage => _errorMessage;
+  bool get hasError => _errorMessage != null;
+
+  /// Check if a service is favorited (quick lookup)
+  bool isFavorite(String serviceId) {
+    return _favoriteServiceIds.contains(serviceId);
+  }
+
+  /// Get favorite by service ID
+  FavoriteModel? getFavoriteByServiceId(String serviceId) {
+    try {
+      return _favorites.firstWhere((fav) => fav.service.id == serviceId);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// Load all favorites
+  Future<void> loadFavorites() async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      _favorites = await _repository.getAllFavorites();
+      // Update quick lookup set
+      _favoriteServiceIds = _favorites.map((fav) => fav.service.id).toSet();
+
+      _isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      _isLoading = false;
+      _errorMessage = 'فشل في تحميل المفضلة: ${e.toString()}';
+      debugPrint(_errorMessage);
+      notifyListeners();
+    }
+  }
+
+  /// Toggle favorite status for a service
+  Future<bool> toggleFavorite(String serviceId) async {
+    _errorMessage = null;
+
+    if (isFavorite(serviceId)) {
+      // Remove from favorites
+      return await removeFromFavorites(serviceId);
+    } else {
+      // Add to favorites
+      return await addToFavorites(serviceId);
+    }
+  }
+
+  /// Add service to favorites
+  Future<bool> addToFavorites(String serviceId) async {
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final success = await _repository.addToFavorites(serviceId);
+
+      if (success) {
+        // Reload favorites to get the new one with full data
+        await loadFavorites();
+      } else {
+        _errorMessage = 'فشل في إضافة إلى المفضلة';
+        notifyListeners();
+      }
+
+      return success;
+    } catch (e) {
+      _errorMessage = 'فشل في إضافة إلى المفضلة: ${e.toString()}';
+      debugPrint(_errorMessage);
+      notifyListeners();
+      return false;
+    }
+  }
+
+  /// Remove service from favorites
+  Future<bool> removeFromFavorites(String serviceId) async {
+    _errorMessage = null;
+
+    // Find the favorite
+    final favorite = getFavoriteByServiceId(serviceId);
+    if (favorite == null) {
+      _errorMessage = 'الخدمة ليست في المفضلة';
+      notifyListeners();
+      return false;
+    }
+
+    try {
+      final success = await _repository.removeFromFavorites(favorite.id);
+
+      if (success) {
+        // Remove from local list
+        _favorites.removeWhere((fav) => fav.id == favorite.id);
+        _favoriteServiceIds.remove(serviceId);
+        notifyListeners();
+      } else {
+        _errorMessage = 'فشل في إزالة من المفضلة';
+        notifyListeners();
+      }
+
+      return success;
+    } catch (e) {
+      _errorMessage = 'فشل في إزالة من المفضلة: ${e.toString()}';
+      debugPrint(_errorMessage);
+      notifyListeners();
+      return false;
+    }
+  }
+
+  /// Refresh favorites
+  Future<void> refresh() async {
+    await loadFavorites();
+  }
+
+  /// Clear error
+  void clearError() {
+    _errorMessage = null;
+    notifyListeners();
+  }
+}

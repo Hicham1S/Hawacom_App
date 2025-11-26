@@ -46,6 +46,9 @@ class AppRoutes {
   // Notifications
   static const String notifications = '/notifications';
 
+  // Favorites
+  static const String favorites = '/favorites';
+
   // About & Support
   static const String about = '/about';
   static const String support = '/support';

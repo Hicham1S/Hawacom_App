@@ -18,6 +18,8 @@ import 'features/book_service/providers/book_service_provider.dart';
 import 'features/checkout/providers/checkout_provider.dart';
 import 'features/messages/providers/message_provider.dart';
 import 'features/stories/providers/story_provider.dart';
+import 'features/favorites/providers/favorite_provider.dart';
+import 'features/notifications/providers/notification_provider.dart';
 
 void main() async {
   // Ensure Flutter binding is initialized
@@ -63,6 +65,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => MessageProvider()),
         // Stories provider
         ChangeNotifierProvider(create: (_) => StoryProvider()),
+        // Favorites provider
+        ChangeNotifierProvider(create: (_) => FavoriteProvider()),
+        // Notifications provider
+        ChangeNotifierProvider(create: (_) => NotificationProvider()),
         // Add more providers here as needed
       ],
       child: MaterialApp(
