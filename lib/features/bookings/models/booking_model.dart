@@ -114,7 +114,7 @@ class BookingModel extends BaseModel {
       'duration': duration,
       'quantity': quantity,
       'booking_status_id': status.id,
-      'e_service': service.id,
+      'e_service': service.toJson(), // Send full service object
       if (addressDescription != null)
         'address': {
           'address': addressDescription, // API expects 'address' field

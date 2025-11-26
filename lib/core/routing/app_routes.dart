@@ -13,12 +13,12 @@ class AppRoutes {
   static const String forgotPassword = '/forgot-password';
   static const String verifyOtp = '/verify-otp';
 
-  // Profile routes
+  // Profile & User routes
   static const String profile = '/profile';
   static const String editProfile = '/edit-profile';
   static const String settings = '/settings';
-  static const String languageSettings = '/settings/language';
-  static const String themeSettings = '/settings/theme';
+  static const String languageSettings = '/language-settings';
+  static const String themeSettings = '/theme-settings';
   static const String addresses = '/addresses';
   static const String addAddress = '/add-address';
   static const String editAddress = '/edit-address';

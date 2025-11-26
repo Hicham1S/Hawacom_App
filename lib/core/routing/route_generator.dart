@@ -23,6 +23,8 @@ import '../../features/settings/screens/language_settings_screen.dart';
 import '../../features/settings/screens/theme_settings_screen.dart';
 import '../../features/home/screens/category_detail_screen.dart';
 import '../../features/wallet/screens/wallet_screen.dart';
+import '../../features/profile/screens/address_form_screen.dart';
+import '../../features/profile/models/address_model.dart';
 
 /// Centralized route generator for the application
 class RouteGenerator {
@@ -68,6 +70,24 @@ class RouteGenerator {
           builder: (_) => const AddressesScreen(),
           settings: settings,
         );
+
+      case AppRoutes.addAddress:
+        return MaterialPageRoute(
+          builder: (_) => const AddressFormScreen(),
+          settings: settings,
+        );
+
+      case AppRoutes.editAddress:
+        if (args is Map<String, dynamic>) {
+          final address = args['address'] as AddressModel?;
+          if (address != null) {
+            return MaterialPageRoute(
+              builder: (_) => AddressFormScreen(address: address),
+              settings: settings,
+            );
+          }
+        }
+        return _errorRoute(settings, 'Edit address requires address object');
 
       // Messages
       case AppRoutes.messages:
