@@ -22,6 +22,8 @@ import 'features/favorites/providers/favorite_provider.dart';
 import 'features/notifications/providers/notification_provider.dart';
 import 'features/settings/providers/language_provider.dart';
 import 'features/settings/providers/theme_provider.dart';
+import 'features/rating/providers/rating_provider.dart';
+import 'features/help/providers/help_provider.dart';
 
 void main() async {
   // Ensure Flutter binding is initialized
@@ -90,6 +92,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FavoriteProvider()),
         // Notifications provider
         ChangeNotifierProvider(create: (_) => NotificationProvider()),
+        // Rating provider
+        ChangeNotifierProvider(create: (_) => RatingProvider()),
+        // Help provider
+        ChangeNotifierProvider(create: (_) => HelpProvider()),
         // Add more providers here as needed
       ],
       child: Consumer2<LanguageProvider, ThemeProvider>(

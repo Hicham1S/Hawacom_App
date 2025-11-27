@@ -25,6 +25,11 @@ import '../../features/home/screens/category_detail_screen.dart';
 import '../../features/wallet/screens/wallet_screen.dart';
 import '../../features/profile/screens/address_form_screen.dart';
 import '../../features/profile/models/address_model.dart';
+import '../../features/rating/screens/rating_screen.dart';
+import '../../features/gallery/screens/gallery_screen.dart';
+import '../../features/services/models/media_model.dart';
+import '../../features/help/screens/help_screen.dart';
+import '../../features/help/screens/privacy_screen.dart';
 
 /// Centralized route generator for the application
 class RouteGenerator {
@@ -244,6 +249,40 @@ class RouteGenerator {
           settings: settings,
         );
 
+      // Rating
+      case AppRoutes.rating:
+        if (args is Map<String, dynamic>) {
+          final serviceId = args['serviceId'] as String?;
+          if (serviceId != null) {
+            return MaterialPageRoute(
+              builder: (_) => RatingScreen(
+                serviceId: serviceId,
+                serviceName: args['serviceName'] as String?,
+                serviceImageUrl: args['serviceImageUrl'] as String?,
+              ),
+              settings: settings,
+            );
+          }
+        }
+        return _errorRoute(settings, 'Rating requires serviceId');
+
+      // Gallery
+      case AppRoutes.gallery:
+        if (args is Map<String, dynamic>) {
+          final mediaList = args['mediaList'] as List<MediaModel>?;
+          if (mediaList != null && mediaList.isNotEmpty) {
+            return MaterialPageRoute(
+              builder: (_) => GalleryScreen(
+                mediaList: mediaList,
+                initialIndex: args['initialIndex'] as int? ?? 0,
+                heroTag: args['heroTag'] as String?,
+              ),
+              settings: settings,
+            );
+          }
+        }
+        return _errorRoute(settings, 'Gallery requires mediaList');
+
       // Settings
       case AppRoutes.settings:
         return MaterialPageRoute(
@@ -267,6 +306,29 @@ class RouteGenerator {
       case AppRoutes.wallet:
         return MaterialPageRoute(
           builder: (_) => const WalletScreen(),
+          settings: settings,
+        );
+
+      // Help & Privacy
+      case AppRoutes.help:
+        return MaterialPageRoute(
+          builder: (_) => const HelpScreen(),
+          settings: settings,
+        );
+
+      case AppRoutes.privacy:
+        // Check if custom URL or page ID is provided
+        if (args is Map<String, dynamic>) {
+          return MaterialPageRoute(
+            builder: (_) => PrivacyScreen(
+              url: args['url'] as String?,
+              pageId: args['pageId'] as String?,
+            ),
+            settings: settings,
+          );
+        }
+        return MaterialPageRoute(
+          builder: (_) => const PrivacyScreen(),
           settings: settings,
         );
 

@@ -52,8 +52,15 @@ class AppRoutes {
   // Favorites
   static const String favorites = '/favorites';
 
+  // Rating/Review
+  static const String rating = '/rating';
+
+  // Gallery
+  static const String gallery = '/gallery';
+
   // About & Support
   static const String about = '/about';
+  static const String help = '/help';
   static const String support = '/support';
   static const String terms = '/terms';
   static const String privacy = '/privacy';

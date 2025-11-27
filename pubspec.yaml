@@ -57,6 +57,9 @@ dependencies:
   uuid: ^4.3.3
   carousel_slider: ^5.1.1
 
+  # WebView for displaying web content
+  webview_flutter: ^4.4.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
