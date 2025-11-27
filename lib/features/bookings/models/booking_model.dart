@@ -106,7 +106,7 @@ class BookingModel extends BaseModel {
       'duration': duration,
       'quantity': quantity,
       'booking_status_id': status.id,
-      'e_service': service.toJson(), // Send full service object
+      'e_service_id': service.id,
 
       'booking_at': bookingAt.toUtc().toIso8601String(),
       if (startAt != null) 'start_at': startAt!.toUtc().toIso8601String(),
