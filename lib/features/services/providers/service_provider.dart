@@ -15,6 +15,9 @@ class ServiceProvider extends ChangeNotifier {
   bool _isLoading = false;
   String? _errorMessage;
 
+  // Local cache of favorited service IDs to override API's incorrect is_favorite
+  final Set<String> _localFavoriteIds = {};
+
   // Getters
   List<ServiceModel> get services => _services;
   ServiceModel? get selectedService => _selectedService;
@@ -47,6 +50,14 @@ class ServiceProvider extends ChangeNotifier {
 
     try {
       _selectedService = await _repository.getServiceById(serviceId);
+
+      // Override is_favorite with local truth if we have it
+      if (_selectedService != null && _localFavoriteIds.contains(serviceId)) {
+        _selectedService = _selectedService!.copyWith(isFavorite: true);
+      } else if (_selectedService != null && !_localFavoriteIds.contains(serviceId)) {
+        _selectedService = _selectedService!.copyWith(isFavorite: false);
+      }
+
       _isLoading = false;
       notifyListeners();
     } catch (e) {
@@ -112,9 +123,19 @@ class ServiceProvider extends ChangeNotifier {
     try {
       bool success;
       if (currentStatus) {
+        // Remove from favorites
         success = await _repository.removeFromFavorites(serviceId);
+        if (success) {
+          _localFavoriteIds.remove(serviceId);
+        }
       } else {
-        success = await _repository.addToFavorites(serviceId);
+        // Add to favorites - returns favoriteId but we don't need to track it
+        // because the API uses service_id + user_id to identify favorites
+        final favoriteId = await _repository.addToFavorites(serviceId);
+        success = favoriteId != null;
+        if (success) {
+          _localFavoriteIds.add(serviceId);
+        }
       }
 
       if (success) {
@@ -152,6 +173,29 @@ class ServiceProvider extends ChangeNotifier {
   /// Clear error message
   void clearError() {
     _errorMessage = null;
+    notifyListeners();
+  }
+
+  /// Sync local favorite IDs from the favorites list
+  /// Call this when favorites are loaded to keep state in sync
+  void syncFavoriteIds(Set<String> favoriteServiceIds) {
+    _localFavoriteIds.clear();
+    _localFavoriteIds.addAll(favoriteServiceIds);
+
+    // Re-apply to currently loaded services
+    for (var i = 0; i < _services.length; i++) {
+      _services[i] = _services[i].copyWith(
+        isFavorite: _localFavoriteIds.contains(_services[i].id),
+      );
+    }
+
+    // Re-apply to selected service
+    if (_selectedService != null) {
+      _selectedService = _selectedService!.copyWith(
+        isFavorite: _localFavoriteIds.contains(_selectedService!.id),
+      );
+    }
+
     notifyListeners();
   }
 }

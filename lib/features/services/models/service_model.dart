@@ -17,6 +17,7 @@ class ServiceModel extends BaseModel {
   final String? duration;
   final bool featured;
   final bool isFavorite;
+  final String? favoriteId; // ID of the favorite record (if favorited)
   final List<CategoryModel> categories;
   final String? providerId;
   final String? providerName;
@@ -35,6 +36,7 @@ class ServiceModel extends BaseModel {
     this.duration,
     this.featured = false,
     this.isFavorite = false,
+    this.favoriteId,
     this.categories = const [],
     this.providerId,
     this.providerName,
@@ -124,6 +126,7 @@ class ServiceModel extends BaseModel {
       duration: json['duration']?.toString(),
       featured: parseBool(json['featured']),
       isFavorite: parseBool(json['is_favorite']),
+      favoriteId: json['favorite_id']?.toString(),
       categories: categoryList,
       providerId: providerId,
       providerName: providerName,
@@ -146,6 +149,7 @@ class ServiceModel extends BaseModel {
       if (duration != null) 'duration': duration,
       'featured': featured,
       'is_favorite': isFavorite,
+      if (favoriteId != null) 'favorite_id': favoriteId,
       'categories': categories.map((c) => c.toJson()).toList(),
       if (providerId != null) 'e_provider_id': providerId,
     };
@@ -191,6 +195,7 @@ class ServiceModel extends BaseModel {
     String? duration,
     bool? featured,
     bool? isFavorite,
+    String? favoriteId,
     List<CategoryModel>? categories,
     String? providerId,
     String? providerName,
@@ -209,6 +214,7 @@ class ServiceModel extends BaseModel {
       duration: duration ?? this.duration,
       featured: featured ?? this.featured,
       isFavorite: isFavorite ?? this.isFavorite,
+      favoriteId: favoriteId ?? this.favoriteId,
       categories: categories ?? this.categories,
       providerId: providerId ?? this.providerId,
       providerName: providerName ?? this.providerName,
@@ -230,6 +236,7 @@ class ServiceModel extends BaseModel {
         duration,
         featured,
         isFavorite,
+        favoriteId,
         categories,
         providerId,
         providerName,

@@ -207,11 +207,13 @@ class ApiClient {
   /// DELETE request
   Future<ApiResponse> delete(
     String endpoint, {
+    dynamic data,
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
       final response = await _dio.delete(
         endpoint,
+        data: data,
         queryParameters: queryParameters,
       );
       return _handleResponse(response);

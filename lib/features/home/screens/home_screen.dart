@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
 import '../widgets/top_bar.dart';
 import '../widgets/stories_section.dart';
@@ -10,6 +11,8 @@ import '../widgets/bottom_navigation.dart';
 import '../widgets/grid_menu_drawer.dart';
 import '../../profile/screens/profile_screen.dart';
 import '../../messages/screens/messages_screen.dart';
+import '../../favorites/providers/favorite_provider.dart';
+import '../../services/providers/service_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,6 +24,20 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+    // Load favorites on app start to sync with ServiceProvider
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!mounted) return;
+      await context.read<FavoriteProvider>().loadFavorites();
+      if (!mounted) return;
+      // Sync favorite IDs to override API's incorrect is_favorite flags
+      final favoriteIds = context.read<FavoriteProvider>().favorites.map((f) => f.service.id).toSet();
+      context.read<ServiceProvider>().syncFavoriteIds(favoriteIds);
+    });
+  }
 
   void _onItemTapped(int index) {
     setState(() {

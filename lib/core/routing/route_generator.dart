@@ -30,6 +30,8 @@ import '../../features/gallery/screens/gallery_screen.dart';
 import '../../features/services/models/media_model.dart';
 import '../../features/help/screens/help_screen.dart';
 import '../../features/help/screens/privacy_screen.dart';
+import '../../features/e_provider/screens/e_provider_screen.dart';
+import '../../features/e_provider/models/e_provider_model.dart';
 
 /// Centralized route generator for the application
 class RouteGenerator {
@@ -309,6 +311,23 @@ class RouteGenerator {
           settings: settings,
         );
 
+      // E-Provider
+      case AppRoutes.eProvider:
+        if (args is Map<String, dynamic>) {
+          final eProviderId = args['eProviderId'] as String?;
+          final eProvider = args['eProvider'] as EProviderModel?;
+          if (eProviderId != null || eProvider != null) {
+            return MaterialPageRoute(
+              builder: (_) => EProviderScreen(
+                eProviderId: eProviderId,
+                eProvider: eProvider,
+              ),
+              settings: settings,
+            );
+          }
+        }
+        return _errorRoute(settings, 'E-Provider requires eProviderId or eProvider');
+
       // Help & Privacy
       case AppRoutes.help:
         return MaterialPageRoute(
@@ -323,6 +342,7 @@ class RouteGenerator {
             builder: (_) => PrivacyScreen(
               url: args['url'] as String?,
               pageId: args['pageId'] as String?,
+              title: args['title'] as String?,
             ),
             settings: settings,
           );
@@ -331,6 +351,20 @@ class RouteGenerator {
           builder: (_) => const PrivacyScreen(),
           settings: settings,
         );
+
+      case AppRoutes.customPage:
+        // Custom page with WebView
+        if (args is Map<String, dynamic>) {
+          return MaterialPageRoute(
+            builder: (_) => PrivacyScreen(
+              url: args['url'] as String?,
+              pageId: args['pageId'] as String?,
+              title: args['title'] as String?,
+            ),
+            settings: settings,
+          );
+        }
+        return _errorRoute(settings, 'Custom page requires url or pageId');
 
       // Default: Unknown route
       default:

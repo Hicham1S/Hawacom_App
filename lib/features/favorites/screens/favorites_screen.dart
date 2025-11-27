@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/routing/app_routes.dart';
+import '../../services/providers/service_provider.dart';
 import '../providers/favorite_provider.dart';
 
 /// Screen showing user's favorite services
@@ -17,13 +18,23 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   void initState() {
     super.initState();
     // Load favorites when screen opens
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<FavoriteProvider>().loadFavorites();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await context.read<FavoriteProvider>().loadFavorites();
+      // Sync favorite IDs to ServiceProvider to fix API's incorrect is_favorite
+      _syncFavorites();
     });
+  }
+
+  void _syncFavorites() {
+    final favoriteProvider = context.read<FavoriteProvider>();
+    final serviceProvider = context.read<ServiceProvider>();
+    final favoriteIds = favoriteProvider.favorites.map((f) => f.service.id).toSet();
+    serviceProvider.syncFavoriteIds(favoriteIds);
   }
 
   Future<void> _onRefresh() async {
     await context.read<FavoriteProvider>().refresh();
+    _syncFavorites();
   }
 
   @override

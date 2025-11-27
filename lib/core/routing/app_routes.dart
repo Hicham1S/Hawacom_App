@@ -38,6 +38,9 @@ class AppRoutes {
   static const String myBookings = '/my-bookings';
   static const String bookingDetails = '/booking-details';
 
+  // E-Provider routes
+  static const String eProvider = '/e-provider';
+
   // Checkout & Payment
   static const String checkout = '/checkout';
 
@@ -64,6 +67,7 @@ class AppRoutes {
   static const String support = '/support';
   static const String terms = '/terms';
   static const String privacy = '/privacy';
+  static const String customPage = '/custom-page';
 
   // Wallet
   static const String wallet = '/wallet';

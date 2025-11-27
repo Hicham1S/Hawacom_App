@@ -60,6 +60,9 @@ dependencies:
   # WebView for displaying web content
   webview_flutter: ^4.4.2
 
+  # HTML rendering
+  flutter_html: ^3.0.0-beta.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

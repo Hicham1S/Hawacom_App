@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import '../../services/providers/service_provider.dart';
 import '../models/favorite_model.dart';
 import '../repositories/favorite_repository.dart';
 
 /// Provider for managing favorites state
 class FavoriteProvider extends ChangeNotifier {
   final FavoriteRepository _repository;
+  final ServiceProvider? _serviceProvider;
 
-  FavoriteProvider({FavoriteRepository? repository})
-      : _repository = repository ?? FavoriteRepository();
+  FavoriteProvider({
+    FavoriteRepository? repository,
+    ServiceProvider? serviceProvider,
+  })  : _repository = repository ?? FavoriteRepository(),
+        _serviceProvider = serviceProvider;
 
   // State
   List<FavoriteModel> _favorites = [];
@@ -45,6 +50,9 @@ class FavoriteProvider extends ChangeNotifier {
       _favorites = await _repository.getAllFavorites();
       // Update quick lookup set
       _favoriteServiceIds = _favorites.map((fav) => fav.service.id).toSet();
+
+      // Sync with ServiceProvider to override API's incorrect is_favorite flags
+      _serviceProvider?.syncFavoriteIds(_favoriteServiceIds);
 
       _isLoading = false;
       notifyListeners();

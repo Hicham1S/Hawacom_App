@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_html/flutter_html.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/routing/app_routes.dart';
 import '../../../core/localization/app_localizations.dart';
@@ -354,13 +355,20 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
             ),
           ),
           const SizedBox(height: 12),
-          Text(
-            service.description!,
-            style: TextStyle(
-              fontSize: 15,
-              height: 1.6,
-              color: AppColors.textSecondary,
-            ),
+          Html(
+            data: service.description ?? '',
+            style: {
+              "body": Style(
+                fontSize: FontSize(15),
+                lineHeight: const LineHeight(1.6),
+                color: AppColors.textSecondary,
+                margin: Margins.zero,
+                padding: HtmlPaddings.zero,
+              ),
+              "p": Style(
+                margin: Margins.only(bottom: 8),
+              ),
+            },
           ),
         ],
       ),
@@ -443,7 +451,15 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
                 IconButton(
                   icon: Icon(Icons.arrow_forward_ios, color: AppColors.textSecondary),
                   onPressed: () {
-                    // TODO: Navigate to provider profile
+                    if (service.providerId != null) {
+                      Navigator.pushNamed(
+                        context,
+                        '/e-provider',
+                        arguments: {
+                          'eProviderId': service.providerId,
+                        },
+                      );
+                    }
                   },
                 ),
               ],

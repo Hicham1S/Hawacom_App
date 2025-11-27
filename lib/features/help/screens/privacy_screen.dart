@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-/// Privacy policy screen with WebView
+/// Privacy policy / Custom page screen with WebView
 class PrivacyScreen extends StatefulWidget {
   final String? url;
   final String? pageId;
+  final String? title;
 
   const PrivacyScreen({
     super.key,
     this.url,
     this.pageId,
+    this.title,
   });
 
   @override
@@ -72,9 +74,11 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final displayTitle = widget.title ?? 'سياسة الخصوصية - Privacy Policy';
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('سياسة الخصوصية - Privacy Policy'),
+        title: Text(displayTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
