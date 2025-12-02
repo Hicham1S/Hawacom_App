@@ -43,7 +43,7 @@ class ApiClient {
             options.queryParameters['api_token'] = token;
             if (kDebugMode) {
               debugPrint('🔑 API Request: ${options.method} ${options.path}');
-              debugPrint('   Tokennnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn: ${token}...');
+              debugPrint('   Tokennnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn: $token...');
             }
           } else {
             if (kDebugMode) {
