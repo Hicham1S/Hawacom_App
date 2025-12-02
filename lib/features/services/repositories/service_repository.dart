@@ -2,14 +2,20 @@ import 'package:flutter/foundation.dart';
 import '../../../core/api/api_endpoints.dart';
 import '../../../core/repositories/base_repository.dart';
 import '../../../core/services/session_manager.dart';
+import '../../favorites/repositories/favorite_repository.dart';
 import '../models/service_model.dart';
 
 /// Repository for service-related API calls
 class ServiceRepository extends BaseRepository {
   final SessionManager _sessionManager;
+  final FavoriteRepository _favoriteRepository;
 
-  ServiceRepository({super.apiClient, SessionManager? sessionManager})
-      : _sessionManager = sessionManager ?? SessionManager();
+  ServiceRepository({
+    super.apiClient,
+    SessionManager? sessionManager,
+    FavoriteRepository? favoriteRepository,
+  })  : _sessionManager = sessionManager ?? SessionManager(),
+        _favoriteRepository = favoriteRepository ?? FavoriteRepository();
 
   /// Get all services
   Future<List<ServiceModel>> getAllServices({
@@ -183,78 +189,27 @@ class ServiceRepository extends BaseRepository {
   }
 
   /// Add service to favorites
-  /// Returns the favorite ID if successful, null otherwise
+  /// Delegates to FavoriteRepository to avoid duplication
   Future<String?> addToFavorites(String serviceId) async {
-    try {
-      // Get current user from session
-      final user = await _sessionManager.getUser();
-      if (user == null) {
-        debugPrint('Error adding to favorites: User not logged in');
-        return null;
-      }
-
-      // Get user ID from the map
-      final userId = user['id']?.toString();
-      if (userId == null) {
-        debugPrint('Error adding to favorites: User ID not found');
-        return null;
-      }
-
-      final response = await apiClient.post(
-        'favorites',
-        data: {
-          'e_service_id': serviceId,
-          'user_id': userId,
-        },
-      );
-
-      if (response.success && response.data != null) {
-        // Extract favorite ID from response
-        if (response.data is Map) {
-          return response.data['id']?.toString();
-        } else if (response.data is List && response.data.isNotEmpty) {
-          return response.data[0]['id']?.toString();
-        }
-      }
-
-      return null;
-    } catch (e) {
-      debugPrint('Error adding to favorites: $e');
-      return null;
-    }
+    // Use FavoriteRepository - it handles user session and API call
+    final success = await _favoriteRepository.addToFavorites(serviceId);
+    return success ? serviceId : null; // Return serviceId if successful
   }
 
   /// Remove service from favorites
+  /// Delegates to FavoriteRepository to avoid duplication
   Future<bool> removeFromFavorites(String serviceId) async {
-    try {
-      // Get current user from session
-      final user = await _sessionManager.getUser();
-      if (user == null) {
-        debugPrint('Error removing from favorites: User not logged in');
-        return false;
-      }
+    // Get all favorites and find the one for this service
+    final favorites = await _favoriteRepository.getAllFavorites();
+    final favorite = favorites.where((f) => f.service.id == serviceId).firstOrNull;
 
-      // Get user ID from the map
-      final userId = user['id']?.toString();
-      if (userId == null) {
-        debugPrint('Error removing from favorites: User ID not found');
-        return false;
-      }
-
-      // The Laravel API uses the data in DELETE body to find the favorite to remove
-      // Not the ID in the URL (which is just '1' as a placeholder)
-      final response = await apiClient.delete(
-        'favorites/1',
-        data: {
-          'e_service_id': serviceId,
-          'user_id': userId,
-        },
-      );
-
-      return response.success;
-    } catch (e) {
-      debugPrint('Error removing from favorites: $e');
+    if (favorite == null) {
+      debugPrint('⚠️ Service $serviceId not in favorites, cannot remove');
       return false;
     }
+
+    // Remove using the actual favorite record ID
+    debugPrint('🗑️ Removing favorite ID ${favorite.id} for service $serviceId');
+    return await _favoriteRepository.removeFromFavorites(favorite.id);
   }
 }

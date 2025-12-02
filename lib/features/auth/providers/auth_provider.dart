@@ -134,6 +134,9 @@ class AuthProvider extends ChangeNotifier {
       await _sessionManager.saveUser(_currentUser!.toStorageJson());
       if (_currentUser!.apiToken != null) {
         await _sessionManager.saveToken(_currentUser!.apiToken!);
+        debugPrint('=== LOGIN SUCCESS ===');
+        debugPrint('New token saved: ${_currentUser!.apiToken!.substring(0, 10)}...');
+        debugPrint('User ID: ${_currentUser!.id}');
       }
 
       _isLoading = false;
@@ -232,6 +235,9 @@ class AuthProvider extends ChangeNotifier {
   /// Logout
   Future<void> logout() async {
     try {
+      debugPrint('=== LOGOUT STARTED ===');
+      debugPrint('Current user token before logout: ${_currentUser?.apiToken?.substring(0, 10)}...');
+
       // Logout from Laravel API
       if (_currentUser?.apiToken != null) {
         await _repository.logout();
@@ -242,6 +248,8 @@ class AuthProvider extends ChangeNotifier {
 
       // Clear local session
       await clearSession();
+
+      debugPrint('=== LOGOUT COMPLETED - Session cleared ===');
     } catch (e) {
       debugPrint('Logout error: ${e.toString()}');
       // Clear session anyway
@@ -254,6 +262,11 @@ class AuthProvider extends ChangeNotifier {
     await _sessionManager.clearSession();
     _currentUser = null;
     _errorMessage = null;
+
+    // Verify token is actually cleared
+    final tokenAfterClear = await _sessionManager.getToken();
+    debugPrint('Token after clearSession: ${tokenAfterClear ?? "NULL (correctly cleared)"}');
+
     notifyListeners();
   }
 
@@ -370,6 +383,10 @@ class AuthProvider extends ChangeNotifier {
       await _sessionManager.saveUser(_currentUser!.toStorageJson());
       if (_currentUser!.apiToken != null) {
         await _sessionManager.saveToken(_currentUser!.apiToken!);
+        debugPrint('=== PHONE LOGIN SUCCESS ===');
+        debugPrint('New token saved: ${_currentUser!.apiToken!.substring(0, 10)}...');
+        debugPrint('User ID: ${_currentUser!.id}');
+        debugPrint('Phone: $phoneNumber');
       }
 
       _isLoading = false;

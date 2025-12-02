@@ -114,23 +114,31 @@ class FavoriteProvider extends ChangeNotifier {
       return false;
     }
 
+    // IMMEDIATELY remove from local state for instant UI feedback
+    _favorites.removeWhere((fav) => fav.id == favorite.id);
+    _favoriteServiceIds.remove(serviceId);
+    
+    // Sync with ServiceProvider immediately
+    _serviceProvider?.syncFavoriteIds(_favoriteServiceIds);
+    
+    notifyListeners();
+
     try {
+      // Try to delete from backend
       final success = await _repository.removeFromFavorites(favorite.id);
 
-      if (success) {
-        // Remove from local list
-        _favorites.removeWhere((fav) => fav.id == favorite.id);
-        _favoriteServiceIds.remove(serviceId);
-        notifyListeners();
-      } else {
+      if (!success) {
         _errorMessage = 'فشل في إزالة من المفضلة';
-        notifyListeners();
+        // Reload to get correct state from server
+        await loadFavorites();
       }
 
       return success;
     } catch (e) {
       _errorMessage = 'فشل في إزالة من المفضلة: ${e.toString()}';
       debugPrint(_errorMessage);
+      // Reload to restore correct state
+      await loadFavorites();
       notifyListeners();
       return false;
     }
@@ -143,6 +151,15 @@ class FavoriteProvider extends ChangeNotifier {
 
   /// Clear error
   void clearError() {
+    _errorMessage = null;
+    notifyListeners();
+  }
+
+  /// Clear all state - call when user logs out or switches accounts
+  void clearState() {
+    _favorites = [];
+    _favoriteServiceIds.clear();
+    _isLoading = false;
     _errorMessage = null;
     notifyListeners();
   }

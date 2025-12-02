@@ -5,6 +5,7 @@ import 'package:flutter_html/flutter_html.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/routing/app_routes.dart';
 import '../../../core/localization/app_localizations.dart';
+import '../../favorites/providers/favorite_provider.dart';
 import '../providers/service_provider.dart';
 import '../models/service_model.dart';
 
@@ -27,8 +28,24 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ServiceProvider>().loadServiceById(widget.serviceId);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // Load the service
+      await context.read<ServiceProvider>().loadServiceById(widget.serviceId);
+
+      // Force sync with FavoriteProvider to get correct favorite state
+      if (!mounted) return;
+      final favoriteProvider = context.read<FavoriteProvider>();
+      final serviceProvider = context.read<ServiceProvider>();
+
+      // Check if this service is in favorites
+      final isFavorited = favoriteProvider.isFavorite(widget.serviceId);
+
+      // Update service provider's cache
+      if (isFavorited) {
+        serviceProvider.syncFavoriteIds({widget.serviceId, ...favoriteProvider.favorites.map((f) => f.service.id)});
+      }
+
+      debugPrint('🔄 Service detail loaded - is_favorite synced: $isFavorited');
     });
   }
 

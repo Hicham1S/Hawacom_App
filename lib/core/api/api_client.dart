@@ -41,6 +41,14 @@ class ApiClient {
           if (token != null && token.isNotEmpty) {
             // Add token as query parameter (Laravel pattern)
             options.queryParameters['api_token'] = token;
+            if (kDebugMode) {
+              debugPrint('🔑 API Request: ${options.method} ${options.path}');
+              debugPrint('   Tokennnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn: ${token}...');
+            }
+          } else {
+            if (kDebugMode) {
+              debugPrint('⚠️ API Request WITHOUT TOKEN: ${options.method} ${options.path}');
+            }
           }
           return handler.next(options);
         },

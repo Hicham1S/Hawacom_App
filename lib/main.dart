@@ -75,8 +75,16 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SliderProvider()),
         // Profile feature providers
         ChangeNotifierProvider(create: (_) => AddressProvider()),
-        // Services feature providers
-        ChangeNotifierProvider(create: (_) => ServiceProvider()),
+        // Favorites provider (must be before ServiceProvider)
+        ChangeNotifierProvider(create: (_) => FavoriteProvider()),
+        // Services feature providers (connected to FavoriteProvider)
+        ChangeNotifierProxyProvider<FavoriteProvider, ServiceProvider>(
+          create: (_) => ServiceProvider(),
+          update: (_, favoriteProvider, serviceProvider) {
+            serviceProvider!.setFavoriteProvider(favoriteProvider);
+            return serviceProvider;
+          },
+        ),
         // Bookings feature providers
         ChangeNotifierProvider(create: (_) => BookingProvider()),
         // Search feature providers
@@ -89,8 +97,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => MessageProvider()),
         // Stories provider
         ChangeNotifierProvider(create: (_) => StoryProvider()),
-        // Favorites provider
-        ChangeNotifierProvider(create: (_) => FavoriteProvider()),
         // Notifications provider
         ChangeNotifierProvider(create: (_) => NotificationProvider()),
         // Rating provider

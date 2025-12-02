@@ -117,10 +117,15 @@ class SessionManager {
   Future<bool> clearSession() async {
     try {
       final prefs = await _preferences;
+      // Remove all session data
       await prefs.remove(_keyUser);
       await prefs.remove(_keyToken);
       await prefs.remove(_keyRefreshToken);
       await prefs.setBool(_keyIsLoggedIn, false);
+
+      // Force a complete flush to ensure data is removed
+      await prefs.reload();
+
       return true;
     } catch (e) {
       print('Error clearing session: $e');

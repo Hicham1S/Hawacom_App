@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import '../../favorites/providers/favorite_provider.dart';
 import '../models/service_model.dart';
 import '../repositories/service_repository.dart';
 
 /// Provider for managing services state
 class ServiceProvider extends ChangeNotifier {
   final ServiceRepository _repository;
+  FavoriteProvider? _favoriteProvider;
 
   ServiceProvider({ServiceRepository? repository})
       : _repository = repository ?? ServiceRepository();
+
+  /// Set the FavoriteProvider for synchronization
+  void setFavoriteProvider(FavoriteProvider favoriteProvider) {
+    _favoriteProvider = favoriteProvider;
+  }
 
   // State
   List<ServiceModel> _services = [];
@@ -154,6 +161,13 @@ class ServiceProvider extends ChangeNotifier {
           );
         }
 
+        // SYNC WITH FAVORITE PROVIDER - Fix for Problem 1 & 3
+        // Reload favorites to keep FavoriteProvider in sync
+        if (_favoriteProvider != null) {
+          debugPrint('🔄 Syncing with FavoriteProvider after toggle');
+          await _favoriteProvider!.loadFavorites();
+        }
+
         notifyListeners();
       }
 
@@ -196,6 +210,16 @@ class ServiceProvider extends ChangeNotifier {
       );
     }
 
+    notifyListeners();
+  }
+
+  /// Clear all state - call when user logs out or switches accounts
+  void clearState() {
+    _services = [];
+    _selectedService = null;
+    _localFavoriteIds.clear();
+    _isLoading = false;
+    _errorMessage = null;
     notifyListeners();
   }
 }

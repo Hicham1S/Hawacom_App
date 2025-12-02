@@ -4,6 +4,8 @@ import '../../../core/constants/colors.dart';
 import '../../../core/localization/app_localizations.dart';
 import '../../../core/routing/app_routes.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../../favorites/providers/favorite_provider.dart';
+import '../../services/providers/service_provider.dart';
 import '../widgets/profile_header.dart';
 import '../widgets/profile_info_tile.dart';
 import '../widgets/profile_stats.dart';
@@ -334,9 +336,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
         );
       }
 
-      // Get AuthProvider and logout
+      // Get providers and logout
       final authProvider = context.read<AuthProvider>();
+      final favoriteProvider = context.read<FavoriteProvider>();
+      final serviceProvider = context.read<ServiceProvider>();
+
+      // Clear all provider states to prevent cross-account contamination
       await authProvider.logout();
+      favoriteProvider.clearState();
+      serviceProvider.clearState();
 
       if (!mounted) return;
 
