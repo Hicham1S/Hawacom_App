@@ -1,21 +1,17 @@
 import 'package:flutter/foundation.dart';
 import '../../../core/api/api_endpoints.dart';
 import '../../../core/repositories/base_repository.dart';
-import '../../../core/services/session_manager.dart';
 import '../../favorites/repositories/favorite_repository.dart';
 import '../models/service_model.dart';
 
 /// Repository for service-related API calls
 class ServiceRepository extends BaseRepository {
-  final SessionManager _sessionManager;
   final FavoriteRepository _favoriteRepository;
 
   ServiceRepository({
     super.apiClient,
-    SessionManager? sessionManager,
     FavoriteRepository? favoriteRepository,
-  })  : _sessionManager = sessionManager ?? SessionManager(),
-        _favoriteRepository = favoriteRepository ?? FavoriteRepository();
+  })  : _favoriteRepository = favoriteRepository ?? FavoriteRepository();
 
   /// Get all services
   Future<List<ServiceModel>> getAllServices({
