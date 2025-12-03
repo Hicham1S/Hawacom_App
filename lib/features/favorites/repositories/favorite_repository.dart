@@ -31,41 +31,34 @@ class FavoriteRepository extends BaseRepository {
         },
       );
 
-      // if (response.success && response.data != null) {
-      //   final List<dynamic> data = response.data is List
-      //       ? response.data
-      //       : (response.data['data'] as List? ?? []);
+      if (response.success && response.data != null) {
+        final List<dynamic> data = response.data is List
+            ? response.data
+            : (response.data['data'] as List? ?? []);
 
-      //   final allFavorites = data
-      //       .map((json) => FavoriteModel.fromJson(json as Map<String, dynamic>))
-      //       .toList();
+        final allFavorites = data
+            .map((json) => FavoriteModel.fromJson(json as Map<String, dynamic>))
+            .toList();
 
-      //   // CLIENT-SIDE FILTER: Only return favorites that belong to current user
-      //   // This compensates for the Laravel API bug that returns all users' favorites
-      //   final filteredFavorites = allFavorites.where((fav) {
-      //     // Normalize both IDs to strings for comparison
-      //     // API sometimes returns user_id as string, sometimes as number
-      //     final favUserId = fav.userId.toString().trim();
-      //     final currentUserIdStr = currentUserId.toString().trim();
+        // CLIENT-SIDE FILTER: Only return favorites that belong to current user
+        // This compensates for the Laravel API bug that returns all users' favorites
+        final filteredFavorites = allFavorites.where((fav) {
+          // Normalize both IDs to strings for comparison
+          // API sometimes returns user_id as string, sometimes as number
+          final favUserId = fav.userId.toString().trim();
+          final currentUserIdStr = currentUserId.toString().trim();
           
-      //     debugPrint('🔍 Comparing favorite user_id: "$favUserId" with current user: "$currentUserIdStr"');
-          
-      //     return favUserId == currentUserIdStr;
-      //   }).toList();
+          return favUserId == currentUserIdStr;
+        }).toList();
 
-      //   debugPrint('✅ Total favorites from API: ${allFavorites.length}');
-      //   debugPrint('✅ Filtered for current user: ${filteredFavorites.length}');
+        debugPrint('✅ Fetched ${filteredFavorites.length} favorites for user $currentUserId');
 
-      //   if (allFavorites.length != filteredFavorites.length) {
-      //     debugPrint('⚠️ WARNING: API returned favorites from other users!');
-      //     debugPrint('   Expected user_id: $currentUserId');
-      //     debugPrint('   Received user_ids: ${allFavorites.map((f) => f.userId).toSet()}');
-      //     debugPrint('   This is a BACKEND BUG - the API should filter by user_id');
-      //   }
+        if (allFavorites.length != filteredFavorites.length) {
+          debugPrint('⚠️ Backend returned ${allFavorites.length - filteredFavorites.length} favorites from other users');
+        }
 
-      //   return filteredFavorites;
-      // }
-      debugPrint(" saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa $response.data.filter((s) => s.user_id == 404)");
+        return filteredFavorites;
+      }
 
       return [];
     } catch (e) {
@@ -84,16 +77,12 @@ class FavoriteRepository extends BaseRepository {
         return false;
       }
 
-      debugPrint('Userrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr: $user');
-
-      // // Get user ID from the map
+      // Get user ID from the map
       final userId = user['id']?.toString();
-      // if (userId == null) {
-      //   debugPrint('Error adding to favorites: User ID not found');
-      //   return false;
-      // }
-
-      // debugPrint('➕ Adding favorite for user_id: $userId, service_id: $serviceId');
+      if (userId == null) {
+        debugPrint('Error adding to favorites: User ID not found');
+        return false;
+      }
 
       final response = await apiClient.post(
         'favorites',
@@ -103,22 +92,12 @@ class FavoriteRepository extends BaseRepository {
         },
       );
 
-      debugPrint("$response.data, respoooooooooooooooooooonnnnnnnnnnnnnnnnnnssssssssssssssse");
+      if (response.success && response.data != null) {
+        final savedFavoriteId = response.data['id']?.toString();
+        debugPrint('✅ Favorite created - ID: $savedFavoriteId');
+      }
 
-      // if (response.success && response.data != null) {
-      //   // Log what the API actually saved
-      //   final savedUserId = response.data['user_id']?.toString();
-      //   final savedFavoriteId = response.data['id']?.toString();
-      //   debugPrint('✅ Favorite created - ID: $savedFavoriteId, user_id: $savedUserId');
-        
-      //   if (savedUserId != userId) {
-      //     debugPrint('⚠️ WARNING: Backend saved different user_id!');
-      //     debugPrint('   Requested: $userId, Saved: $savedUserId');
-      //   }
-      // }
-
-      // return response.success;
-      return true;
+      return response.success;
     } catch (e) {
       debugPrint('Error adding to favorites: $e');
       return false;

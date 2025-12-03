@@ -161,7 +161,7 @@ class ServiceProvider extends ChangeNotifier {
           );
         }
 
-        // SYNC WITH FAVORITE PROVIDER - Fix for Problem 1 & 3
+        // Sync with FavoriteProvider to keep state consistent
         // Reload favorites to keep FavoriteProvider in sync
         if (_favoriteProvider != null) {
           debugPrint('🔄 Syncing with FavoriteProvider after toggle');
