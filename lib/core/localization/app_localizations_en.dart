@@ -620,7 +620,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authConfirm => 'Confirm';
 
   @override
-  String get authInvalidPhoneFormat => 'Please enter a valid phone number with country code (e.g., +966...)';
+  String get authInvalidPhoneFormat =>
+      'Please enter a valid phone number with country code (e.g., +966...)';
 
   @override
   String get authLogoutSuccess => 'Logged out successfully';

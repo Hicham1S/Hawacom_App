@@ -154,7 +154,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get selectImageOrVideo => 'اختر صورة أو فيديو';
 
   @override
-  String get videoRequirementsSummary => 'الفيديو: من 1 إلى 60 ثانية، أقل من 10 ميجابايت';
+  String get videoRequirementsSummary =>
+      'الفيديو: من 1 إلى 60 ثانية، أقل من 10 ميجابايت';
 
   @override
   String get videoValidating => 'جاري التحقق من الفيديو...';
@@ -545,7 +546,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authSendResetLink => 'إرسال رابط إعادة التعيين';
 
   @override
-  String get authResetEmailSent => 'تم إرسال رابط إعادة التعيين إلى بريدك الإلكتروني';
+  String get authResetEmailSent =>
+      'تم إرسال رابط إعادة التعيين إلى بريدك الإلكتروني';
 
   @override
   String get authBackToLogin => 'العودة لتسجيل الدخول';
@@ -599,7 +601,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authPasswordsNotMatch => 'كلمات المرور غير متطابقة';
 
   @override
-  String get authPasswordMinLength => 'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
+  String get authPasswordMinLength =>
+      'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
 
   @override
   String get authLoginSuccess => 'تم تسجيل الدخول بنجاح';
@@ -620,7 +623,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authConfirm => 'تأكيد';
 
   @override
-  String get authInvalidPhoneFormat => 'الرجاء إدخال رقم هاتف صحيح مع رمز الدولة (مثال: +966...)';
+  String get authInvalidPhoneFormat =>
+      'الرجاء إدخال رقم هاتف صحيح مع رمز الدولة (مثال: +966...)';
 
   @override
   String get authLogoutSuccess => 'تم تسجيل الخروج بنجاح';

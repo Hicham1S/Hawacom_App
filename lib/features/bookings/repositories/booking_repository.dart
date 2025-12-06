@@ -1,10 +1,15 @@
 import '../../../core/api/api_endpoints.dart';
 import '../../../core/repositories/base_repository.dart';
+import '../../../core/services/session_manager.dart';
 import '../models/booking_model.dart';
 import '../models/booking_status_model.dart';
 
 /// Repository for managing booking/order data from the API
 class BookingRepository extends BaseRepository {
+  final SessionManager _sessionManager;
+
+  BookingRepository({super.apiClient, SessionManager? sessionManager})
+      : _sessionManager = sessionManager ?? SessionManager();
   /// Get all bookings for the current user with optional status filter
   ///
   /// [statusId] - Filter by booking status ID
@@ -90,9 +95,25 @@ class BookingRepository extends BaseRepository {
   /// Create a new booking
   Future<BookingModel> createBooking(BookingModel booking) async {
     try {
+      // Get current user ID for the address
+      final user = await _sessionManager.getUser();
+      final userId = user?['id']?.toString();
+
+      if (userId == null) {
+        throw Exception('User not logged in');
+      }
+
+      // Get booking data and add user_id to address
+      final bookingData = booking.toJson();
+      
+      // Add user_id to the address object
+      if (bookingData['address'] is Map) {
+        bookingData['address']['user_id'] = userId;
+      }
+
       final response = await apiClient.post(
         ApiEndpoints.bookings,
-        data: booking.toJson(),
+        data: bookingData,
       );
 
       if (response.data['success'] == true) {

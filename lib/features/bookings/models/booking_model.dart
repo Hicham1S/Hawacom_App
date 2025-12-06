@@ -107,10 +107,21 @@ class BookingModel extends BaseModel {
       'quantity': quantity,
       'booking_status_id': status.id,
       'e_service_id': service.id,
+      
+      // WORKAROUND: Backend expects full service object (backend bug)
+      // TODO: Remove this when backend is fixed to use just e_service_id
+      'e_service': service.toJson(),
 
       'booking_at': bookingAt.toUtc().toIso8601String(),
       if (startAt != null) 'start_at': startAt!.toUtc().toIso8601String(),
       if (endsAt != null) 'ends_at': endsAt!.toUtc().toIso8601String(),
+      
+      // Remote address - for services that don't require physical location
+      'address': {
+        'address': 'Remote Service',
+        'latitude': 0.0,
+        'longitude': 0.0,
+      },
     };
   }
 
