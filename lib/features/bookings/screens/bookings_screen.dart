@@ -71,11 +71,11 @@ class _BookingsScreenState extends State<BookingsScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         title: const Text('حجوزاتي'),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        backgroundColor: AppColors.background,
+        foregroundColor: AppColors.textPrimary,
         elevation: 0,
         bottom: _buildTabBar(),
       ),
@@ -131,7 +131,7 @@ class _BookingsScreenState extends State<BookingsScreen>
         controller: _tabController,
         isScrollable: true,
         labelColor: AppColors.primary,
-        unselectedLabelColor: Colors.grey,
+        unselectedLabelColor: AppColors.textSecondary,
         indicatorColor: AppColors.primary,
         onTap: (index) {
           final status = provider.bookingStatuses[index];
@@ -147,6 +147,7 @@ class _BookingsScreenState extends State<BookingsScreen>
   Widget _buildBookingCard(BookingModel booking) {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
+      color: AppColors.cardBackground,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 2,
       child: InkWell(
@@ -173,6 +174,7 @@ class _BookingsScreenState extends State<BookingsScreen>
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
+                        color: AppColors.textPrimary,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -200,8 +202,11 @@ class _BookingsScreenState extends State<BookingsScreen>
                         errorBuilder: (_, __, ___) => Container(
                           width: 80,
                           height: 80,
-                          color: Colors.grey[300],
-                          child: const Icon(Icons.image_not_supported),
+                          color: AppColors.cardBackground,
+                          child: const Icon(
+                            Icons.image_not_supported,
+                            color: AppColors.textSecondary,
+                          ),
                         ),
                       ),
                     ),
@@ -215,13 +220,13 @@ class _BookingsScreenState extends State<BookingsScreen>
                         Row(
                           children: [
                             const Icon(Icons.calendar_today,
-                                size: 16, color: Colors.grey),
+                                size: 16, color: AppColors.textSecondary),
                             const SizedBox(width: 4),
                             Text(
                               _formatDate(booking.bookingAt),
                               style: const TextStyle(
                                 fontSize: 14,
-                                color: Colors.grey,
+                                color: AppColors.textSecondary,
                               ),
                             ),
                           ],
@@ -230,13 +235,13 @@ class _BookingsScreenState extends State<BookingsScreen>
                         Row(
                           children: [
                             const Icon(Icons.access_time,
-                                size: 16, color: Colors.grey),
+                                size: 16, color: AppColors.textSecondary),
                             const SizedBox(width: 4),
                             Text(
                               booking.service.duration ?? 'غير محدد',
                               style: const TextStyle(
                                 fontSize: 14,
-                                color: Colors.grey,
+                                color: AppColors.textSecondary,
                               ),
                             ),
                           ],
@@ -245,7 +250,7 @@ class _BookingsScreenState extends State<BookingsScreen>
                         Row(
                           children: [
                             const Icon(Icons.attach_money,
-                                size: 16, color: Colors.grey),
+                                size: 16, color: AppColors.textSecondary),
                             const SizedBox(width: 4),
                             Text(
                               '${booking.getTotal().toStringAsFixed(2)} ر.س',
@@ -268,11 +273,11 @@ class _BookingsScreenState extends State<BookingsScreen>
                 const SizedBox(height: 8),
                 Row(
                   children: [
-                    const Icon(Icons.payment, size: 16, color: Colors.grey),
+                    const Icon(Icons.payment, size: 16, color: AppColors.textSecondary),
                     const SizedBox(width: 4),
                     Text(
                       'الدفع: ${booking.paymentStatus}',
-                      style: const TextStyle(fontSize: 14, color: Colors.grey),
+                      style: const TextStyle(fontSize: 14, color: AppColors.textSecondary),
                     ),
                   ],
                 ),
@@ -328,16 +333,16 @@ class _BookingsScreenState extends State<BookingsScreen>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.bookmark_border, size: 80, color: Colors.grey[400]),
+          const Icon(Icons.bookmark_border, size: 80, color: AppColors.textSecondary),
           const SizedBox(height: 16),
-          Text(
+          const Text(
             'لا توجد حجوزات',
-            style: TextStyle(fontSize: 18, color: Colors.grey[600]),
+            style: TextStyle(fontSize: 18, color: AppColors.textPrimary),
           ),
           const SizedBox(height: 8),
-          Text(
+          const Text(
             'احجز خدمة لعرضها هنا',
-            style: TextStyle(fontSize: 14, color: Colors.grey[500]),
+            style: TextStyle(fontSize: 14, color: AppColors.textSecondary),
           ),
         ],
       ),
@@ -349,18 +354,18 @@ class _BookingsScreenState extends State<BookingsScreen>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.error_outline, size: 80, color: Colors.red),
+          const Icon(Icons.error_outline, size: 80, color: AppColors.primary),
           const SizedBox(height: 16),
-          Text(
+          const Text(
             'حدث خطأ',
-            style: TextStyle(fontSize: 18, color: Colors.grey[800]),
+            style: TextStyle(fontSize: 18, color: AppColors.textPrimary),
           ),
           const SizedBox(height: 8),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32),
             child: Text(
               error,
-              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+              style: const TextStyle(fontSize: 14, color: AppColors.textSecondary),
               textAlign: TextAlign.center,
             ),
           ),
@@ -369,6 +374,10 @@ class _BookingsScreenState extends State<BookingsScreen>
             onPressed: () {
               context.read<BookingProvider>().refreshBookings();
             },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primary,
+              foregroundColor: AppColors.textPrimary,
+            ),
             child: const Text('إعادة المحاولة'),
           ),
         ],
