@@ -65,6 +65,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
         backgroundColor: AppColors.background,
         appBar: AppBar(
           backgroundColor: AppColors.background,
+          foregroundColor: AppColors.textPrimary,
           elevation: 0,
           title: Text(
             AppLocalizations.of(context)!.messagesTitle,
