@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/colors.dart';
+import '../screens/add_screen.dart';
 
 class BottomNavigation extends StatelessWidget {
   final int selectedIndex;
@@ -79,8 +80,12 @@ class BottomNavigation extends StatelessWidget {
   Widget _buildAddButton(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        debugPrint('Add button tapped');
-        // TODO: Show add menu or navigate to create page
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const AddScreen(),
+          ),
+        );
       },
       child: Container(
         width: 60,
