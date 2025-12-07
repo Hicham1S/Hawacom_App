@@ -74,7 +74,7 @@ class CheckoutProvider extends ChangeNotifier {
     // Check wallet balance if wallet payment is selected
     if (method.isWallet && _booking != null) {
       // Calculate total from booking
-      final total = (_booking!.taxesValue ?? 0.0) + (_booking!.service.actualPrice * (_booking!.quantity ?? 1));
+      final total = (_booking!.taxesValue ?? 0.0) + (_booking!.service.actualPrice * _booking!.quantity);
       final hasSufficientBalance = await _walletRepository.hasSufficientBalance(total);
       
       if (!hasSufficientBalance) {
