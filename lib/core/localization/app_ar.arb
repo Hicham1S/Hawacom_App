@@ -326,5 +326,15 @@
   "addressFormLongitudeLabel": "خط الطول",
   "addressFormLongitudeHint": "0.0",
 
+  "projectSummaryTitle": "ملخص المشروع",
+  "projectSummaryWelcome": "أهلاً بك! يمكنك البدء بالدردشة معي الآن، وبعد قليل سيتم تحويل محادثتك إلى أحد عملائنا لمساعدتك بشكل أدق.",
+  "projectSummaryProjectInfo": "المعلومات المشروع",
+  "projectSummaryCategory": "الفئة:",
+  "projectSummaryDescription": "وصف المشروع:",
+  "projectSummaryDescriptionPlaceholder": "سيتم عرض وصف المشروع هنا",
+  "projectSummaryFilesPhotos": "الصور والملفات المتعلقة بالمشروع:",
+  "projectSummaryFilesPlaceholder": "سيتم عرض الصور والملفات هنا",
+  "projectSummaryStartConversation": "إبدأ محادثة جديدة",
+
   "quickActionsNotification": "الإجراء: {action}"
 }

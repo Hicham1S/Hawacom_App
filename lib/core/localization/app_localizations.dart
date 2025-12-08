@@ -1904,6 +1904,60 @@ abstract class AppLocalizations {
   /// **'0.0'**
   String get addressFormLongitudeHint;
 
+  /// No description provided for @projectSummaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Project Summary'**
+  String get projectSummaryTitle;
+
+  /// No description provided for @projectSummaryWelcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome! You can start chatting with me now, and shortly your conversation will be transferred to one of our clients to help you more accurately.'**
+  String get projectSummaryWelcome;
+
+  /// No description provided for @projectSummaryProjectInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Project Information'**
+  String get projectSummaryProjectInfo;
+
+  /// No description provided for @projectSummaryCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category:'**
+  String get projectSummaryCategory;
+
+  /// No description provided for @projectSummaryDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Project Description:'**
+  String get projectSummaryDescription;
+
+  /// No description provided for @projectSummaryDescriptionPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Project description will be displayed here'**
+  String get projectSummaryDescriptionPlaceholder;
+
+  /// No description provided for @projectSummaryFilesPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Project-related photos and files:'**
+  String get projectSummaryFilesPhotos;
+
+  /// No description provided for @projectSummaryFilesPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos and files will be displayed here'**
+  String get projectSummaryFilesPlaceholder;
+
+  /// No description provided for @projectSummaryStartConversation.
+  ///
+  /// In en, this message translates to:
+  /// **'Start New Conversation'**
+  String get projectSummaryStartConversation;
+
   /// No description provided for @quickActionsNotification.
   ///
   /// In en, this message translates to:

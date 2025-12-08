@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/colors.dart';
+import '../../../core/localization/app_localizations.dart';
 import 'agent_chat_screen.dart';
 
 /// Screen showing project summary - to be implemented
@@ -21,9 +22,9 @@ class ProjectSummaryScreen extends StatelessWidget {
             icon: const Icon(Icons.arrow_back),
             onPressed: () => Navigator.pop(context),
           ),
-          title: const Text(
-            'ملخص المشروع',
-            style: TextStyle(
+          title: Text(
+            AppLocalizations.of(context)!.projectSummaryTitle,
+            style: const TextStyle(
               color: AppColors.textPrimary,
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -46,10 +47,10 @@ class ProjectSummaryScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               // Welcome text
-              const Text(
-                'أهلاً بك! يمكنك البدء بالدردشة معي الآن، وبعد قليل سيتم تحويل محادثتك إلى أحد عملائنا لمساعدتك بشكل أدق.',
+              Text(
+                AppLocalizations.of(context)!.projectSummaryWelcome,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   color: AppColors.textPrimary,
                   height: 1.5,
@@ -58,11 +59,11 @@ class ProjectSummaryScreen extends StatelessWidget {
               const SizedBox(height: 40),
 
               // Project Information Section
-              const Align(
+              Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  'المعلومات المشروع',
-                  style: TextStyle(
+                  AppLocalizations.of(context)!.projectSummaryProjectInfo,
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: AppColors.textPrimary,
@@ -79,9 +80,9 @@ class ProjectSummaryScreen extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'الفئة:',
-                        style: TextStyle(
+                      Text(
+                        AppLocalizations.of(context)!.projectSummaryCategory,
+                        style: const TextStyle(
                           fontSize: 16,
                           color: AppColors.textPrimary,
                         ),
@@ -114,9 +115,9 @@ class ProjectSummaryScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'وصف المشروع:',
-                          style: TextStyle(
+                        Text(
+                          AppLocalizations.of(context)!.projectSummaryDescription,
+                          style: const TextStyle(
                             fontSize: 16,
                             color: AppColors.textPrimary,
                           ),
@@ -133,9 +134,9 @@ class ProjectSummaryScreen extends StatelessWidget {
                               width: 1,
                             ),
                           ),
-                          child: const Text(
-                            'سيتم عرض وصف المشروع هنا',
-                            style: TextStyle(
+                          child: Text(
+                            AppLocalizations.of(context)!.projectSummaryDescriptionPlaceholder,
+                            style: const TextStyle(
                               fontSize: 15,
                               color: AppColors.textSecondary,
                               height: 1.5,
@@ -150,11 +151,11 @@ class ProjectSummaryScreen extends StatelessWidget {
               const SizedBox(height: 24),
 
               // Files and Photos Section
-              const Align(
+              Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  'الصور والملفات المتعلقة بالمشروع:',
-                  style: TextStyle(
+                  AppLocalizations.of(context)!.projectSummaryFilesPhotos,
+                  style: const TextStyle(
                     fontSize: 16,
                     color: AppColors.textPrimary,
                   ),
@@ -174,10 +175,10 @@ class ProjectSummaryScreen extends StatelessWidget {
                     width: 1,
                   ),
                 ),
-                child: const Center(
+                child: Center(
                   child: Text(
-                    'سيتم عرض الصور والملفات هنا',
-                    style: TextStyle(
+                    AppLocalizations.of(context)!.projectSummaryFilesPlaceholder,
+                    style: const TextStyle(
                       fontSize: 15,
                       color: AppColors.textSecondary,
                     ),
@@ -206,9 +207,9 @@ class ProjectSummaryScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: const Text(
-                    'إبدأ محادثة جديدة',
-                    style: TextStyle(
+                  child: Text(
+                    AppLocalizations.of(context)!.projectSummaryStartConversation,
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),

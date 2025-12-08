@@ -389,6 +389,16 @@
   "addressFormLongitudeLabel": "Longitude",
   "addressFormLongitudeHint": "0.0",
 
+  "projectSummaryTitle": "Project Summary",
+  "projectSummaryWelcome": "Welcome! You can start chatting with me now, and shortly your conversation will be transferred to one of our clients to help you more accurately.",
+  "projectSummaryProjectInfo": "Project Information",
+  "projectSummaryCategory": "Category:",
+  "projectSummaryDescription": "Project Description:",
+  "projectSummaryDescriptionPlaceholder": "Project description will be displayed here",
+  "projectSummaryFilesPhotos": "Project-related photos and files:",
+  "projectSummaryFilesPlaceholder": "Photos and files will be displayed here",
+  "projectSummaryStartConversation": "Start New Conversation",
+
   "quickActionsNotification": "Action: {action}",
   "@quickActionsNotification": {
     "placeholders": {

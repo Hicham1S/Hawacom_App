@@ -939,6 +939,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addressFormLongitudeHint => '0.0';
 
   @override
+  String get projectSummaryTitle => 'Project Summary';
+
+  @override
+  String get projectSummaryWelcome =>
+      'Welcome! You can start chatting with me now, and shortly your conversation will be transferred to one of our clients to help you more accurately.';
+
+  @override
+  String get projectSummaryProjectInfo => 'Project Information';
+
+  @override
+  String get projectSummaryCategory => 'Category:';
+
+  @override
+  String get projectSummaryDescription => 'Project Description:';
+
+  @override
+  String get projectSummaryDescriptionPlaceholder =>
+      'Project description will be displayed here';
+
+  @override
+  String get projectSummaryFilesPhotos => 'Project-related photos and files:';
+
+  @override
+  String get projectSummaryFilesPlaceholder =>
+      'Photos and files will be displayed here';
+
+  @override
+  String get projectSummaryStartConversation => 'Start New Conversation';
+
+  @override
   String quickActionsNotification(String action) {
     return 'Action: $action';
   }
