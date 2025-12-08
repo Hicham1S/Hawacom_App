@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../models/conversation.dart';
 import '../providers/message_provider.dart';
 import '../widgets/message_bubble.dart';
@@ -217,33 +218,33 @@ class _ChatScreenProviderState extends State<ChatScreenProvider> {
             // TODO: Implement actions
           },
           itemBuilder: (context) => [
-            const PopupMenuItem(
+            PopupMenuItem(
               value: 'delete',
               child: Row(
                 children: [
                   Icon(Icons.delete_outline, color: Colors.red),
                   SizedBox(width: 8),
-                  Text('حذف المحادثة', style: TextStyle(color: Colors.red)),
+                  Text(AppLocalizations.of(context)!.messagesDelete, style: TextStyle(color: Colors.red)),
                 ],
               ),
             ),
-            const PopupMenuItem(
+            PopupMenuItem(
               value: 'mute',
               child: Row(
                 children: [
                   Icon(Icons.notifications_off_outlined),
                   SizedBox(width: 8),
-                  Text('كتم الإشعارات'),
+                  Text(AppLocalizations.of(context)!.messagesMute),
                 ],
               ),
             ),
-            const PopupMenuItem(
+            PopupMenuItem(
               value: 'block',
               child: Row(
                 children: [
                   Icon(Icons.block_outlined),
                   SizedBox(width: 8),
-                  Text('حظر المستخدم'),
+                  Text(AppLocalizations.of(context)!.messagesBlock),
                 ],
               ),
             ),

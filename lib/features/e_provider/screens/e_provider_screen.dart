@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../providers/e_provider_provider.dart';
 import '../models/e_provider_model.dart';
 
@@ -59,7 +60,7 @@ class _EProviderScreenState extends State<EProviderScreen> {
         if (provider.hasError && !provider.hasData) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text('خطأ - Error'),
+              title: Text(AppLocalizations.of(context)!.eProviderError),
             ),
             body: Center(
               child: Column(
@@ -72,7 +73,7 @@ class _EProviderScreenState extends State<EProviderScreen> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    provider.errorMessage ?? 'حدث خطأ - An error occurred',
+                    provider.errorMessage ?? AppLocalizations.of(context)!.errorOccurred,
                     textAlign: TextAlign.center,
                     style: const TextStyle(fontSize: 16),
                   ),
@@ -80,7 +81,7 @@ class _EProviderScreenState extends State<EProviderScreen> {
                   ElevatedButton.icon(
                     onPressed: () => provider.refresh(),
                     icon: const Icon(Icons.refresh),
-                    label: const Text('إعادة المحاولة - Retry'),
+                    label: Text(AppLocalizations.of(context)!.eProviderRetry),
                   ),
                 ],
               ),

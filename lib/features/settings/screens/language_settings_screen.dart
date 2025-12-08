@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../providers/language_provider.dart';
 
 /// Screen for selecting app language
@@ -56,7 +57,7 @@ class LanguageSettingsScreen extends StatelessWidget {
                       if (context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('تم تغيير اللغة إلى $languageName'),
+                            content: Text(AppLocalizations.of(context)!.settingsLanguageChanged(languageName)),
                             backgroundColor: Colors.green,
                             duration: const Duration(seconds: 2),
                           ),

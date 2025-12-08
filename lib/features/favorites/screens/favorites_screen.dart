@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/routing/app_routes.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../../services/providers/service_provider.dart';
 import '../providers/favorite_provider.dart';
 
@@ -99,7 +100,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
                       ),
-                      child: const Text('إعادة المحاولة'),
+                      child: Text(AppLocalizations.of(context)!.favoritesRetry),
                     ),
                   ],
                 ),
@@ -118,7 +119,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'لا توجد خدمات مفضلة',
+                      AppLocalizations.of(context)!.favoritesNoFavorites,
                       style: TextStyle(
                         color: AppColors.textSecondary,
                         fontSize: 18,
@@ -126,7 +127,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'ابدأ بإضافة خدماتك المفضلة',
+                      AppLocalizations.of(context)!.favoritesAddFavoritesHint,
                       style: TextStyle(
                         color: AppColors.textSecondary,
                         fontSize: 14,
@@ -145,7 +146,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                         ),
                       ),
                       icon: const Icon(Icons.explore),
-                      label: const Text('استكشف الخدمات'),
+                      label: Text(AppLocalizations.of(context)!.favoritesExploreServices),
                     ),
                   ],
                 ),
@@ -284,18 +285,18 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                   // Show confirmation dialog
                                   final confirmed = await showDialog<bool>(
                                     context: context,
-                                    builder: (context) => AlertDialog(
-                                      title: const Text('إزالة من المفضلة'),
-                                      content: const Text('هل تريد إزالة هذه الخدمة من المفضلة؟'),
+                                    builder: (dialogContext) => AlertDialog(
+                                      title: Text(AppLocalizations.of(context)!.favoritesRemoveTitle),
+                                      content: Text(AppLocalizations.of(context)!.favoritesRemoveConfirm),
                                       actions: [
                                         TextButton(
-                                          onPressed: () => Navigator.pop(context, false),
-                                          child: const Text('إلغاء'),
+                                          onPressed: () => Navigator.pop(dialogContext, false),
+                                          child: Text(AppLocalizations.of(context)!.cancel),
                                         ),
                                         TextButton(
-                                          onPressed: () => Navigator.pop(context, true),
+                                          onPressed: () => Navigator.pop(dialogContext, true),
                                           child: Text(
-                                            'إزالة',
+                                            AppLocalizations.of(context)!.remove,
                                             style: TextStyle(color: Colors.red),
                                           ),
                                         ),
@@ -310,8 +311,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                         SnackBar(
                                           content: Text(
                                             success
-                                                ? 'تمت الإزالة من المفضلة'
-                                                : 'فشلت الإزالة من المفضلة',
+                                                ? AppLocalizations.of(context)!.favoritesRemoveSuccess
+                                                : AppLocalizations.of(context)!.favoritesRemoveFailed,
                                           ),
                                           backgroundColor: success
                                               ? Colors.green

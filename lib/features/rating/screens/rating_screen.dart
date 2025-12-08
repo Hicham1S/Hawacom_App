@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/routing/app_routes.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../providers/rating_provider.dart';
 
@@ -278,8 +279,8 @@ class RatingScreen extends StatelessWidget {
                             if (success && context.mounted) {
                               // Show success message
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('شكراً لك! تم إضافة تقييمك'),
+                                SnackBar(
+                                  content: Text(AppLocalizations.of(context)!.ratingThankYou),
                                   backgroundColor: Colors.green,
                                   duration: Duration(seconds: 2),
                                 ),

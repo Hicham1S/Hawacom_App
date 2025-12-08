@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/routing/app_routes.dart';
 import '../../../core/services/session_manager.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../repositories/profile_repository.dart';
 
@@ -146,8 +147,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('تم رفع الصورة بنجاح'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.editProfileUploadSuccess),
             backgroundColor: Colors.green,
           ),
         );
@@ -160,7 +161,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('فشل رفع الصورة: $e'),
+          content: Text(AppLocalizations.of(context)!.editProfileUploadFailed(e.toString())),
           backgroundColor: Colors.red,
         ),
         );
@@ -179,7 +180,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             children: [
               ListTile(
                 leading: const Icon(Icons.photo_library),
-                title: const Text('معرض الصور'),
+                title: Text(AppLocalizations.of(context)!.editProfilePhotoGallery),
                 onTap: () {
                   Navigator.pop(context);
                   _pickImage(ImageSource.gallery);
@@ -187,7 +188,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               ListTile(
                 leading: const Icon(Icons.camera_alt),
-                title: const Text('الكاميرا'),
+                title: Text(AppLocalizations.of(context)!.editProfileCamera),
                 onTap: () {
                   Navigator.pop(context);
                   _pickImage(ImageSource.camera);
@@ -218,8 +219,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         if (!mounted) return;
 
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('الجلسة منتهية. الرجاء تسجيل الدخول مرة أخرى'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.editProfileSessionExpired),
             backgroundColor: Colors.orange,
           ),
         );
@@ -265,8 +266,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('تم حفظ التعديلات بنجاح'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.editProfileSaveSuccess),
           backgroundColor: Colors.green,
         ),
       );
@@ -281,7 +282,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('فشل حفظ التعديلات: $e'),
+          content: Text(AppLocalizations.of(context)!.editProfileSaveFailed(e.toString())),
           backgroundColor: Colors.red,
           duration: const Duration(seconds: 5),
         ),

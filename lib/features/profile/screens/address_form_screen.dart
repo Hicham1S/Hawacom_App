@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../providers/address_provider.dart';
 import '../models/address_model.dart';
 
@@ -83,12 +84,12 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
               // Description field
               _buildTextField(
                 controller: _descriptionController,
-                label: 'وصف العنوان',
-                hint: 'مثال: المنزل، العمل، الشقة',
+                label: AppLocalizations.of(context)!.addressFormDescriptionLabel,
+                hint: AppLocalizations.of(context)!.addressFormDescriptionHint,
                 icon: Icons.label_outline,
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'الرجاء إدخال وصف العنوان';
+                    return AppLocalizations.of(context)!.addressFormDescriptionRequired;
                   }
                   return null;
                 },
@@ -98,16 +99,16 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
               // Address field
               _buildTextField(
                 controller: _addressController,
-                label: 'العنوان الكامل',
-                hint: 'أدخل العنوان بالتفصيل',
+                label: AppLocalizations.of(context)!.addressFormFullAddressLabel,
+                hint: AppLocalizations.of(context)!.addressFormFullAddressHint,
                 icon: Icons.location_on_outlined,
                 maxLines: 3,
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'الرجاء إدخال العنوان';
+                    return AppLocalizations.of(context)!.addressFormFullAddressRequired;
                   }
                   if (value.trim().length < 10) {
-                    return 'العنوان قصير جداً';
+                    return AppLocalizations.of(context)!.addressFormFullAddressTooShort;
                   }
                   return null;
                 },
@@ -132,9 +133,9 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
                           size: 20,
                         ),
                         const SizedBox(width: 8),
-                        const Text(
-                          'الإحداثيات (اختياري)',
-                          style: TextStyle(
+                        Text(
+                          AppLocalizations.of(context)!.addressFormCoordinatesTitle,
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: AppColors.textPrimary,
@@ -148,17 +149,17 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
                         Expanded(
                           child: _buildTextField(
                             controller: _latitudeController,
-                            label: 'خط العرض',
+                            label: AppLocalizations.of(context)!.addressFormLatitudeLabel,
                             hint: '0.0',
                             keyboardType: TextInputType.numberWithOptions(decimal: true),
                             validator: (value) {
                               if (value != null && value.isNotEmpty) {
                                 final lat = double.tryParse(value);
                                 if (lat == null) {
-                                  return 'رقم غير صحيح';
+                                  return AppLocalizations.of(context)!.addressFormInvalidNumber;
                                 }
                                 if (lat < -90 || lat > 90) {
-                                  return 'خارج النطاق';
+                                  return AppLocalizations.of(context)!.addressFormOutOfRange;
                                 }
                               }
                               return null;
@@ -169,17 +170,17 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
                         Expanded(
                           child: _buildTextField(
                             controller: _longitudeController,
-                            label: 'خط الطول',
+                            label: AppLocalizations.of(context)!.addressFormLongitudeLabel,
                             hint: '0.0',
                             keyboardType: TextInputType.numberWithOptions(decimal: true),
                             validator: (value) {
                               if (value != null && value.isNotEmpty) {
                                 final lng = double.tryParse(value);
                                 if (lng == null) {
-                                  return 'رقم غير صحيح';
+                                  return AppLocalizations.of(context)!.addressFormInvalidNumber;
                                 }
                                 if (lng < -180 || lng > 180) {
-                                  return 'خارج النطاق';
+                                  return AppLocalizations.of(context)!.addressFormOutOfRange;
                                 }
                               }
                               return null;

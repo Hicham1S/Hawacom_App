@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/routing/app_routes.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../providers/notification_provider.dart';
 import '../models/notification_model.dart';
 
@@ -56,17 +57,17 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       builder: (context) => Directionality(
         textDirection: TextDirection.rtl,
         child: AlertDialog(
-          title: const Text('حذف الإشعار'),
-          content: const Text('هل تريد حذف هذا الإشعار؟'),
+          title: Text(AppLocalizations.of(context)!.notificationsDeleteTitle),
+          content: Text(AppLocalizations.of(context)!.notificationsDeleteConfirm),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: const Text('إلغاء'),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
             TextButton(
               onPressed: () => Navigator.pop(context, true),
               child: Text(
-                'حذف',
+                AppLocalizations.of(context)!.notificationsDeleteButton,
                 style: TextStyle(color: Colors.red),
               ),
             ),
@@ -83,7 +84,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              success ? 'تم حذف الإشعار' : 'فشل حذف الإشعار',
+              success ? AppLocalizations.of(context)!.notificationsDeleteSuccess : AppLocalizations.of(context)!.notificationsDeleteFailed,
             ),
             backgroundColor: success ? Colors.green : Colors.red,
           ),
@@ -171,7 +172,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
                       ),
-                      child: const Text('إعادة المحاولة'),
+                      child: Text(AppLocalizations.of(context)!.notificationsRetry),
                     ),
                   ],
                 ),

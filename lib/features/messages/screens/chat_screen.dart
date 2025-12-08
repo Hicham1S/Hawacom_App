@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../models/conversation_firestore.dart';
 import '../models/chat_message.dart';
@@ -105,8 +106,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
     if (!success && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('فشل إرسال الرسالة'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.chatSendMessageFailed),
           backgroundColor: Colors.red,
         ),
       );
@@ -140,8 +141,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
     if (!success && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('فشل إرسال الصورة'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.chatSendImageFailed),
           backgroundColor: Colors.red,
         ),
       );
@@ -159,12 +160,12 @@ class _ChatScreenState extends State<ChatScreen> {
             children: [
               ListTile(
                 leading: const Icon(Icons.photo_library),
-                title: const Text('معرض الصور'),
+                title: Text(AppLocalizations.of(context)!.chatPhotoGallery),
                 onTap: () => _handleImagePicker(ImageSource.gallery),
               ),
               ListTile(
                 leading: const Icon(Icons.camera_alt),
-                title: const Text('الكاميرا'),
+                title: Text(AppLocalizations.of(context)!.chatCamera),
                 onTap: () => _handleImagePicker(ImageSource.camera),
               ),
             ],
@@ -238,7 +239,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       child: CircularProgressIndicator(strokeWidth: 2),
                     ),
                     const SizedBox(width: 12),
-                    const Text('جاري رفع الصورة...'),
+                    Text(AppLocalizations.of(context)!.chatUploadingImage),
                   ],
                 ),
               ),

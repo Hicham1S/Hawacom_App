@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../providers/help_provider.dart';
 
 /// Help screen with FAQ categories and expandable questions
@@ -79,7 +80,7 @@ class _HelpScreenState extends State<HelpScreen>
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text('مساعدة - Help'),
+            title: Text(AppLocalizations.of(context)!.helpTitle),
             bottom: provider.categories.isEmpty
                 ? null
                 : TabBar(
@@ -117,7 +118,7 @@ class _HelpScreenState extends State<HelpScreen>
             ),
             const SizedBox(height: 16),
             Text(
-              provider.errorMessage ?? 'حدث خطأ - An error occurred',
+              provider.errorMessage ?? AppLocalizations.of(context)!.errorOccurred,
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 16),
             ),
@@ -125,7 +126,7 @@ class _HelpScreenState extends State<HelpScreen>
             ElevatedButton.icon(
               onPressed: () => provider.refresh(),
               icon: const Icon(Icons.refresh),
-              label: const Text('إعادة المحاولة - Retry'),
+              label: Text(AppLocalizations.of(context)!.helpRetry),
             ),
           ],
         ),

@@ -628,4 +628,318 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authLogoutFailed => 'Logout failed';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get back => 'Back';
+
+  @override
+  String get continueButton => 'Continue';
+
+  @override
+  String get apply => 'Apply';
+
+  @override
+  String get add => 'Add';
+
+  @override
+  String get remove => 'Remove';
+
+  @override
+  String get confirm => 'Confirm';
+
+  @override
+  String get success => 'Success';
+
+  @override
+  String get failed => 'Failed';
+
+  @override
+  String get loading => 'Loading';
+
+  @override
+  String get errorOccurred => 'An error occurred';
+
+  @override
+  String get checkoutRetry => 'Retry';
+
+  @override
+  String get checkoutWalletInDevelopment => 'Wallet payment under development';
+
+  @override
+  String checkoutOpeningPaymentGateway(String url) {
+    return 'Opening payment gateway: $url';
+  }
+
+  @override
+  String get checkoutPaymentSuccess => 'Payment successful';
+
+  @override
+  String get ratingThankYou => 'Thank you! Your rating has been added';
+
+  @override
+  String get favoritesRetry => 'Retry';
+
+  @override
+  String get favoritesNoFavorites => 'No favorite services';
+
+  @override
+  String get favoritesAddFavoritesHint => 'Start adding your favorite services';
+
+  @override
+  String get favoritesExploreServices => 'Explore Services';
+
+  @override
+  String get favoritesRemoveTitle => 'Remove from Favorites';
+
+  @override
+  String get favoritesRemoveConfirm =>
+      'Do you want to remove this service from favorites?';
+
+  @override
+  String get favoritesRemoveSuccess => 'Removed from favorites';
+
+  @override
+  String get favoritesRemoveFailed => 'Failed to remove from favorites';
+
+  @override
+  String get searchRetry => 'Retry';
+
+  @override
+  String get helpTitle => 'Help';
+
+  @override
+  String get helpRetry => 'Retry';
+
+  @override
+  String get privacyRetry => 'Retry';
+
+  @override
+  String settingsLanguageChanged(String languageName) {
+    return 'Language changed to $languageName';
+  }
+
+  @override
+  String settingsThemeChanged(String themeName) {
+    return 'Theme changed to $themeName';
+  }
+
+  @override
+  String get addProjectSearchCategory => 'Search for category';
+
+  @override
+  String get addProjectDescriptionTitle => 'Project Idea Description';
+
+  @override
+  String get addProjectDescriptionHint =>
+      'Write a brief description of the project, required style, and basic ideas';
+
+  @override
+  String get addProjectAttachmentTitle =>
+      'Attach references or project-related images';
+
+  @override
+  String get addProjectAttachmentDesc =>
+      'Add any references or images that help us understand the project accurately.';
+
+  @override
+  String get addProjectChooseFiles => 'Choose Files';
+
+  @override
+  String get addProjectAgreeToTerms => 'I agree to ';
+
+  @override
+  String get addProjectTermsAndConditions => 'Terms and Conditions';
+
+  @override
+  String get addProjectContinue => 'Continue';
+
+  @override
+  String get chatSendMessageFailed => 'Failed to send message';
+
+  @override
+  String get chatSendImageFailed => 'Failed to send image';
+
+  @override
+  String get chatPhotoGallery => 'Photo Gallery';
+
+  @override
+  String get chatCamera => 'Camera';
+
+  @override
+  String get chatUploadingImage => 'Uploading image...';
+
+  @override
+  String get categoryDetailRetry => 'Retry';
+
+  @override
+  String get bookingDetailTitle => 'Booking Details';
+
+  @override
+  String get bookingDetailNotFound => 'Booking not found';
+
+  @override
+  String get bookingDetailCancelBooking => 'Cancel Booking';
+
+  @override
+  String get bookingDetailRetry => 'Retry';
+
+  @override
+  String get bookingDetailCancelTitle => 'Cancel Booking';
+
+  @override
+  String get bookingDetailCancelConfirm =>
+      'Are you sure you want to cancel this booking?';
+
+  @override
+  String get bookingDetailGoBack => 'Go Back';
+
+  @override
+  String get bookingDetailCancelSuccess => 'Booking cancelled successfully';
+
+  @override
+  String get bookingDetailCancelFailed => 'Failed to cancel booking';
+
+  @override
+  String get messagesProviderRetry => 'Retry';
+
+  @override
+  String get eProviderError => 'Error';
+
+  @override
+  String get eProviderRetry => 'Retry';
+
+  @override
+  String get bookingsMyBookings => 'My Bookings';
+
+  @override
+  String get bookingsRetry => 'Retry';
+
+  @override
+  String get addressesRetry => 'Retry';
+
+  @override
+  String get addressesNoAddresses => 'No saved addresses';
+
+  @override
+  String get addressesAddFirstAddress => 'Add your first address now';
+
+  @override
+  String get addressesSetAsDefault => 'Set as Default';
+
+  @override
+  String get addressesSetDefaultSuccess => 'Address set as default';
+
+  @override
+  String get addressesDeleteTitle => 'Delete Address';
+
+  @override
+  String get addressesDeleteConfirm =>
+      'Are you sure you want to delete this address?';
+
+  @override
+  String get addressesDeleteButton => 'Delete';
+
+  @override
+  String get addressesDeleteSuccess => 'Address deleted';
+
+  @override
+  String get addressesDeleteFailed => 'Failed to delete address';
+
+  @override
+  String get editProfileUploadSuccess => 'Image uploaded successfully';
+
+  @override
+  String editProfileUploadFailed(String error) {
+    return 'Failed to upload image: $error';
+  }
+
+  @override
+  String get editProfilePhotoGallery => 'Photo Gallery';
+
+  @override
+  String get editProfileCamera => 'Camera';
+
+  @override
+  String get editProfileSessionExpired => 'Session expired. Please login again';
+
+  @override
+  String get editProfileSaveSuccess => 'Changes saved successfully';
+
+  @override
+  String editProfileSaveFailed(String error) {
+    return 'Failed to save changes: $error';
+  }
+
+  @override
+  String get notificationsDeleteTitle => 'Delete Notification';
+
+  @override
+  String get notificationsDeleteConfirm =>
+      'Do you want to delete this notification?';
+
+  @override
+  String get notificationsDeleteButton => 'Delete';
+
+  @override
+  String get notificationsDeleteSuccess => 'Notification deleted';
+
+  @override
+  String get notificationsDeleteFailed => 'Failed to delete notification';
+
+  @override
+  String get notificationsRetry => 'Retry';
+
+  @override
+  String get addressFormDescriptionLabel => 'Address Description';
+
+  @override
+  String get addressFormDescriptionHint => 'Example: Home, Work, Apartment';
+
+  @override
+  String get addressFormDescriptionRequired =>
+      'Please enter address description';
+
+  @override
+  String get addressFormFullAddressLabel => 'Full Address';
+
+  @override
+  String get addressFormFullAddressHint => 'Enter address in detail';
+
+  @override
+  String get addressFormFullAddressRequired => 'Please enter address';
+
+  @override
+  String get addressFormFullAddressTooShort => 'Address is too short';
+
+  @override
+  String get addressFormCoordinatesTitle => 'Coordinates (optional)';
+
+  @override
+  String get addressFormLatitudeLabel => 'Latitude';
+
+  @override
+  String get addressFormLatitudeHint => '0.0';
+
+  @override
+  String get addressFormInvalidNumber => 'Invalid number';
+
+  @override
+  String get addressFormOutOfRange => 'Out of range';
+
+  @override
+  String get addressFormLongitudeLabel => 'Longitude';
+
+  @override
+  String get addressFormLongitudeHint => '0.0';
+
+  @override
+  String quickActionsNotification(String action) {
+    return 'Action: $action';
+  }
 }

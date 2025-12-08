@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../providers/message_provider.dart';
 import '../widgets/chat_list_tile.dart';
 import 'chat_screen_provider.dart';
@@ -152,7 +153,7 @@ class _MessagesScreenProviderState extends State<MessagesScreenProvider> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary,
                             ),
-                            child: const Text('إعادة المحاولة'),
+                            child: Text(AppLocalizations.of(context)!.messagesProviderRetry),
                           ),
                         ],
                       ),

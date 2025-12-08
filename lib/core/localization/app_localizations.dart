@@ -1321,6 +1321,594 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Logout failed'**
   String get authLogoutFailed;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
+  /// No description provided for @continueButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueButton;
+
+  /// No description provided for @apply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get apply;
+
+  /// No description provided for @add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get add;
+
+  /// No description provided for @remove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get remove;
+
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
+
+  /// No description provided for @success.
+  ///
+  /// In en, this message translates to:
+  /// **'Success'**
+  String get success;
+
+  /// No description provided for @failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get failed;
+
+  /// No description provided for @loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading'**
+  String get loading;
+
+  /// No description provided for @errorOccurred.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred'**
+  String get errorOccurred;
+
+  /// No description provided for @checkoutRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get checkoutRetry;
+
+  /// No description provided for @checkoutWalletInDevelopment.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet payment under development'**
+  String get checkoutWalletInDevelopment;
+
+  /// No description provided for @checkoutOpeningPaymentGateway.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening payment gateway: {url}'**
+  String checkoutOpeningPaymentGateway(String url);
+
+  /// No description provided for @checkoutPaymentSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment successful'**
+  String get checkoutPaymentSuccess;
+
+  /// No description provided for @ratingThankYou.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you! Your rating has been added'**
+  String get ratingThankYou;
+
+  /// No description provided for @favoritesRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get favoritesRetry;
+
+  /// No description provided for @favoritesNoFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'No favorite services'**
+  String get favoritesNoFavorites;
+
+  /// No description provided for @favoritesAddFavoritesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Start adding your favorite services'**
+  String get favoritesAddFavoritesHint;
+
+  /// No description provided for @favoritesExploreServices.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore Services'**
+  String get favoritesExploreServices;
+
+  /// No description provided for @favoritesRemoveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from Favorites'**
+  String get favoritesRemoveTitle;
+
+  /// No description provided for @favoritesRemoveConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to remove this service from favorites?'**
+  String get favoritesRemoveConfirm;
+
+  /// No description provided for @favoritesRemoveSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed from favorites'**
+  String get favoritesRemoveSuccess;
+
+  /// No description provided for @favoritesRemoveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to remove from favorites'**
+  String get favoritesRemoveFailed;
+
+  /// No description provided for @searchRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get searchRetry;
+
+  /// No description provided for @helpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get helpTitle;
+
+  /// No description provided for @helpRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get helpRetry;
+
+  /// No description provided for @privacyRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get privacyRetry;
+
+  /// No description provided for @settingsLanguageChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Language changed to {languageName}'**
+  String settingsLanguageChanged(String languageName);
+
+  /// No description provided for @settingsThemeChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme changed to {themeName}'**
+  String settingsThemeChanged(String themeName);
+
+  /// No description provided for @addProjectSearchCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for category'**
+  String get addProjectSearchCategory;
+
+  /// No description provided for @addProjectDescriptionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Project Idea Description'**
+  String get addProjectDescriptionTitle;
+
+  /// No description provided for @addProjectDescriptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a brief description of the project, required style, and basic ideas'**
+  String get addProjectDescriptionHint;
+
+  /// No description provided for @addProjectAttachmentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach references or project-related images'**
+  String get addProjectAttachmentTitle;
+
+  /// No description provided for @addProjectAttachmentDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Add any references or images that help us understand the project accurately.'**
+  String get addProjectAttachmentDesc;
+
+  /// No description provided for @addProjectChooseFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Files'**
+  String get addProjectChooseFiles;
+
+  /// No description provided for @addProjectAgreeToTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'I agree to '**
+  String get addProjectAgreeToTerms;
+
+  /// No description provided for @addProjectTermsAndConditions.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms and Conditions'**
+  String get addProjectTermsAndConditions;
+
+  /// No description provided for @addProjectContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get addProjectContinue;
+
+  /// No description provided for @chatSendMessageFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send message'**
+  String get chatSendMessageFailed;
+
+  /// No description provided for @chatSendImageFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send image'**
+  String get chatSendImageFailed;
+
+  /// No description provided for @chatPhotoGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo Gallery'**
+  String get chatPhotoGallery;
+
+  /// No description provided for @chatCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get chatCamera;
+
+  /// No description provided for @chatUploadingImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading image...'**
+  String get chatUploadingImage;
+
+  /// No description provided for @categoryDetailRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get categoryDetailRetry;
+
+  /// No description provided for @bookingDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking Details'**
+  String get bookingDetailTitle;
+
+  /// No description provided for @bookingDetailNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking not found'**
+  String get bookingDetailNotFound;
+
+  /// No description provided for @bookingDetailCancelBooking.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel Booking'**
+  String get bookingDetailCancelBooking;
+
+  /// No description provided for @bookingDetailRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get bookingDetailRetry;
+
+  /// No description provided for @bookingDetailCancelTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel Booking'**
+  String get bookingDetailCancelTitle;
+
+  /// No description provided for @bookingDetailCancelConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to cancel this booking?'**
+  String get bookingDetailCancelConfirm;
+
+  /// No description provided for @bookingDetailGoBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Go Back'**
+  String get bookingDetailGoBack;
+
+  /// No description provided for @bookingDetailCancelSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking cancelled successfully'**
+  String get bookingDetailCancelSuccess;
+
+  /// No description provided for @bookingDetailCancelFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to cancel booking'**
+  String get bookingDetailCancelFailed;
+
+  /// No description provided for @messagesProviderRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get messagesProviderRetry;
+
+  /// No description provided for @eProviderError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get eProviderError;
+
+  /// No description provided for @eProviderRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get eProviderRetry;
+
+  /// No description provided for @bookingsMyBookings.
+  ///
+  /// In en, this message translates to:
+  /// **'My Bookings'**
+  String get bookingsMyBookings;
+
+  /// No description provided for @bookingsRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get bookingsRetry;
+
+  /// No description provided for @addressesRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get addressesRetry;
+
+  /// No description provided for @addressesNoAddresses.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved addresses'**
+  String get addressesNoAddresses;
+
+  /// No description provided for @addressesAddFirstAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first address now'**
+  String get addressesAddFirstAddress;
+
+  /// No description provided for @addressesSetAsDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Set as Default'**
+  String get addressesSetAsDefault;
+
+  /// No description provided for @addressesSetDefaultSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Address set as default'**
+  String get addressesSetDefaultSuccess;
+
+  /// No description provided for @addressesDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Address'**
+  String get addressesDeleteTitle;
+
+  /// No description provided for @addressesDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this address?'**
+  String get addressesDeleteConfirm;
+
+  /// No description provided for @addressesDeleteButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get addressesDeleteButton;
+
+  /// No description provided for @addressesDeleteSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Address deleted'**
+  String get addressesDeleteSuccess;
+
+  /// No description provided for @addressesDeleteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete address'**
+  String get addressesDeleteFailed;
+
+  /// No description provided for @editProfileUploadSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Image uploaded successfully'**
+  String get editProfileUploadSuccess;
+
+  /// No description provided for @editProfileUploadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to upload image: {error}'**
+  String editProfileUploadFailed(String error);
+
+  /// No description provided for @editProfilePhotoGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo Gallery'**
+  String get editProfilePhotoGallery;
+
+  /// No description provided for @editProfileCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get editProfileCamera;
+
+  /// No description provided for @editProfileSessionExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Session expired. Please login again'**
+  String get editProfileSessionExpired;
+
+  /// No description provided for @editProfileSaveSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes saved successfully'**
+  String get editProfileSaveSuccess;
+
+  /// No description provided for @editProfileSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save changes: {error}'**
+  String editProfileSaveFailed(String error);
+
+  /// No description provided for @notificationsDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Notification'**
+  String get notificationsDeleteTitle;
+
+  /// No description provided for @notificationsDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to delete this notification?'**
+  String get notificationsDeleteConfirm;
+
+  /// No description provided for @notificationsDeleteButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get notificationsDeleteButton;
+
+  /// No description provided for @notificationsDeleteSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification deleted'**
+  String get notificationsDeleteSuccess;
+
+  /// No description provided for @notificationsDeleteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete notification'**
+  String get notificationsDeleteFailed;
+
+  /// No description provided for @notificationsRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get notificationsRetry;
+
+  /// No description provided for @addressFormDescriptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Address Description'**
+  String get addressFormDescriptionLabel;
+
+  /// No description provided for @addressFormDescriptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Example: Home, Work, Apartment'**
+  String get addressFormDescriptionHint;
+
+  /// No description provided for @addressFormDescriptionRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter address description'**
+  String get addressFormDescriptionRequired;
+
+  /// No description provided for @addressFormFullAddressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Address'**
+  String get addressFormFullAddressLabel;
+
+  /// No description provided for @addressFormFullAddressHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter address in detail'**
+  String get addressFormFullAddressHint;
+
+  /// No description provided for @addressFormFullAddressRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter address'**
+  String get addressFormFullAddressRequired;
+
+  /// No description provided for @addressFormFullAddressTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Address is too short'**
+  String get addressFormFullAddressTooShort;
+
+  /// No description provided for @addressFormCoordinatesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Coordinates (optional)'**
+  String get addressFormCoordinatesTitle;
+
+  /// No description provided for @addressFormLatitudeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Latitude'**
+  String get addressFormLatitudeLabel;
+
+  /// No description provided for @addressFormLatitudeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'0.0'**
+  String get addressFormLatitudeHint;
+
+  /// No description provided for @addressFormInvalidNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid number'**
+  String get addressFormInvalidNumber;
+
+  /// No description provided for @addressFormOutOfRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Out of range'**
+  String get addressFormOutOfRange;
+
+  /// No description provided for @addressFormLongitudeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Longitude'**
+  String get addressFormLongitudeLabel;
+
+  /// No description provided for @addressFormLongitudeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'0.0'**
+  String get addressFormLongitudeHint;
+
+  /// No description provided for @quickActionsNotification.
+  ///
+  /// In en, this message translates to:
+  /// **'Action: {action}'**
+  String quickActionsNotification(String action);
 }
 
 class _AppLocalizationsDelegate

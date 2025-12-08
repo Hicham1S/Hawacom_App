@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../core/constants/colors.dart';
+import '../../../core/localization/app_localizations.dart';
 import 'project_summary_screen.dart';
 
 /// Screen displayed when the add button is tapped
@@ -47,8 +48,8 @@ class _AddScreenState extends State<AddScreen> {
     if (!_acceptTerms) {
       // Show error if terms not accepted
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('يجب الموافقة على الشروط والأحكام'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.authMustAgreeTerms),
           backgroundColor: AppColors.primary,
         ),
       );
@@ -121,8 +122,8 @@ class _AddScreenState extends State<AddScreen> {
                             color: AppColors.textPrimary,
                             fontSize: 16,
                           ),
-                          decoration: const InputDecoration(
-                            hintText: 'البحث عن الفئة',
+                          decoration: InputDecoration(
+                            hintText: AppLocalizations.of(context)!.addProjectSearchCategory,
                             hintStyle: TextStyle(
                               color: AppColors.textSecondary,
                               fontSize: 16,
@@ -147,8 +148,8 @@ class _AddScreenState extends State<AddScreen> {
                 const SizedBox(height: 24),
 
                 // Description section title
-                const Text(
-                  'وصف فكرة المشروع',
+                Text(
+                  AppLocalizations.of(context)!.addProjectDescriptionTitle,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -179,8 +180,8 @@ class _AddScreenState extends State<AddScreen> {
                             color: AppColors.textPrimary,
                             fontSize: 16,
                           ),
-                          decoration: const InputDecoration(
-                            hintText: 'اكتب وصفا مختصرا عن المشروع، النمط المطلوب، والافكار الاساسية',
+                          decoration: InputDecoration(
+                            hintText: AppLocalizations.of(context)!.addProjectDescriptionHint,
                             hintStyle: TextStyle(
                               color: AppColors.textSecondary,
                               fontSize: 14,
@@ -224,8 +225,8 @@ class _AddScreenState extends State<AddScreen> {
                     ),
                     child: Column(
                     children: [
-                      const Text(
-                        'ارفق مرجع او صور متعلقة بالمشروع',
+                      Text(
+                        AppLocalizations.of(context)!.addProjectAttachmentTitle,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -234,8 +235,8 @@ class _AddScreenState extends State<AddScreen> {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 16),
-                      const Text(
-                        'أضف أي مراجع أو  صور  تساعدنا على فهم مشروع بدقة.',
+                      Text(
+                        AppLocalizations.of(context)!.addProjectAttachmentDesc,
                         style: TextStyle(
                           fontSize: 15,
                           color: AppColors.textSecondary,
@@ -253,8 +254,8 @@ class _AddScreenState extends State<AddScreen> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        child: const Text(
-                          'إختر  الملفات',
+                        child: Text(
+                          AppLocalizations.of(context)!.addProjectChooseFiles,
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -283,8 +284,8 @@ class _AddScreenState extends State<AddScreen> {
                     Expanded(
                       child: Wrap(
                         children: [
-                          const Text(
-                            'اوافق على ',
+                          Text(
+                            AppLocalizations.of(context)!.addProjectAgreeToTerms,
                             style: TextStyle(
                               fontSize: 15,
                               color: AppColors.textPrimary,
@@ -292,8 +293,8 @@ class _AddScreenState extends State<AddScreen> {
                           ),
                           GestureDetector(
                             onTap: _onTermsTap,
-                            child: const Text(
-                              'الشروط والاحكام',
+                            child: Text(
+                              AppLocalizations.of(context)!.addProjectTermsAndConditions,
                               style: TextStyle(
                                 fontSize: 15,
                                 color: AppColors.primary,
@@ -321,8 +322,8 @@ class _AddScreenState extends State<AddScreen> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: const Text(
-                      'المتابعة',
+                    child: Text(
+                      AppLocalizations.of(context)!.addProjectContinue,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../providers/address_provider.dart';
 import '../models/address_model.dart';
 import 'address_form_screen.dart';
@@ -86,7 +87,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
                       ),
-                      child: const Text('إعادة المحاولة'),
+                      child: Text(AppLocalizations.of(context)!.addressesRetry),
                     ),
                   ],
                 ),
@@ -105,8 +106,8 @@ class _AddressesScreenState extends State<AddressesScreen> {
                       color: Colors.grey.withValues(alpha: 0.5),
                     ),
                     const SizedBox(height: 16),
-                    const Text(
-                      'لا توجد عناوين محفوظة',
+                    Text(
+                      AppLocalizations.of(context)!.addressesNoAddresses,
                       style: TextStyle(
                         color: AppColors.textSecondary,
                         fontSize: 18,
@@ -114,8 +115,8 @@ class _AddressesScreenState extends State<AddressesScreen> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    const Text(
-                      'أضف عنوانك الأول الآن',
+                    Text(
+                      AppLocalizations.of(context)!.addressesAddFirstAddress,
                       style: TextStyle(
                         color: AppColors.textSecondary,
                         fontSize: 14,
@@ -260,7 +261,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
                     TextButton.icon(
                       onPressed: () => _setAsDefault(context, address.id, provider),
                       icon: const Icon(Icons.check_circle_outline, size: 18),
-                      label: const Text('تعيين كافتراضي'),
+                      label: Text(AppLocalizations.of(context)!.addressesSetAsDefault),
                       style: TextButton.styleFrom(
                         foregroundColor: AppColors.primary,
                       ),
@@ -327,8 +328,8 @@ class _AddressesScreenState extends State<AddressesScreen> {
 
     if (success) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('تم تعيين العنوان كافتراضي'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.addressesSetDefaultSuccess),
           backgroundColor: Colors.green,
         ),
       );
@@ -352,17 +353,17 @@ class _AddressesScreenState extends State<AddressesScreen> {
       builder: (context) => Directionality(
         textDirection: TextDirection.rtl,
         child: AlertDialog(
-          title: const Text('حذف العنوان'),
-          content: const Text('هل أنت متأكد من حذف هذا العنوان؟'),
+          title: Text(AppLocalizations.of(context)!.addressesDeleteTitle),
+          content: Text(AppLocalizations.of(context)!.addressesDeleteConfirm),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: const Text('إلغاء'),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
             TextButton(
               onPressed: () => Navigator.pop(context, true),
               style: TextButton.styleFrom(foregroundColor: Colors.red),
-              child: const Text('حذف'),
+              child: Text(AppLocalizations.of(context)!.addressesDeleteButton),
             ),
           ],
         ),
@@ -376,15 +377,15 @@ class _AddressesScreenState extends State<AddressesScreen> {
 
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('تم حذف العنوان'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.addressesDeleteSuccess),
             backgroundColor: Colors.green,
           ),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(provider.errorMessage ?? 'فشل حذف العنوان'),
+            content: Text(provider.errorMessage ?? AppLocalizations.of(context)!.addressesDeleteFailed),
             backgroundColor: Colors.red,
           ),
         );

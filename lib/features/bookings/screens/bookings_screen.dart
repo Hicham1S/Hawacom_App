@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/routing/app_routes.dart';
 import '../../../core/constants/colors.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../providers/booking_provider.dart';
 import '../models/booking_model.dart';
 
@@ -73,7 +74,7 @@ class _BookingsScreenState extends State<BookingsScreen>
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('حجوزاتي'),
+        title: Text(AppLocalizations.of(context)!.bookingsMyBookings),
         backgroundColor: AppColors.background,
         foregroundColor: AppColors.textPrimary,
         elevation: 0,
@@ -378,7 +379,7 @@ class _BookingsScreenState extends State<BookingsScreen>
               backgroundColor: AppColors.primary,
               foregroundColor: AppColors.textPrimary,
             ),
-            child: const Text('إعادة المحاولة'),
+            child: Text(AppLocalizations.of(context)!.bookingsRetry),
           ),
         ],
       ),

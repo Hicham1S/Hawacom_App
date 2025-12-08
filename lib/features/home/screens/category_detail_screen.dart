@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/routing/app_routes.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../../services/models/service_model.dart';
 import '../../services/repositories/service_repository.dart';
 
@@ -249,7 +250,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                   vertical: 12,
                 ),
               ),
-              child: const Text('إعادة المحاولة'),
+              child: Text(AppLocalizations.of(context)!.categoryDetailRetry),
             ),
           ],
         ),

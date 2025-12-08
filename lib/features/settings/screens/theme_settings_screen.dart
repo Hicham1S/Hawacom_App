@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../providers/theme_provider.dart';
 
 /// Screen for selecting app theme mode
@@ -68,7 +69,7 @@ class ThemeSettingsScreen extends StatelessWidget {
                       if (context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('تم تغيير المظهر إلى $themeName'),
+                            content: Text(AppLocalizations.of(context)!.settingsThemeChanged(themeName)),
                             backgroundColor: Colors.green,
                             duration: const Duration(seconds: 2),
                           ),

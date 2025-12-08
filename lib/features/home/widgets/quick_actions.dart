@@ -96,7 +96,7 @@ class QuickActions extends StatelessWidget {
   void _onActionTap(BuildContext context, String action) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Action: $action'),
+        content: Text(AppLocalizations.of(context)!.quickActionsNotification(action)),
         duration: const Duration(seconds: 1),
       ),
     );

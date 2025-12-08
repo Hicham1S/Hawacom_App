@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/routing/app_routes.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../providers/search_provider.dart';
 import '../../services/models/service_model.dart';
 
@@ -515,7 +516,7 @@ class _SearchScreenState extends State<SearchScreen> {
               backgroundColor: AppColors.primary,
               foregroundColor: Colors.white,
             ),
-            child: const Text('إعادة المحاولة'),
+            child: Text(AppLocalizations.of(context)!.searchRetry),
           ),
         ],
       ),

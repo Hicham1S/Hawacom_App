@@ -631,4 +631,313 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get authLogoutFailed => 'فشل تسجيل الخروج';
+
+  @override
+  String get retry => 'إعادة المحاولة';
+
+  @override
+  String get delete => 'حذف';
+
+  @override
+  String get back => 'رجوع';
+
+  @override
+  String get continueButton => 'المتابعة';
+
+  @override
+  String get apply => 'تطبيق';
+
+  @override
+  String get add => 'إضافة';
+
+  @override
+  String get remove => 'إزالة';
+
+  @override
+  String get confirm => 'تأكيد';
+
+  @override
+  String get success => 'نجاح';
+
+  @override
+  String get failed => 'فشل';
+
+  @override
+  String get loading => 'جاري التحميل';
+
+  @override
+  String get errorOccurred => 'حدث خطأ';
+
+  @override
+  String get checkoutRetry => 'إعادة المحاولة';
+
+  @override
+  String get checkoutWalletInDevelopment => 'دفع المحفظة قيد التطوير';
+
+  @override
+  String checkoutOpeningPaymentGateway(String url) {
+    return 'فتح بوابة الدفع: $url';
+  }
+
+  @override
+  String get checkoutPaymentSuccess => 'تم الدفع بنجاح';
+
+  @override
+  String get ratingThankYou => 'شكراً لك! تم إضافة تقييمك';
+
+  @override
+  String get favoritesRetry => 'إعادة المحاولة';
+
+  @override
+  String get favoritesNoFavorites => 'لا توجد خدمات مفضلة';
+
+  @override
+  String get favoritesAddFavoritesHint => 'ابدأ بإضافة خدماتك المفضلة';
+
+  @override
+  String get favoritesExploreServices => 'استكشف الخدمات';
+
+  @override
+  String get favoritesRemoveTitle => 'إزالة من المفضلة';
+
+  @override
+  String get favoritesRemoveConfirm => 'هل تريد إزالة هذه الخدمة من المفضلة؟';
+
+  @override
+  String get favoritesRemoveSuccess => 'تمت الإزالة من المفضلة';
+
+  @override
+  String get favoritesRemoveFailed => 'فشلت الإزالة من المفضلة';
+
+  @override
+  String get searchRetry => 'إعادة المحاولة';
+
+  @override
+  String get helpTitle => 'مساعدة';
+
+  @override
+  String get helpRetry => 'إعادة المحاولة';
+
+  @override
+  String get privacyRetry => 'إعادة المحاولة';
+
+  @override
+  String settingsLanguageChanged(String languageName) {
+    return 'تم تغيير اللغة إلى $languageName';
+  }
+
+  @override
+  String settingsThemeChanged(String themeName) {
+    return 'تم تغيير المظهر إلى $themeName';
+  }
+
+  @override
+  String get addProjectSearchCategory => 'البحث عن الفئة';
+
+  @override
+  String get addProjectDescriptionTitle => 'وصف فكرة المشروع';
+
+  @override
+  String get addProjectDescriptionHint =>
+      'اكتب وصفا مختصرا عن المشروع، النمط المطلوب، والافكار الاساسية';
+
+  @override
+  String get addProjectAttachmentTitle => 'ارفق مرجع او صور متعلقة بالمشروع';
+
+  @override
+  String get addProjectAttachmentDesc =>
+      'أضف أي مراجع أو صور تساعدنا على فهم مشروع بدقة.';
+
+  @override
+  String get addProjectChooseFiles => 'إختر الملفات';
+
+  @override
+  String get addProjectAgreeToTerms => 'اوافق على ';
+
+  @override
+  String get addProjectTermsAndConditions => 'الشروط والاحكام';
+
+  @override
+  String get addProjectContinue => 'المتابعة';
+
+  @override
+  String get chatSendMessageFailed => 'فشل إرسال الرسالة';
+
+  @override
+  String get chatSendImageFailed => 'فشل إرسال الصورة';
+
+  @override
+  String get chatPhotoGallery => 'معرض الصور';
+
+  @override
+  String get chatCamera => 'الكاميرا';
+
+  @override
+  String get chatUploadingImage => 'جاري رفع الصورة...';
+
+  @override
+  String get categoryDetailRetry => 'إعادة المحاولة';
+
+  @override
+  String get bookingDetailTitle => 'تفاصيل الحجز';
+
+  @override
+  String get bookingDetailNotFound => 'لم يتم العثور على الحجز';
+
+  @override
+  String get bookingDetailCancelBooking => 'إلغاء الحجز';
+
+  @override
+  String get bookingDetailRetry => 'إعادة المحاولة';
+
+  @override
+  String get bookingDetailCancelTitle => 'إلغاء الحجز';
+
+  @override
+  String get bookingDetailCancelConfirm => 'هل أنت متأكد من إلغاء هذا الحجز؟';
+
+  @override
+  String get bookingDetailGoBack => 'تراجع';
+
+  @override
+  String get bookingDetailCancelSuccess => 'تم إلغاء الحجز بنجاح';
+
+  @override
+  String get bookingDetailCancelFailed => 'فشل إلغاء الحجز';
+
+  @override
+  String get messagesProviderRetry => 'إعادة المحاولة';
+
+  @override
+  String get eProviderError => 'خطأ';
+
+  @override
+  String get eProviderRetry => 'إعادة المحاولة';
+
+  @override
+  String get bookingsMyBookings => 'حجوزاتي';
+
+  @override
+  String get bookingsRetry => 'إعادة المحاولة';
+
+  @override
+  String get addressesRetry => 'إعادة المحاولة';
+
+  @override
+  String get addressesNoAddresses => 'لا توجد عناوين محفوظة';
+
+  @override
+  String get addressesAddFirstAddress => 'أضف عنوانك الأول الآن';
+
+  @override
+  String get addressesSetAsDefault => 'تعيين كافتراضي';
+
+  @override
+  String get addressesSetDefaultSuccess => 'تم تعيين العنوان كافتراضي';
+
+  @override
+  String get addressesDeleteTitle => 'حذف العنوان';
+
+  @override
+  String get addressesDeleteConfirm => 'هل أنت متأكد من حذف هذا العنوان؟';
+
+  @override
+  String get addressesDeleteButton => 'حذف';
+
+  @override
+  String get addressesDeleteSuccess => 'تم حذف العنوان';
+
+  @override
+  String get addressesDeleteFailed => 'فشل حذف العنوان';
+
+  @override
+  String get editProfileUploadSuccess => 'تم رفع الصورة بنجاح';
+
+  @override
+  String editProfileUploadFailed(String error) {
+    return 'فشل رفع الصورة: $error';
+  }
+
+  @override
+  String get editProfilePhotoGallery => 'معرض الصور';
+
+  @override
+  String get editProfileCamera => 'الكاميرا';
+
+  @override
+  String get editProfileSessionExpired =>
+      'الجلسة منتهية. الرجاء تسجيل الدخول مرة أخرى';
+
+  @override
+  String get editProfileSaveSuccess => 'تم حفظ التعديلات بنجاح';
+
+  @override
+  String editProfileSaveFailed(String error) {
+    return 'فشل حفظ التعديلات: $error';
+  }
+
+  @override
+  String get notificationsDeleteTitle => 'حذف الإشعار';
+
+  @override
+  String get notificationsDeleteConfirm => 'هل تريد حذف هذا الإشعار؟';
+
+  @override
+  String get notificationsDeleteButton => 'حذف';
+
+  @override
+  String get notificationsDeleteSuccess => 'تم حذف الإشعار';
+
+  @override
+  String get notificationsDeleteFailed => 'فشل حذف الإشعار';
+
+  @override
+  String get notificationsRetry => 'إعادة المحاولة';
+
+  @override
+  String get addressFormDescriptionLabel => 'وصف العنوان';
+
+  @override
+  String get addressFormDescriptionHint => 'مثال: المنزل، العمل، الشقة';
+
+  @override
+  String get addressFormDescriptionRequired => 'الرجاء إدخال وصف العنوان';
+
+  @override
+  String get addressFormFullAddressLabel => 'العنوان الكامل';
+
+  @override
+  String get addressFormFullAddressHint => 'أدخل العنوان بالتفصيل';
+
+  @override
+  String get addressFormFullAddressRequired => 'الرجاء إدخال العنوان';
+
+  @override
+  String get addressFormFullAddressTooShort => 'العنوان قصير جداً';
+
+  @override
+  String get addressFormCoordinatesTitle => 'الإحداثيات (اختياري)';
+
+  @override
+  String get addressFormLatitudeLabel => 'خط العرض';
+
+  @override
+  String get addressFormLatitudeHint => '0.0';
+
+  @override
+  String get addressFormInvalidNumber => 'رقم غير صحيح';
+
+  @override
+  String get addressFormOutOfRange => 'خارج النطاق';
+
+  @override
+  String get addressFormLongitudeLabel => 'خط الطول';
+
+  @override
+  String get addressFormLongitudeHint => '0.0';
+
+  @override
+  String quickActionsNotification(String action) {
+    return 'الإجراء: $action';
+  }
 }

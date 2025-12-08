@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/routing/app_routes.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../providers/checkout_provider.dart';
 import '../../bookings/models/booking_model.dart';
 import '../models/payment_method_model.dart';
@@ -349,7 +350,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               backgroundColor: AppColors.primary,
               foregroundColor: Colors.white,
             ),
-            child: const Text('إعادة المحاولة'),
+            child: Text(AppLocalizations.of(context)!.checkoutRetry),
           ),
         ],
       ),
@@ -372,8 +373,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     } else if (provider.isWalletPayment()) {
       // Wallet payment - TODO: Show wallet selection dialog
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('دفع المحفظة قيد التطوير'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.checkoutWalletInDevelopment),
           backgroundColor: Colors.orange,
         ),
       );
@@ -391,7 +392,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     // TODO: Create WebView screen for payment gateways
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('فتح بوابة الدفع: $url'),
+        content: Text(AppLocalizations.of(context)!.checkoutOpeningPaymentGateway(url)),
         backgroundColor: Colors.blue,
       ),
     );
@@ -399,8 +400,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   void _showSuccessAndNavigate() {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('تم الدفع بنجاح'),
+      SnackBar(
+        content: Text(AppLocalizations.of(context)!.checkoutPaymentSuccess),
         backgroundColor: Colors.green,
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import '../../../core/localization/app_localizations.dart';
 
 /// Privacy policy / Custom page screen with WebView
 class PrivacyScreen extends StatefulWidget {
@@ -143,7 +144,7 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
                         _controller.reload();
                       },
                       icon: const Icon(Icons.refresh),
-                      label: const Text('إعادة المحاولة - Retry'),
+                      label: Text(AppLocalizations.of(context)!.privacyRetry),
                     ),
                   ],
                 ),

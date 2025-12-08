@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
+import '../../../core/localization/app_localizations.dart';
 import '../providers/booking_provider.dart';
 import '../models/booking_model.dart';
 
@@ -28,7 +29,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: const Text('تفاصيل الحجز'),
+        title: Text(AppLocalizations.of(context)!.bookingDetailTitle),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,
@@ -45,7 +46,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
 
           final booking = provider.selectedBooking;
           if (booking == null) {
-            return const Center(child: Text('لم يتم العثور على الحجز'));
+            return Center(child: Text(AppLocalizations.of(context)!.bookingDetailNotFound));
           }
 
           return SingleChildScrollView(
@@ -267,7 +268,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
             ElevatedButton.icon(
               onPressed: () => _showCancelDialog(booking),
               icon: const Icon(Icons.cancel),
-              label: const Text('إلغاء الحجز'),
+              label: Text(AppLocalizations.of(context)!.bookingDetailCancelBooking),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
                 foregroundColor: Colors.white,
@@ -408,7 +409,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                   .read<BookingProvider>()
                   .loadBookingById(widget.bookingId);
             },
-            child: const Text('إعادة المحاولة'),
+            child: Text(AppLocalizations.of(context)!.bookingDetailRetry),
           ),
         ],
       ),
@@ -419,12 +420,12 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('إلغاء الحجز'),
-        content: const Text('هل أنت متأكد من إلغاء هذا الحجز؟'),
+        title: Text(AppLocalizations.of(context)!.bookingDetailCancelTitle),
+        content: Text(AppLocalizations.of(context)!.bookingDetailCancelConfirm),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('تراجع'),
+            child: Text(AppLocalizations.of(context)!.bookingDetailGoBack),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -435,17 +436,17 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
 
               if (success && mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('تم إلغاء الحجز بنجاح')),
+                  SnackBar(content: Text(AppLocalizations.of(context)!.bookingDetailCancelSuccess)),
                 );
                 Navigator.pop(context); // Go back to bookings list
               } else if (mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('فشل إلغاء الحجز')),
+                  SnackBar(content: Text(AppLocalizations.of(context)!.bookingDetailCancelFailed)),
                 );
               }
             },
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('إلغاء الحجز'),
+            child: Text(AppLocalizations.of(context)!.bookingDetailCancelBooking),
           ),
         ],
       ),
