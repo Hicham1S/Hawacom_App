@@ -211,15 +211,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileTitle => 'الملف الشخصي';
 
   @override
-  String get profileProjects => 'المشاريع';
-
-  @override
-  String get profileFollowers => 'المتابعون';
-
-  @override
-  String get profileFollowing => 'المتابَعون';
-
-  @override
   String get profileInformation => 'المعلومات الشخصية';
 
   @override

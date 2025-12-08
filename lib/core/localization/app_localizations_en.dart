@@ -210,15 +210,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileTitle => 'Profile';
 
   @override
-  String get profileProjects => 'Projects';
-
-  @override
-  String get profileFollowers => 'Followers';
-
-  @override
-  String get profileFollowing => 'Following';
-
-  @override
   String get profileInformation => 'Information';
 
   @override

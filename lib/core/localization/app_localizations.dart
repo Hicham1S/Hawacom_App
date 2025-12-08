@@ -488,24 +488,6 @@ abstract class AppLocalizations {
   /// **'Profile'**
   String get profileTitle;
 
-  /// No description provided for @profileProjects.
-  ///
-  /// In en, this message translates to:
-  /// **'Projects'**
-  String get profileProjects;
-
-  /// No description provided for @profileFollowers.
-  ///
-  /// In en, this message translates to:
-  /// **'Followers'**
-  String get profileFollowers;
-
-  /// No description provided for @profileFollowing.
-  ///
-  /// In en, this message translates to:
-  /// **'Following'**
-  String get profileFollowing;
-
   /// No description provided for @profileInformation.
   ///
   /// In en, this message translates to:

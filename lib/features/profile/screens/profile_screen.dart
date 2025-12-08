@@ -8,7 +8,6 @@ import '../../favorites/providers/favorite_provider.dart';
 import '../../services/providers/service_provider.dart';
 import '../widgets/profile_header.dart';
 import '../widgets/profile_info_tile.dart';
-import '../widgets/profile_stats.dart';
 
 /// User profile screen
 /// Displays user information, stats, and settings
@@ -134,15 +133,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     // Profile Header
                     ProfileHeader(user: user),
-
-                    const SizedBox(height: 24),
-
-                    // Stats (placeholder values for now)
-                    const ProfileStats(
-                      projectsCount: 0,
-                      followersCount: 0,
-                      followingCount: 0,
-                    ),
 
                     const SizedBox(height: 24),
 
