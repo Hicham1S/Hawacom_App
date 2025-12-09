@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_html/flutter_html.dart';
+import '../../../core/constants/colors.dart';
 import '../../../core/localization/app_localizations.dart';
 import '../providers/e_provider_provider.dart';
 import '../models/e_provider_model.dart';
@@ -275,12 +277,12 @@ class _EProviderScreenState extends State<EProviderScreen> {
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.grey[100],
+        color: AppColors.cardBackground,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         children: [
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -289,12 +291,13 @@ class _EProviderScreenState extends State<EProviderScreen> {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
+                    color: AppColors.textPrimary,
                   ),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
                   'إذا كان لديك أي سؤال - If you have any question!',
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                  style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
                 ),
               ],
             ),
@@ -324,20 +327,29 @@ class _EProviderScreenState extends State<EProviderScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'الوصف - Description',
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
+              color: AppColors.textPrimary,
             ),
           ),
           const SizedBox(height: 8),
-          Text(
-            eProvider.description,
-            style: const TextStyle(
-              fontSize: 14,
-              height: 1.5,
-            ),
+          Html(
+            data: eProvider.description,
+            style: {
+              "body": Style(
+                fontSize: FontSize(14),
+                lineHeight: const LineHeight(1.5),
+                color: AppColors.textSecondary,
+                margin: Margins.zero,
+                padding: HtmlPaddings.zero,
+              ),
+              "p": Style(
+                margin: Margins.only(bottom: 8),
+              ),
+            },
           ),
         ],
       ),
