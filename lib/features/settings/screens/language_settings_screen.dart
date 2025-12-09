@@ -17,6 +17,10 @@ class LanguageSettingsScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: AppColors.background,
           elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Navigator.pop(context),
+          ),
           title: Text(
             'اللغة',
             style: TextStyle(
@@ -42,6 +46,7 @@ class LanguageSettingsScreen extends StatelessWidget {
                     languageProvider.isLanguageSelected(languageCode);
 
                 return Card(
+                  color: AppColors.cardBackground,
                   elevation: isSelected ? 3 : 1,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
