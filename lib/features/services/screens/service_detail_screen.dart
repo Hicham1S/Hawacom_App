@@ -151,7 +151,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
     return SliverAppBar(
       expandedHeight: 300,
       pinned: true,
-      backgroundColor: AppColors.primary,
+      backgroundColor: AppColors.background,
       leading: IconButton(
         icon: Container(
           padding: const EdgeInsets.all(8),
@@ -491,7 +491,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.background,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),

@@ -79,7 +79,7 @@ class _ProjectsGalleryState extends State<ProjectsGallery> {
 
             // Horizontal Scrolling Gallery
             SizedBox(
-              height: 220,
+              height: 180,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -117,9 +117,9 @@ class _ProjectsGalleryState extends State<ProjectsGallery> {
       onTap: onTap,
       child: Container(
         width: 160,
+        height: 160,
         margin: const EdgeInsets.symmetric(horizontal: 4),
         decoration: BoxDecoration(
-          color: Colors.white,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -129,21 +129,21 @@ class _ProjectsGalleryState extends State<ProjectsGallery> {
             ),
           ],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Stack(
           children: [
-            // Project Image
+            // Project Image - Full size
             ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+              borderRadius: BorderRadius.circular(12),
               child: imageUrl != null && imageUrl.isNotEmpty
                   ? Image.network(
                       imageUrl,
-                      height: 120,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
+                      height: 160,
+                      width: 160,
+                      fit: BoxFit.fill,
                       errorBuilder: (context, error, stackTrace) {
                         return Container(
-                          height: 120,
+                          height: 160,
+                          width: 160,
                           color: AppColors.secondary,
                           child: const Icon(
                             Icons.image,
@@ -155,7 +155,8 @@ class _ProjectsGalleryState extends State<ProjectsGallery> {
                       loadingBuilder: (context, child, loadingProgress) {
                         if (loadingProgress == null) return child;
                         return Container(
-                          height: 120,
+                          height: 160,
+                          width: 160,
                           color: AppColors.secondary,
                           child: Center(
                             child: CircularProgressIndicator(
@@ -170,7 +171,8 @@ class _ProjectsGalleryState extends State<ProjectsGallery> {
                       },
                     )
                   : Container(
-                      height: 120,
+                      height: 160,
+                      width: 160,
                       color: AppColors.secondary,
                       child: const Icon(
                         Icons.design_services,
@@ -180,26 +182,40 @@ class _ProjectsGalleryState extends State<ProjectsGallery> {
                     ),
             ),
 
-            // Project Info
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(12),
+            // Gradient overlay at bottom
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.vertical(bottom: Radius.circular(12)),
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.transparent,
+                      Colors.black.withValues(alpha: 0.7),
+                    ],
+                  ),
+                ),
+                padding: const EdgeInsets.all(8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     // Service name
                     Text(
                       serviceName,
                       style: const TextStyle(
-                        fontSize: 14,
+                        fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary,
+                        color: Colors.white,
                       ),
-                      maxLines: 2,
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-
+                    const SizedBox(height: 4),
                     // Price and rating
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -208,9 +224,9 @@ class _ProjectsGalleryState extends State<ProjectsGallery> {
                         Text(
                           'SAR ${price.toStringAsFixed(0)}',
                           style: const TextStyle(
-                            fontSize: 12,
+                            fontSize: 11,
                             fontWeight: FontWeight.bold,
-                            color: AppColors.primary,
+                            color: Colors.white,
                           ),
                         ),
                         // Rating
@@ -219,15 +235,15 @@ class _ProjectsGalleryState extends State<ProjectsGallery> {
                             children: [
                               const Icon(
                                 Icons.star,
-                                size: 14,
+                                size: 12,
                                 color: Colors.amber,
                               ),
                               const SizedBox(width: 2),
                               Text(
                                 rate.toStringAsFixed(1),
                                 style: const TextStyle(
-                                  fontSize: 11,
-                                  color: AppColors.textSecondary,
+                                  fontSize: 10,
+                                  color: Colors.white,
                                 ),
                               ),
                             ],
