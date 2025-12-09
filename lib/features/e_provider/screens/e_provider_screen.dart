@@ -6,6 +6,10 @@ import '../../../core/constants/colors.dart';
 import '../../../core/localization/app_localizations.dart';
 import '../providers/e_provider_provider.dart';
 import '../models/e_provider_model.dart';
+// TODO: Uncomment when implementing chat functionality:
+// import '../../auth/providers/auth_provider.dart';
+// import '../../messages/services/firebase_chat_service.dart';
+// import '../../messages/screens/chat_screen.dart';
 
 /// E-Provider detail screen
 class EProviderScreen extends StatefulWidget {
@@ -304,14 +308,14 @@ class _EProviderScreenState extends State<EProviderScreen> {
           ),
           IconButton(
             onPressed: () {
-              // TODO: Start chat
+              _startChatWithProvider(context);
             },
             icon: Icon(
               Icons.chat_outlined,
               color: Theme.of(context).primaryColor,
             ),
             style: IconButton.styleFrom(
-              backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
+              backgroundColor: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             ),
           ),
         ],
@@ -480,4 +484,55 @@ class _EProviderScreenState extends State<EProviderScreen> {
       ),
     );
   }
+
+  /// Prepare to start chat with provider
+  /// TODO: When chat system is fully implemented, this will:
+  /// 1. Get or create a conversation with the provider
+  /// 2. Navigate to ChatScreen with the conversation
+  void _startChatWithProvider(BuildContext context) {
+    final provider = context.read<EProviderProvider>().eProvider;
+
+    if (provider == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('معلومات المزود غير متوفرة'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    // TODO: Implement the following when chat system is ready:
+    // 1. Get current user ID from AuthProvider
+    // 2. Create or get existing conversation with provider using FirestoreChatService
+    // 3. Navigate to ChatScreen with the conversation
+    //
+    // Example implementation:
+    // final currentUserId = context.read<AuthProvider>().currentUser?.id;
+    // if (currentUserId == null) return;
+    //
+    // final chatService = FirestoreChatService();
+    // final conversation = await chatService.getOrCreateConversation(
+    //   userId: currentUserId,
+    //   providerId: provider.id,
+    //   providerName: provider.name,
+    // );
+    //
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (_) => ChatScreen(conversation: conversation),
+    //   ),
+    // );
+
+    // For now, show a message
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('سيتم فتح محادثة مع ${provider.name} قريباً'),
+        backgroundColor: AppColors.primary,
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
 }
+
