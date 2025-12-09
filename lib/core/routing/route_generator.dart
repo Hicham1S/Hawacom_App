@@ -20,7 +20,6 @@ import '../../features/favorites/screens/favorites_screen.dart';
 import '../../features/notifications/screens/notifications_screen.dart';
 import '../../features/settings/screens/settings_screen.dart';
 import '../../features/settings/screens/language_settings_screen.dart';
-import '../../features/settings/screens/theme_settings_screen.dart';
 import '../../features/home/screens/category_detail_screen.dart';
 import '../../features/wallet/screens/wallet_screen.dart';
 import '../../features/profile/screens/address_form_screen.dart';
@@ -295,12 +294,6 @@ class RouteGenerator {
       case AppRoutes.languageSettings:
         return MaterialPageRoute(
           builder: (_) => const LanguageSettingsScreen(),
-          settings: settings,
-        );
-
-      case AppRoutes.themeSettings:
-        return MaterialPageRoute(
-          builder: (_) => const ThemeSettingsScreen(),
           settings: settings,
         );
 

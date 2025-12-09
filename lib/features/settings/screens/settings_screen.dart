@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/routing/app_routes.dart';
 import '../providers/language_provider.dart';
-import '../providers/theme_provider.dart';
 
 /// Main settings screen with navigation to sub-settings
 class SettingsScreen extends StatelessWidget {
@@ -42,22 +41,6 @@ class SettingsScreen extends StatelessWidget {
               iconColor: Colors.blue,
               onTap: () {
                 Navigator.pushNamed(context, AppRoutes.languageSettings);
-              },
-            ),
-
-            const SizedBox(height: 12),
-
-            // Theme Setting
-            _buildSettingCard(
-              context,
-              title: 'المظهر',
-              subtitle: context.watch<ThemeProvider>().getThemeModeName(
-                    context.watch<ThemeProvider>().themeMode,
-                  ),
-              icon: Icons.brightness_6,
-              iconColor: Colors.purple,
-              onTap: () {
-                Navigator.pushNamed(context, AppRoutes.themeSettings);
               },
             ),
 

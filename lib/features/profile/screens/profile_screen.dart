@@ -75,9 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             IconButton(
               icon: Icon(Icons.settings_outlined, color: AppColors.textPrimary),
               onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(l10n.profileSettingsComingSoon)),
-                );
+                Navigator.pushNamed(context, AppRoutes.settings);
               },
             ),
           ],

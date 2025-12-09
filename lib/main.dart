@@ -21,7 +21,6 @@ import 'features/stories/providers/story_provider.dart';
 import 'features/favorites/providers/favorite_provider.dart';
 import 'features/notifications/providers/notification_provider.dart';
 import 'features/settings/providers/language_provider.dart';
-import 'features/settings/providers/theme_provider.dart';
 import 'features/rating/providers/rating_provider.dart';
 import 'features/help/providers/help_provider.dart';
 import 'features/e_provider/providers/e_provider_provider.dart';
@@ -40,24 +39,19 @@ void main() async {
 
   // Initialize settings providers
   final languageProvider = LanguageProvider();
-  final themeProvider = ThemeProvider();
   await languageProvider.initialize();
-  await themeProvider.initialize();
 
   runApp(MyApp(
     languageProvider: languageProvider,
-    themeProvider: themeProvider,
   ));
 }
 
 class MyApp extends StatelessWidget {
   final LanguageProvider languageProvider;
-  final ThemeProvider themeProvider;
 
   const MyApp({
     super.key,
     required this.languageProvider,
-    required this.themeProvider,
   });
 
   @override
@@ -66,7 +60,6 @@ class MyApp extends StatelessWidget {
       providers: [
         // Settings providers (pre-initialized)
         ChangeNotifierProvider.value(value: languageProvider),
-        ChangeNotifierProvider.value(value: themeProvider),
         // Auth provider (initialized in SplashScreen)
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         // Home feature providers
@@ -107,8 +100,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => EProviderProvider()),
         // Add more providers here as needed
       ],
-      child: Consumer2<LanguageProvider, ThemeProvider>(
-        builder: (context, langProvider, themeProvider, child) {
+      child: Consumer<LanguageProvider>(
+        builder: (context, langProvider, child) {
           return MaterialApp(
             title: 'Design App',
             debugShowCheckedModeBanner: false,
@@ -130,10 +123,7 @@ class MyApp extends StatelessWidget {
             // Use language from provider
             locale: langProvider.currentLocale,
 
-            // Use theme mode from provider
-            themeMode: themeProvider.themeMode,
-
-            // Light theme
+            // Light theme only
             theme: ThemeData(
               primaryColor: AppColors.primary,
               scaffoldBackgroundColor: AppColors.background,
@@ -143,18 +133,6 @@ class MyApp extends StatelessWidget {
                     TextStyle(color: AppColors.textPrimary, fontFamily: 'Cairo'),
                 bodyMedium:
                     TextStyle(color: AppColors.textPrimary, fontFamily: 'Cairo'),
-              ),
-              useMaterial3: true,
-            ),
-
-            // Dark theme
-            darkTheme: ThemeData(
-              primaryColor: AppColors.primary,
-              scaffoldBackgroundColor: Colors.grey[900],
-              fontFamily: 'Cairo',
-              textTheme: const TextTheme(
-                bodyLarge: TextStyle(color: Colors.white, fontFamily: 'Cairo'),
-                bodyMedium: TextStyle(color: Colors.white, fontFamily: 'Cairo'),
               ),
               useMaterial3: true,
             ),
